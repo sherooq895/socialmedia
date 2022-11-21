@@ -119,7 +119,7 @@ function Centerbar() {
                             <div className='p-4 bg-white m-3 h-fit rounded-xl'>
                                 < div >
                                     <div className='flex mb-3'>
-                                        <div className='scoller-item'>
+                                        <div className='proimage'>
                                             <img src={`/images/${data.userId.profilepicture}`} alt="" />
                                         </div>
                                         <div>
@@ -130,7 +130,7 @@ function Centerbar() {
 
                                     </div>
                                     <div className='flex justify-center'>
-                                        <div className='w-[80%]  mt-1 h-10 flex mb-1 rounded-xl p-1 pl-5'>
+                                        <div className='w-[80%]  mt-1 h-10 flex mb-1 rounded-xl p-1 pl-3'>
                                             <div className='text-[#0d0d0e] text-xl'>
                                                 {data.description}
 
@@ -146,24 +146,24 @@ function Centerbar() {
 
                                     <div className='flex justify-center'>
 
-                                        <div className='w-[80%] bg- bg-neutral-800 mt-2 h-10 flex mb-5 rounded-xl p-2'>
+                                        <div className='w-[80%]  mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                             {data.like.includes(userid) ?
                                                 <div className='text-3xl ml-9'>
-                                                    <button onClick={() => { postdislike(data._id) }} className='text-red-600'><AiOutlineHeart /></button>
+                                                    <button onClick={() => { postdislike(data._id) }} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
                                                 </div> :
                                                 <div className='text-3xl ml-9'>
-                                                    <button onClick={() => { postlike(data._id) }} className='text-yellow-600'><AiOutlineHeart /></button>
+                                                    <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                 </div>
 
                                             }
 
 
                                             <div className='text-3xl  ml-9'>
-                                                <button onClick={() => { getallcomment(data._id) }} className='text-yellow-600' ><BsFillChatLeftQuoteFill /></button>
+                                                <button onClick={() => { getallcomment(data._id) }} className='text-[#153f7c]' ><BsFillChatLeftQuoteFill /></button>
                                             </div>
 
                                             <div className='text-3xl  ml-9'>
-                                                <button className='text-yellow-600'><FaShare /></button>
+                                                <button className='text-[#153f7c]'><FaShare /></button>
                                             </div>
 
                                         </div>
@@ -175,7 +175,7 @@ function Centerbar() {
                                             <div className='flex justify-center'>
 
 
-                                                <div className='bg-neutral-800 w-[85%]'>
+                                                <div className='bg- bg-[#ccc] w-[85%] rounded-lg'>
                                                     <div className=''>
                                                         <div className='flex justify-center pt-4'>
                                                             <div className='mr-4 ml-8 '>
@@ -185,7 +185,7 @@ function Centerbar() {
                                                                     onChange={handlesubmit}
                                                                     className='appearance-none  border border-black w-full text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
                                                             </div>
-                                                            <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-yellow-500'>
+                                                            <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-[#153f7c]'>
                                                                 <div  ><BsFillArrowRightSquareFill /></div>
                                                             </div>
 
@@ -196,20 +196,20 @@ function Centerbar() {
                                                                     return (
 
                                                                         <div className='flex justify-center'>
-                                                                            < div className='w-[80%] bg-slate-700 rounded-md mt-2 ' >
+                                                                            < div className='w-[80%] bg-slate-50 rounded-md mt-2 ' >
                                                                                 
                                                                                     <div className='flex ml-5 mt-2'>
 
                                                                                         <div>
                                                                                             <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                         </div>
-                                                                                        <div className='mt-3 ml-1 text-white mb-3'>
+                                                                                        <div className='mt-3 ml-1 text- mb-3 text-[#153f7c]'>
                                                                                             {dataa._id}
                                                                                         </div>
 
                                                                                     </div>
-                                                                                    <div className='flex justify-center mt-3'>
-                                                                                        <div className='w-[90%] bg-slate-100 rounded-md flex justify-center mb-3'>
+                                                                                    <div className='flex justify-center mt-5'>
+                                                                                        <div className='w-[90%] rounded-md flex justify-items-start mb-3 text-lg'>
                                                                                             <div>{dataa.comment}</div>
 
                                                                                         </div>

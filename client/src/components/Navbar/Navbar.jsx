@@ -49,12 +49,12 @@ function Navbar() {
                         </div>
                         <div className="  absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div className='pr-3 text-2xl'>
-                                <button> <h3 className='text-yellow-300'>  <BiBell /> </h3></button>
+                                <button> <h3 className='text-[#fafafa]'>  <BiBell /> </h3></button>
 
                             </div>
                             <div className='pr-3 text-2xl'>
                                 <button>
-                                    <p className='text-yellow-300'><BiConversation /></p>
+                                    <p className='text-[#ffffff]'><BiConversation /></p>
                                 </button>
                             </div>
                             <div className='pr-3 flex'>

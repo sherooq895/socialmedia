@@ -9,7 +9,7 @@ function Rightbar() {
 
             <div className='scoller-right-bar  '>
                 <div className='flex mb-3'>
-                    <div className='scoller-item'>
+                    <div className='rightbar'>
                         <img src="http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQr_2BReD2Ca6h7cPtwjM46Tyqx5MJDGV-uvAAR1009Gcg9LzG6KS4-bBw4xiAYPWVTfBOtEk2E5-6LidY" alt="" />
                     </div>
                     <div>
@@ -20,7 +20,7 @@ function Rightbar() {
                     
                 </div>
                 <div className='flex mb-3'>
-                    <div className='scoller-item'>
+                    <div className='rightbar'>
                         <img src="http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQr_2BReD2Ca6h7cPtwjM46Tyqx5MJDGV-uvAAR1009Gcg9LzG6KS4-bBw4xiAYPWVTfBOtEk2E5-6LidY" alt="" />
                     </div>
                     <div>
@@ -31,7 +31,7 @@ function Rightbar() {
                     
                 </div>
                 <div className='flex mb-3'>
-                    <div className='scoller-item'>
+                    <div className='rightbar'>
                         <img src="http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQr_2BReD2Ca6h7cPtwjM46Tyqx5MJDGV-uvAAR1009Gcg9LzG6KS4-bBw4xiAYPWVTfBOtEk2E5-6LidY" alt="" />
                     </div>
                     <div>
@@ -42,7 +42,7 @@ function Rightbar() {
                     
                 </div>
                 <div className='flex mb-3'>
-                    <div className='scoller-item'>
+                    <div className='rightbar'>
                         <img src="http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQr_2BReD2Ca6h7cPtwjM46Tyqx5MJDGV-uvAAR1009Gcg9LzG6KS4-bBw4xiAYPWVTfBOtEk2E5-6LidY" alt="" />
                     </div>
                     <div>
@@ -53,7 +53,7 @@ function Rightbar() {
                     
                 </div>
                 <div className='flex mb-3'>
-                    <div className='scoller-item'>
+                    <div className='rightbar'>
                         <img src="http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQr_2BReD2Ca6h7cPtwjM46Tyqx5MJDGV-uvAAR1009Gcg9LzG6KS4-bBw4xiAYPWVTfBOtEk2E5-6LidY" alt="" />
                     </div>
                     <div>
