@@ -1,0 +1,73 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import {Link,Navigate,useNavigate} from 'react-router-dom'
+
+
+
+function Allpost() {
+
+  let Navigate=useNavigate()
+
+  const userid=localStorage.getItem('userid')
+  console.log(userid);
+  console.log('userid');
+  const [posts,getposts]=useState([])
+
+
+ console.log(posts);
+ console.log('posts');
+
+
+  useEffect(()=>{
+    axios.get('http://localhost:4000/app/getpost',{params:{
+      userid
+    } }).then((response)=>{
+      console.log('sdsdsd');
+      console.log(response);
+      getposts(response.data)
+     
+    })
+     
+  },[])
+
+  const singlepost=(datas)=>{
+    const image=datas
+    
+    Navigate('/post',{
+      state:{
+        images:image
+      }
+    })
+
+  }
+   
+  return (
+    <div className='flex justify-center mt-4'>
+    <div className='w-[80%] bg-neutral-700 rounded-xl'>
+       <div className='mt-6 flex justify-center' >
+                <div className='grid grid-cols-3 gap-4'>
+                  {
+                    posts.map((datas)=>{
+                      return(
+
+                        // <Link to='/post'><img className='postpic hover:scale-110' src={`/images/${datas.image}`} alt="jjjjjdfty" /></Link> 
+                       <div ><img onClick={()=>singlepost(datas.image)} className='postpic hover:scale-110' src={`/images/${datas.image}`} alt="jjjjjdfty" /></div>
+
+                      )
+                       
+                    })
+
+                  }
+               
+                 </div>
+
+        </div>
+      
+    </div>
+    </div>
+
+    
+  )
+}
+
+export default Allpost
