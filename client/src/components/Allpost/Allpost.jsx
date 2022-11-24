@@ -42,8 +42,8 @@ function Allpost() {
   }
    
   return (
-    <div className='flex justify-center mt-4'>
-    <div className='w-[80%] bg-neutral-700 rounded-xl'>
+    <div className='flex justify-center mt-4 '>
+    <div className='w-[80%] bg-white rounded-xl'>
        <div className='mt-6 flex justify-center' >
                 <div className='grid grid-cols-3 gap-4'>
                   {

@@ -71,15 +71,15 @@ function Addpost() {
 
     return (
         <div>
-            <div className=' bg-neutral-700 h-screen pt-20 pl-28 '>
-                <div className='w-[80%] h-96 bg-neutral-800 rounded-xl '>
+            <div className=' bg-white h-screen pt-20 pl-28 '>
+                <div className='w-[80%] h-96 bg-[#ccc] rounded-xl '>
                     <div className='flex justify-center mt-8'>
-                        <div className='text-yellow-300 text-3xl  mt-8'>Add Post</div>
+                        <div className='text-[#153f7c] text-3xl  mt-8'>Add Post</div>
                     </div>
                     <form onSubmit={submit}>
                         <div>
                             <div className='flex mt-5' >
-                                <div className='text-yellow-300 text-xl ml-6'>
+                                <div className='text-[#153f7c] text-xl ml-6'>
                                     <label>
                                         Upload Your Photo
 
@@ -98,7 +98,7 @@ function Addpost() {
 
                             </div>
                             <div className='flex mt-5' >
-                                <div className='text-yellow-300 text-xl ml-6'>
+                                <div className='text-[#153f7c] text-xl ml-6'>
                                     <label>
                                         Type Your Description
                                     </label>
@@ -116,7 +116,7 @@ function Addpost() {
                             </div>
                             <div className='flex justify-center mt-7'>
                                 <div >
-                                    <button className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-9 rounded'>Submit</button>
+                                    <button className='bg-[#153f7c] hover:bg-[#0c2244] text-white font-bold py-2 px-9 rounded'>Submit</button>
                                 </div>
 
 

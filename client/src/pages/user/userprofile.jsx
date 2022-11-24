@@ -6,7 +6,7 @@ import Allpost from '../../components/Allpost/Allpost'
 function userprofile() {
     return (
         <>
-        <div className='bg-neutral-800'>
+        <div className='bg-[#ccc]'>
              <div><Navbar /></div>
             <Userprofile />
             <Allpost/>

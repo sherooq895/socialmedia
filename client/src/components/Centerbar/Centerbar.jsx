@@ -126,7 +126,7 @@ function Centerbar() {
                                             <div className='mt-6 ml-2 text-xl text-[#153f7c]'>{data.userId.fname}</div>
                                             <div className='mt-1 ml-2 text-sm text-[#6e6f72]'>{data.date}</div>
 
-                                        </div>
+                                        </div>  
 
                                     </div>
                                     <div className='flex justify-center'>

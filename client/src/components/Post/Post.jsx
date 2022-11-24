@@ -26,7 +26,7 @@ function Post() {
     const [popup, setPopup] = useState(false)
     const [editpopup, seteditpopup] = useState(false)
     const [alldata, setalldata] = useState()
-    
+
 
 
     const postlike = (data) => {
@@ -92,7 +92,7 @@ function Post() {
             })
 
 
-        }, [like,alldata])
+        }, [like, alldata])
 
 
 
@@ -120,33 +120,33 @@ function Post() {
         console.log(data);
         console.log('data');
         axios.post('http://localhost:4000/app/geteditpostdata', { data }).then((response) => {
-          
+
             setalldata(response.data)
             seteditpopup(!editpopup)
         })
-      
+
     }
-    
-    const editsubmit=(e)=>{
+
+    const editsubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/app/editpost',{alldata}).then((response)=>{
+        axios.post('http://localhost:4000/app/editpost', { alldata }).then((response) => {
             console.log('updatedd');
             alert('edit succesfully')
 
 
-        
+
         })
 
 
     }
 
-    const deletedata=(data)=>{
+    const deletedata = (data) => {
         console.log(data);
         console.log('data');
-        axios.post('http://localhost:4000/app/deletepost',{data}).then((response)=>{
+        axios.post('http://localhost:4000/app/deletepost', { data }).then((response) => {
             console.log('updatedd');
             alert('post removed successfully')
-        
+
         })
 
     }
@@ -164,7 +164,7 @@ function Post() {
                         return (
 
 
-                            <div className='w-[60%] bg-neutral-700 rounded-xl'>
+                            <div className='w-[60%] bg-white rounded-xl'>
 
                                 <div >
                                     <div className='mt-6 flex justify-items-start' >
@@ -176,8 +176,8 @@ function Post() {
                                                 </div>
                                             </div>
                                             <div>
-                                                <div className='text-white text-2xl mt-4 ml-3'>{data.userId.fname}</div>
-                                                <div className='text-white  ml-3'>{data.date}</div>
+                                                <div className='text-[#153f7c] text-2xl mt-4 ml-3'>{data.userId.fname}</div>
+                                                <div className='text-[#6e6f72]  ml-3'>{data.date}</div>
                                             </div>
                                         </div>
 
@@ -185,7 +185,7 @@ function Post() {
                                     </div>
                                     <div className='flex justify-center'>
                                         <div className='w-[70%]  mt-2 h-10  mb-1 rounded-xl p-2 pl-5 flex '>
-                                            <div className='text-white'>
+                                            <div className='text-[#153f7c]'>
                                                 {data.description}
 
                                             </div>
@@ -196,7 +196,7 @@ function Post() {
                                             <button onClick={() => setPopup(!popup)} ><SlOptions /></button>
 
                                         </div>
-                                        
+
                                         {popup ?
                                             <div className='p-8  bg-neutral-300 w-[8%] absolute right-[18rem]  flex justify-end  '>
                                                 <ul>

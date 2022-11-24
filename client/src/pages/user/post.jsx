@@ -7,7 +7,7 @@ import Userprofile from '../../components/UserProfile/Userprofile'
 function post() {
   return (
     <>
-    <div className=' bg-neutral-800'>
+    <div className=' bg-[#ccc]'>
     <Navbar/>
     <Userprofile/>
     <Userpost/>

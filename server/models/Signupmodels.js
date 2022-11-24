@@ -29,11 +29,16 @@ const signUpTemplate= new mongoose.Schema({
     profilepicture:{
         type:String,
         
-    
     },
     discription:{
         type:String
-    }
+    },
+    following:[{
+        userId:{
+            type:String
+        }
+    }]
+
 
 })
 

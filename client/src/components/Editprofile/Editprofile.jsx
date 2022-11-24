@@ -55,11 +55,11 @@ function Editprofile() {
 
 
   return (
-    <div className='bg-slate-500 h-screen '>
+    <div className='bg-white h-screen '>
         <div className='flex align-middle justify-center'>
             <div>
-            <div className="w-full  p-6 m-auto bg-neutral-600 rounded-md shadow-md lg:max-w-xl pb-6 mt-4">
-                    <h1 className="text-3xl font-semibold text-center text-white">
+            <div className="w-full  p-6 m-auto bg-[#ccc] rounded-md shadow-md lg:max-w-xl pb-6 mt-4">
+                    <h1 className="text-3xl font-semibold text-center text-[#153f7c]">
                         Edit Profile
                     </h1>
                     <form className="mt-6 " onSubmit={formsubmit}>
@@ -67,7 +67,7 @@ function Editprofile() {
                             <div className="mb-2">
                                 <label
                                     for="email"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                    First Name
                                 </label>
@@ -83,7 +83,7 @@ function Editprofile() {
                             <div className="mb-2 ml-8">
                                 <label
                                     for="lname"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                    Last Name
                                 </label>
@@ -102,7 +102,7 @@ function Editprofile() {
                             <div className="mb-2">
                                 <label
                                     for="email"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                    Email
                                 </label>
@@ -118,7 +118,7 @@ function Editprofile() {
                             <div className="mb-2 ml-8">
                                 <label
                                     for="number"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                   Phone Number
                                 </label>
@@ -136,7 +136,7 @@ function Editprofile() {
                             <div className="mb-2">
                                 <label
                                     for="discription"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                 Description
                                 </label>
@@ -152,7 +152,7 @@ function Editprofile() {
                             <div className="mb-2 ml-8">
                                 <label
                                     for="password"
-                                    className="block text-sm font-semibold text-white"
+                                    className="block text-sm font-semibold text-[#153f7c]"
                                 >
                                   Password
                                 </label>
@@ -172,7 +172,7 @@ function Editprofile() {
                             <div>
                                 
                             </div>
-                        <label className='text-white ml-10'>Upload Your Profile Picture</label>
+                        <label className='text-[#153f7c] ml-10'>Upload Your Profile Picture</label>
                         <div className='flex justify-center mt-4'>
                             
                                   <input 
@@ -186,7 +186,7 @@ function Editprofile() {
                         
 
                         <div className="mt-6 flex justify-center">
-                            <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
+                            <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-[#153f7c] rounded-md hover:bg-black image.png focus:outline-none">
                             Save
                             </button>
                         </div>

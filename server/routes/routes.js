@@ -159,9 +159,13 @@ router.post('/addpost', upload.single('image'), (req, res) => {
 
 
 router.get('/getpost', async (req, res) => {
-    const getpost = await PostModelTemplate.find({ "userId": req.query.userid })
+    console.log(req.query.userid);
+    console.log('req.query.useridddddddddddddddddddddddddddddddddddddddddddddddddd');
+    const getpost = await PostModelTemplate.find({'userId':req.query.userid }).clone()
     if (getpost) {
         res.status(200).send(getpost)
+        console.log(getpost);
+        console.log('getpostdessssssssssssssssssssssssssssssssssssss');
     } else {
         console.log('nonoooonon');
     }
@@ -335,11 +339,11 @@ router.post('/editprofile', (req, res) => {
     }
 })
 
-router.post ('/geteditpostdata', async(req, res) => {
+router.post('/geteditpostdata', async (req, res) => {
     try {
         console.log('req.bodyyyyyyyyyyyy');
         console.log(req.body);
-        const data =await PostModelTemplate.findOne({ '_id': req.body.data })
+        const data = await PostModelTemplate.findOne({ '_id': req.body.data })
         if (data) {
             console.log(data);
             console.log('dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
@@ -356,15 +360,15 @@ router.post ('/geteditpostdata', async(req, res) => {
 
 })
 
-router.post('/editpost',(req,res)=>{
+router.post('/editpost', (req, res) => {
     console.log(req.body);
     console.log('req.bodyyyyyyyyyyy');
     PostModelTemplate.findByIdAndUpdate(req.body.alldata._id,
         {
-            $set:{
-                description:req.body.alldata.description
+            $set: {
+                description: req.body.alldata.description
             }
-        }).then((response)=>{
+        }).then((response) => {
             console.log('updateddddddd');
             console.log('updateddddddd');
 
@@ -372,17 +376,51 @@ router.post('/editpost',(req,res)=>{
 
 })
 
-router.post('/deletepost',(req,res)=>{
+router.post('/deletepost', (req, res) => {
     console.log(req.body);
     console.log('req.bodyyyyyyyyyyy');
-    PostModelTemplate.deleteOne({'_id':req.body.data}).then((response)=>{
-            console.log('deleteeeeee');
-            res.status(200).send({deleted})
+    PostModelTemplate.deleteOne({ '_id': req.body.data }).then((response) => {
+        console.log('deleteeeeee');
+        res.status(200).send({ deleted })
 
-        })
+    })
 
 })
-         
+
+
+router.get('/getusers', async (req, res) => {
+    console.log('getgetegeteetete');
+    const userdetails = await signUpTemplate.find()
+    console.log(userdetails)
+    console.log('userdetails')
+    res.status(200).send(userdetails)
+})
+
+router.post('/getuserprofile', async (req, res) => {
+    console.log(req.body);
+    console.log('req.body');
+    const datas = await signUpTemplate.findOne({ '_id': req.body.data })
+
+    console.log(datas);
+    console.log('datas');
+    res.status(200).send({ datas })
+})
+
+
+router.post('/getuserprofileposts',async(req,res)=>{
+    console.log(req.body);  
+    console.log('req.bodykareeeeeeeeeeeem');
+
+    const posts= await PostModelTemplate.find({userId:req.body.data})
+    console.log(posts);
+    console.log('dededededededededededeedededededed');
+    if(posts){
+        res.status(200).send(posts)
+    }else{
+        res.status(500).send({error:'not find posts'})
+    }
+
+})
 
 
 

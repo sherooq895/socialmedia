@@ -1,18 +1,26 @@
-import React from 'react'
-import './Userprofile.css'
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React,{useEffect,useState} from 'react'
+import './Profile.css'
+import { Link, Navigate, useNavigate,useLocation } from "react-router-dom";
 
 
-function Userprofile() {
+function Profile() {
+    const Location= useLocation()
+    const [data,setdata]=useState([])
+
+useEffect(
+    ()=>{
+     const userdata=Location.state.datas
+     console.log(userdata);
+     console.log('userdataaaaaaaaaaaaaaaxxxxx');
+     setdata(userdata)
+    
 
 
-
-    const username = localStorage.getItem('username')
-    const profilepicture = localStorage.getItem('profilepicture')
-
-    console.log(username);
-    console.log('username');
-    console.log(profilepicture);
+    },[]
+    
+    )
+    console.log(data);  
+    console.log('data');  
 
 
     return (
@@ -22,21 +30,21 @@ function Userprofile() {
 
                 <div>
                     {/* <div className='flex justify-center mr-80'>
-                        <div className='text-yellow-300 text-4xl'>john__</div>
-                    </div> */}
+                <div className='text-yellow-300 text-4xl'>john__</div>
+            </div> */}
                     <div>
                         <div className='flex justify-end mr-80'>
 
                             <div className='image-item mr-4'>
-                                <img src={`../images/${profilepicture}`} alt="profile picture" />
+                                <img src={`./images/${data.profilepicture}`} alt="profile picture" />
                             </div>
 
                             <div className='mr-24 mt-20'>
                                 <div className='text-4xl text-[#153f7c]'>
-                                    {username}
+                                   {data.fname}
                                 </div>
                                 <div className='text-xl text-[#888b8f]'>
-                                  discription
+                                   {data?.discription}
                                 </div>
 
                             </div>
@@ -57,13 +65,11 @@ function Userprofile() {
                             </div>
 
                             <div className='flex mt-28 ml-3 '>
-                               
+
                                 <div className=' mt-1'>
-                                    <Link to='/editprofile'><button className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Edit Profile</button></Link>
+                                    <Link to=''><button className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
                                 </div>
-                                <div className='ml-2 mt-1'>
-                                    <Link to='/addpost'><button className='bg-[#153f7c] hover:bg-[#0a254e] text-white font-bold py-1 px-4 rounded'>Add Post</button></Link>
-                                </div>
+                              
                             </div>
 
                         </div>
@@ -80,4 +86,4 @@ function Userprofile() {
     )
 }
 
-export default Userprofile
+export default Profile
