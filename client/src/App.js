@@ -10,6 +10,7 @@ import Post from './pages/user/post'
 import Addpost from './pages/user/addpost'
 import Editprofile from './pages/user/editprofile'
 import Profile from './pages/user/profile'
+import Userchat from './pages/user/userchat'
 import { usercontext } from './context/context'
 import react, { useState } from 'react'
 
@@ -30,6 +31,7 @@ function App() {
             <Route path='/addpost' element={<Addpost />} />
             <Route path='/editprofile' element={<Editprofile />} />
             <Route path='/userprofile' element={<Profile />} />
+            <Route path='/userchat' element={<Userchat />} />
 
           </Routes>
         </usercontext.Provider>

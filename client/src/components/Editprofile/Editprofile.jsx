@@ -1,8 +1,11 @@
 import React,{useEffect, useState} from 'react'
 import axios from 'axios'
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 function Editprofile() {
+  let  Navigate=useNavigate()
+  const token=localStorage.getItem('token')
 
     const userid = localStorage.getItem('userid')
     const [register,setregister]=useState({
@@ -10,6 +13,17 @@ function Editprofile() {
     })
 
     const [update,setupdate]=useState()
+
+    const fileupload = (event) => {
+        // setfile(URL.createObjectURL(event.target.files[0]))
+        console.log(event.target.files[0]);
+        console.log('event.target.files[0]');
+        console.log('sfsfsfsfsfsfsf');
+        setregister({
+            ...register,
+            profilepicture: event.target.files[0]
+        })
+    }
 
     useEffect(
         ()=>{
@@ -19,9 +33,7 @@ function Editprofile() {
                 setregister(response.data.userdata)
 
             })
-            console.log('user');
-            console.log(register);
-            console.log('user');
+          
         },[update]
 
     )
@@ -43,12 +55,25 @@ function Editprofile() {
     const formsubmit=(e)=>{
         e.preventDefault()
 
-        axios.post('http://localhost:4000/app/editprofile',{register}).then((response)=>{
+        axios.post('http://localhost:4000/app/editprofile',{register},{
+            headers: { token: `Bearer ${token}` },
+          }).then((response)=>{
+            console.log(response);
+            console.log('responsezzzz');
             setupdate(response)
+
+            if(response.data.error){
+                alert('email is already exist,please try anotherone')
+            }else{
+                alert('profile updated')
+                Navigate('/profile')
+
+            }
 
         })
 
     }
+   
 
 
 
@@ -178,8 +203,8 @@ function Editprofile() {
                                   <input 
                             type="file"
                             name='profilepicture'
-                            // value={register?.userdata.profilepicture}
-                            // onChange={fileupload} 
+                            // value={register?.profilepicture}
+                            onChange={fileupload} 
                             />
                           </div>
                         </div>

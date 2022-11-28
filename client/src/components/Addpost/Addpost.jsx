@@ -2,6 +2,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 function Addpost() {
+    
+    let token=localStorage.getItem('token')
+   
+
+
 
     const useridd=localStorage.getItem('userid')
    const date=new Date()
@@ -53,7 +58,9 @@ function Addpost() {
                 useridd,
                 date
             }
-        }).then((response) => {
+        }, {
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             console.log(response);
             console.log('response');
 
@@ -111,6 +118,7 @@ function Addpost() {
                                     </input>
 
                                 </div>
+
 
 
                             </div>

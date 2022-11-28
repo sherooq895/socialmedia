@@ -1,27 +1,101 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './Profile.css'
-import { Link, Navigate, useNavigate,useLocation } from "react-router-dom";
+import jwt_decode from 'jwt-decode'
+import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios'
 
 
 function Profile() {
-    const Location= useLocation()
-    const [data,setdata]=useState([])
+    const Navigate = useNavigate()
+    const Location = useLocation()
+    const [dataa, setdataa] = useState()
+    const [logdata, setlogdata] = useState()
+    const userdata = localStorage.getItem('token')
+    let userdatadecode = jwt_decode(userdata)
+    let userdataaa=userdatadecode.id
 
-useEffect(
-    ()=>{
-     const userdata=Location.state.datas
-     console.log(userdata);
-     console.log('userdataaaaaaaaaaaaaaaxxxxx');
-     setdata(userdata)
-    
+    console.log(userdatadecode.id);
+    console.log('userdatadecode');
 
 
-    },[]
-    
+    const token = localStorage.getItem('token')
+
+
+    useEffect(
+        () => {
+
+            if (Location.state) {
+                const userdata = Location.state?.datas
+                const dataa = userdata?._id
+
+
+                axios.post('http://localhost:4000/app/getuserdataa', { dataa }).then((response) => {
+
+                    setdataa(response.data)
+
+                })
+
+                axios.post('http://localhost:4000/app/getloguser',{userdataaa}).then((response)=>{
+                   
+                    setlogdata(response.data)
+
+                })
+
+            } else {
+                Navigate('/home')
+
+            }
+
+
+
+
+        }, []
+
     )
-    console.log(data);  
-    console.log('data');  
+    console.log(logdata);
+    console.log('logdataaxxxxxxxxxxxxxxxxx');
 
+    console.log(dataa);
+    console.log('userrrrrrrrrrrrrrrrr');
+
+
+
+
+    const followrequest = (data) => {
+
+        axios.post('http://localhost:4000/app/followrequest', { data }, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            alert('followed succesfully')
+        })
+
+    }
+
+
+
+    const unfollowrequest = (data) => {
+        axios.post('http://localhost:4000/app/unfollowrequest', { data }, {
+            headers: { token: `Bearer ${token}` }
+        }).then((response) => {
+            console.log('response');
+            alert('unfollow successfully')
+
+        })
+
+    }
+
+
+    const followback=(data)=>{
+        axios.post('http://localhost:4000/app/followback',{ data},{
+            headers: { token: `Bearer ${token}` }
+        }).then((response)=>{
+
+            console.log(response);
+            alert('followback successfully')
+
+        })
+
+    }
 
     return (
         <div >
@@ -36,15 +110,15 @@ useEffect(
                         <div className='flex justify-end mr-80'>
 
                             <div className='image-item mr-4'>
-                                <img src={`./images/${data.profilepicture}`} alt="profile picture" />
+                                <img src={`./images/${dataa?.profilepicture}`} alt="profile picture" />
                             </div>
 
                             <div className='mr-24 mt-20'>
                                 <div className='text-4xl text-[#153f7c]'>
-                                   {data.fname}
+                                    {dataa?.fname}
                                 </div>
                                 <div className='text-xl text-[#888b8f]'>
-                                   {data?.discription}
+                                    {dataa?.discription}
                                 </div>
 
                             </div>
@@ -67,9 +141,20 @@ useEffect(
                             <div className='flex mt-28 ml-3 '>
 
                                 <div className=' mt-1'>
-                                    <Link to=''><button className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
+                                    {
+                                        logdata?.follower?.includes(dataa._id)&&logdata?.following?.includes(dataa._id)?
+                                            <Link to=''><button onClick={() => unfollowrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>unfollow</button></Link> :
+                                           
+                                            logdata?.following?.includes(dataa._id) ?
+                                                <Link to=''><button onClick={() => unfollowrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Following</button></Link> :
+                                                logdata?.follower?.includes(dataa._id) ?
+                                                <Link to=''><button onClick={() => followback({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link>:
+                                                <Link to=''><button onClick={() => followrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
+                                    }
+
                                 </div>
-                              
+
+
                             </div>
 
                         </div>

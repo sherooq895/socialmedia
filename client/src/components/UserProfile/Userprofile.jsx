@@ -1,19 +1,29 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import './Userprofile.css'
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import jwt_decode from 'jwt-decode'
+import axios from 'axios'
+import { useState } from 'react';
 
 
 function Userprofile() {
 
+    const userdata=localStorage.getItem('token')
+      const decodedata=jwt_decode(userdata)
+     const[dataa,setdata]=useState()
+    const data=decodedata.id
+   
+    useEffect(
+        ()=>{
+            axios.post('http://localhost:4000/app/getuserdata',{data}).then((response)=>{
+               
+                setdata(response.data)
+            })
 
+        },[]
+    )
 
-    const username = localStorage.getItem('username')
-    const profilepicture = localStorage.getItem('profilepicture')
-
-    console.log(username);
-    console.log('username');
-    console.log(profilepicture);
-
+   
 
     return (
         <div >
@@ -28,15 +38,15 @@ function Userprofile() {
                         <div className='flex justify-end mr-80'>
 
                             <div className='image-item mr-4'>
-                                <img src={`../images/${profilepicture}`} alt="profile picture" />
+                                <img src={`../images/${dataa?.profilepicture}`} alt="profile picture" />
                             </div>
 
                             <div className='mr-24 mt-20'>
                                 <div className='text-4xl text-[#153f7c]'>
-                                    {username}
+                                    {dataa?.fname}
                                 </div>
                                 <div className='text-xl text-[#888b8f]'>
-                                  discription
+                                  {dataa?.discription}
                                 </div>
 
                             </div>

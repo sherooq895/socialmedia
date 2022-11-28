@@ -1,55 +1,87 @@
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Login.css'
 import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
 
-    let Navigate=useNavigate()
+    let Navigate = useNavigate()
 
-const [register,setregister]=useState({
-    email:'',
-    password:''
-})
 
-const handlesubmit=(e)=>{
-    e.preventDefault()
-   const {name,value}=e.target
-   setregister({
-    ...register,
-    [name]:value
+    const [register, setregister] = useState({
+        email: '',
+        password: ''
+    })
 
-   })
-   console.log(register)
-   console.log('register')
-}
+    const handlesubmit = (e) => {
+        e.preventDefault()
+        const { name, value } = e.target
+        setregister({
+            ...register,
+            [name]: value
 
-const formsubmit=(e)=>{
-    e.preventDefault()
-
-    const form={
-        email:register.email,
-        password:register.password
+        })
+        console.log(register)
+        console.log('register')
     }
-    axios.post("http://localhost:4000/app/login",form).then(response=>{
-       console.log(response);
-       console.log('response');
-       if(response.data.user){
-        localStorage.setItem('token',response.data.token) 
-          
-           Navigate('/home')
-       }else{
-        console.log(response.data.loginerror);
-        alert('invalid email and password')
 
-       }
+    useEffect(() => {
+        console.log('tokenjasi');
+
+        axios.get('http://localhost:4000/app/isauth', {
+
+            headers: {
+                token: `Bearer ${localStorage.getItem('token')}`
+            }
+
+
+        }).then((response) => {
+
+            console.log(response);
+            console.log('response');
+            if (response.data.auth === false) {
+                Navigate('/')
+            } else {
+                Navigate('/home')
+            }
+
+        })
+
+    },[])
+
+    const formsubmit = (e) => {
+        e.preventDefault()
+
+        const form = {
+            email: register.email,
+            password: register.password
         }
-    )  
+        try {
+            axios.post("http://localhost:4000/app/login", form).then(response => {
+            console.log(response);
+            console.log('response');
+            if (response.data.user) {
+                localStorage.setItem('token', response.data.token)
+
+                Navigate('/home')
+            } else {
+
+                console.log('ddddd');
+                console.log(response.data.loginerror);
+                alert('invalid email and password')
+
+            }
+        }
+        )
+        } catch (error) {
+          console.log(error.message);  
+        }
+        
 
 
-}
+    }
 
 
     return (
@@ -62,7 +94,7 @@ const formsubmit=(e)=>{
                         Sign in
                     </h1>
                     <div></div>
-                    <form className="mt-6"  on onSubmit={formsubmit}>
+                    <form className="mt-6" on onSubmit={formsubmit}>
                         <div className="mb-2">
                             <label
                                 for="email"
@@ -105,15 +137,15 @@ const formsubmit=(e)=>{
                     </form>
 
                     <p className="mt-8 text-m font-light text-center  text-white ">
-        
-            Don't have an account?
-            <a
-                href="/signup"
-                className="font-medium text-red-600 hover:underline"
-            >
-                Sign up
-            </a>
-        </p>
+
+                        Don't have an account?
+                        <a
+                            href="/signup"
+                            className="font-medium text-red-600 hover:underline"
+                        >
+                            Sign up
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

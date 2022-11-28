@@ -34,12 +34,14 @@ const signUpTemplate= new mongoose.Schema({
         type:String
     },
     following:[{
-        userId:{
-            type:String
-        }
+        type:String
+       
+    }],
+    follower:[{
+        type:String
     }]
 
 
 })
 
-module.exports = mongoose.model('signup',signUpTemplate)
+module.exports = mongoose.model('signups',signUpTemplate)

@@ -4,9 +4,13 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillChatLeftQuoteFill, BsFillArrowRightSquareFill } from "react-icons/bs";
 import { FaShare } from "react-icons/fa";
 import axios from 'axios'
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 function Centerbar() {
+    let Navigate = useNavigate()
+
+    const token=localStorage.getItem('token')
     const [allpost, getallpost] = useState([])
     const [like, setlike] = useState()
 
@@ -24,7 +28,7 @@ function Centerbar() {
     const [allcomment, setallcomment] = useState()
     const [commentresp, setcommentresp] = useState('')
     // console.log(comment);
-    // console.log('comment');
+    console.log('aaaaaaa',commentresp);
 
 
     const handlesubmit = (e) => {
@@ -41,12 +45,18 @@ function Centerbar() {
 
     useEffect(
         () => {
-            axios.get('http://localhost:4000/app/getallpost').then((response) => {
-                getallpost(response.data)
-                console.log('dennyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+            axios.get('http://localhost:4000/app/getallpost',{
+                headers: { token: `Bearer ${token}` },
+              }).then((response) => {
+                console.log(response);
+                if (response.data.auth === false) {
+                    Navigate('/')
+                } else {
+                    getallpost(response.data)
+                }
+               
             })
-
-
+           
         }
         , [like, commentresp, allcomment])
 
@@ -57,7 +67,9 @@ function Centerbar() {
             useridd: userid
         }
 
-        axios.post("http://localhost:4000/app/postlike", imageid).then((response) => {
+        axios.post("http://localhost:4000/app/postlike", imageid,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             setlike(response)
         })
     }
@@ -67,7 +79,9 @@ function Centerbar() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid).then((response) => {
+        axios.post("http://localhost:4000/app/postdislike", imageid,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             setlike(response)
         })
     }
@@ -83,9 +97,11 @@ function Centerbar() {
         }
         console.log(dataa);
         console.log('aaaaaaaaaaaaaaaaaaa');
-        axios.post('http://localhost:4000/app/addcomment', dataa).then((response) => {
-            console.log(response);
-            console.log('response');
+        axios.post('http://localhost:4000/app/addcomment', dataa,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
+           
+            console.log('kjasdfhladsjflksdjflsdajfl',response);
             setcommentresp(Math.random())
 
         })
@@ -96,7 +112,10 @@ function Centerbar() {
         console.log(data);
         console.log('data');
         setcomment({ postId: data, status: !comment.status })
-        axios.post('http://localhost:4000/app/getallcomment', { data }).then((response) => {
+        axios.post('http://localhost:4000/app/getallcomment', { data },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
+           
             console.log(response.data.comment.comment);
             console.log('getcomment');
             setallcomment(response.data.comment.comment)
@@ -108,13 +127,15 @@ function Centerbar() {
         console.log('allcommenttttttttttttttttttttttttttttttttt');
 
     }
+    console.log(allpost);
+    console.log('allpost');
 
 
     return (
         <>
             <div className='centerbar' >
                 {
-                    allpost.map((data) => {
+                    allpost?.map((data) => {
                         return (
                             <div className='p-4 bg-white m-3 h-fit rounded-xl'>
                                 < div >
@@ -130,7 +151,7 @@ function Centerbar() {
 
                                     </div>
                                     <div className='flex justify-center'>
-                                        <div className='w-[80%]  mt-1 h-10 flex mb-1 rounded-xl p-1 pl-3'>
+                                        <div className='w-[80%]  mt-1 h-20 flex mb-1 rounded-xl p-1 pl-3'>
                                             <div className='text-[#0d0d0e] text-xl'>
                                                 {data.description}
 

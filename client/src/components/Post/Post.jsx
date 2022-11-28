@@ -11,21 +11,26 @@ import axios from 'axios'
 function Post() {
     const Location = useLocation()
     const userid = localStorage.getItem('userid')
+     let token=localStorage.getItem('token')
 
 
     const [post, setpost] = useState([])
+    const[slidecomment,setslidecomment]=useState()
     const [like, setlike] = useState()
     const [allcomment, setallcomment] = useState()
     const [comment, setcomment] = useState({
         status: false,
         postId: ''
     })
-    const [register, setregister] = useState()
+    const [register, setregister] = useState({
+        comment:''
+    })
     const [commentresp, setcommentresp] = useState('')
 
     const [popup, setPopup] = useState(false)
     const [editpopup, seteditpopup] = useState(false)
     const [alldata, setalldata] = useState()
+  
 
 
 
@@ -35,7 +40,9 @@ function Post() {
             useridd: userid
         }
 
-        axios.post("http://localhost:4000/app/postlike", imageid).then((response) => {
+        axios.post("http://localhost:4000/app/postlike", imageid,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             setlike(response)
         })
     }
@@ -45,7 +52,9 @@ function Post() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid).then((response) => {
+        axios.post("http://localhost:4000/app/postdislike", imageid,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             setlike(response)
         })
     }
@@ -54,12 +63,22 @@ function Post() {
     const handlesubmit = (e) => {
         e.preventDefault()
         const { name, value } = e.target
-        setalldata({
-            ...alldata,
+        setregister({
+            ...register,
             [name]: value
 
         })
 
+    }
+
+
+    const handlesubmitedit=(e)=>{
+        e.preventDefault()
+        const {name,value}=e.target
+        setalldata({
+            ...alldata,
+            [name]:value
+        })
     }
 
     const commentsubmit = (user, postId) => {
@@ -70,7 +89,9 @@ function Post() {
         }
         console.log(dataa);
         console.log('aaaaaaaaaaaaaaaaaaa');
-        axios.post('http://localhost:4000/app/addcomment', dataa).then((response) => {
+        axios.post('http://localhost:4000/app/addcomment', dataa,{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             console.log(response);
             console.log('response');
             setcommentresp(Math.random())
@@ -86,52 +107,73 @@ function Post() {
                 image: Location.state.images
             }
 
-            axios.post('http://localhost:4000/app/singlepost', { image }
+            axios.post('http://localhost:4000/app/singlepost', { image },{
+                headers: { token: `Bearer ${token}` },
+              }
             ).then((response) => {
                 setpost(response.data)
+                console.log(response.data);
+                console.log('responseaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaazzz',);
+                setslidecomment(response.data[0].comment)
+                // console.log('responseaaaaaaaaaaaaaacommmnntttttttttttttttt');
+
             })
 
 
-        }, [like, alldata])
+        }, [like, alldata,commentresp])
 
-
-
+console.log(slidecomment);
+console.log('slidecomment');
 
     const getallcomment = (data) => {
         console.log(data);
         console.log('data');
         setcomment({ postId: data, status: !comment.status })
-        axios.post('http://localhost:4000/app/getallcomment', { data }).then((response) => {
-            console.log(response.data.comment.comment);
-            console.log('getcomment');
-            setallcomment(response.data.comment.comment)
+        // axios.post('http://localhost:4000/app/getallcomment', { data }).then((response) => {
+        //     console.log(response.data.comment.comment);
+        //     console.log('getcomment');
+        //     setallcomment(response.data.comment.comment)
 
 
-        })
+        // }
+        // )
 
-        console.log(allcomment);
-        console.log('allcommenttttttttttttttttttttttttttttttttt');
+        // console.log(allcomment);
+        // console.log('allcommenttttttttttttttttttttttttttttttttt');
 
     }
 
-
+// console.log(allcomment);
+// console.log('allcomment');
+// console.log(post);
+// console.log('postxxxxxxxxxxxxxxxxxxx');
     const editdata = (data) => {
 
         console.log(data);
-        console.log('data');
-        axios.post('http://localhost:4000/app/geteditpostdata', { data }).then((response) => {
+        console.log('dataidddddddd');
+        axios.post('http://localhost:4000/app/geteditpostdata', { data },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
+            console.log(response);
+            console.log('response');
 
             setalldata(response.data)
             seteditpopup(!editpopup)
+            console.log(alldata);
+            console.log('alldata');
         })
 
     }
 
     const editsubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/app/editpost', { alldata }).then((response) => {
+        axios.post('http://localhost:4000/app/editpost', { alldata },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             console.log('updatedd');
             alert('edit succesfully')
+            seteditpopup(!editpopup)
+
 
 
 
@@ -143,7 +185,9 @@ function Post() {
     const deletedata = (data) => {
         console.log(data);
         console.log('data');
-        axios.post('http://localhost:4000/app/deletepost', { data }).then((response) => {
+        axios.post('http://localhost:4000/app/deletepost', { data },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             console.log('updatedd');
             alert('post removed successfully')
 
@@ -184,7 +228,7 @@ function Post() {
 
                                     </div>
                                     <div className='flex justify-center'>
-                                        <div className='w-[70%]  mt-2 h-10  mb-1 rounded-xl p-2 pl-5 flex '>
+                                        <div className='w-[70%]  mt-2 h-20  mb-1 rounded-xl p-2 pl-5 flex '>
                                             <div className='text-[#153f7c]'>
                                                 {data.description}
 
@@ -268,7 +312,7 @@ function Post() {
                                                                 </div>
                                                                 <div className='commentbox justify-center mt-3 mb-3'>
                                                                     {
-                                                                        allcomment?.map((dataa) => {
+                                                                        slidecomment?.map((dataa) => {
                                                                             return (
 
                                                                                 <div className='flex justify-center'>
@@ -344,7 +388,7 @@ function Post() {
                                                 type="text"
                                                 name='description'
                                                 value={alldata?.description}
-                                                onChange={handlesubmit}
+                                                onChange={handlesubmitedit}
 
                                                 className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                             />
