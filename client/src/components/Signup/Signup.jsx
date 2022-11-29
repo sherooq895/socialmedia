@@ -1,37 +1,52 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import './Signup.css'
 import axios from 'axios'
-import {Navigate,useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Signup() {
 
-    let Navigate=useNavigate()
+    let Navigate = useNavigate()
 
-    const[file,setfile]=useState()
+    const [file, setfile] = useState()
+    const [popup, setpopup] = useState(false)
 
-    const [register,setregister]=useState({
-       fname:'' ,
-       lname:'',
-        email:'' ,
-        number:'',
-        password:'',
-        cpassword:'',
-        profilepicture:'',
+    const [register, setregister] = useState({
+        fname: '',
+        lname: '',
+        email: '',
+        number: '',
+        password: '',
+        cpassword: '',
+        profilepicture: '',
 
-      })
+    })
 
-      
-    
+    const [otp,setotp]=useState({
+        otp:'',
+        id:''
+    })
 
-      const handlesubmit=(e)=>{
+     const otphandlechange=(e)=>{
         e.preventDefault()
-        const{name,value}=e.target 
-     setregister({
-        ...register,
-        [name]:value
-     })
-    
-   
+        const{name,value}=e.target
+        setotp({
+            ...otp,
+            [name]:value
+        })
+    }
+
+  
+
+
+    const handlesubmit = (e) => {
+        e.preventDefault()
+        const { name, value } = e.target
+        setregister({
+            ...register,
+            [name]: value
+        })
+
+
     }
 
     const fileupload = (event) => {
@@ -41,42 +56,61 @@ function Signup() {
             profilepicture: event.target.files[0]
         })
     }
-    console.log('name')
-    console.log(register)
-    console.log('registerrrrrrrr')
-            
 
-   
 
-    const submit=(e)=>{
+
+    const submit = (e) => {
         e.preventDefault()
 
         const formdata = new FormData();
         for (let key in register) {
             formdata.append(key, register[key])
         }
-        console.log(register);
-        console.log('formdata');
+       
 
-        axios.post("http://localhost:4000/app/signup",formdata).then((response)=>{
-
-
-            if(response.data.user){
-                console.log(response.data.user)
-                Navigate('/')
-
-            }else if(response.data.emailerror){
-                console.log(response.data.emailerror)
+        axios.post("http://localhost:4000/app/signup", formdata).then((response) => {
+          
+            if (response.data.user) {
+                setotp({id:response.data.id})
+                setpopup(!popup)
+              
+               
+            } else if (response.data.emailerror) {
                 Navigate('/signup')
                 alert(response.data.emailerror)
 
             }
 
         }
-      
+
 
         )
 
+    }
+
+    const verifyotp=(e)=>{
+        e.preventDefault()
+        const otpp={
+           otpp: otp.otp,
+           id:otp.id
+
+        }
+        axios.post('http://localhost:4000/app/verifyotp',{otpp}).then((response)=>{
+            
+            setpopup(!popup)
+            if(response.data.error){
+                alert(response.data.error)
+                Navigate('/signup')
+
+            }else{
+                alert('Email Verification Successfully')
+                Navigate('/')
+                
+
+            }
+        })
+
+        
     }
 
 
@@ -96,7 +130,7 @@ function Signup() {
                                     for="email"
                                     className="block text-sm font-semibold text-white"
                                 >
-                                   First Name
+                                    First Name
                                 </label>
                                 <input
                                     type="text"
@@ -112,7 +146,7 @@ function Signup() {
                                     for="lname"
                                     className="block text-sm font-semibold text-white"
                                 >
-                                   Last Name
+                                    Last Name
                                 </label>
                                 <input
                                     type="text"
@@ -124,14 +158,14 @@ function Signup() {
                                 />
                             </div>
                         </div>
-                       
+
                         <div className='flex justify-center'>
                             <div className="mb-2">
                                 <label
                                     for="email"
                                     className="block text-sm font-semibold text-white"
                                 >
-                                   Email
+                                    Email
                                 </label>
                                 <input
                                     type="email"
@@ -147,7 +181,7 @@ function Signup() {
                                     for="number"
                                     className="block text-sm font-semibold text-white"
                                 >
-                                  Phone Number
+                                    Phone Number
                                 </label>
                                 <input
                                     type="tel"
@@ -165,7 +199,7 @@ function Signup() {
                                     for="password"
                                     className="block text-sm font-semibold text-white"
                                 >
-                                  Password
+                                    Password
                                 </label>
                                 <input
                                     type="password"
@@ -181,7 +215,7 @@ function Signup() {
                                     for="cpassword"
                                     className="block text-sm font-semibold text-white"
                                 >
-                               Conform Password
+                                    Conform Password
                                 </label>
                                 <input
                                     type="password"
@@ -195,30 +229,81 @@ function Signup() {
                         </div>
                         <div className='flex '>
                             <div>
-                                
+
                             </div>
-                        <label className='text-white ml-10'>Upload Your Profile Picture</label>
-                        <div className='flex justify-center mt-4'>
-                            
-                                  <input 
-                            type="file"
-                            name='profilepicture'
-                            onChange={fileupload}
-                            />
-                          </div>
+                            <label className='text-white ml-10'>Upload Your Profile Picture</label>
+                            <div className='flex justify-center mt-4'>
+
+                                <input
+                                    type="file"
+                                    name='profilepicture'
+                                    onChange={fileupload}
+                                />
+                            </div>
                         </div>
-                        
+
 
                         <div className="mt-6 flex justify-center">
                             <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
-                              SignUp
+                                SignUp
                             </button>
                         </div>
                     </form>
+                    <button onClick={() => setpopup(!popup)} className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
+                        SignUp
+                    </button>
 
 
                 </div>
+
             </div>
+            {
+                popup ?
+                    <>
+                        <div className='w-full h-fulll bg-[#666666d5] left-0 right-0 z-10 top-0 bottom-0 fixed'></div>
+                        <div className='w-[50%] h-64 bg-slate-100 fixed left-[25%] z-20 top-[30%] p-5'>
+                            <div className=''>
+                                <div className='flex justify-center'>
+                                    <div className='text-black text-2xl'>OTP VERIFICATION</div>
+                                </div>
+                                <form  onSubmit={verifyotp}>
+                                    <div className="mb-2">
+                                        <label
+                                            for="description"
+                                            className="block text-sm font-semibold text-black"
+                                        >
+                                            Enter the valued OTP from your EMAIL
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name='otp'
+                                            value={setotp.otp}
+                                            onChange={otphandlechange}
+
+                                            className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        />
+                                    </div>
+                                    <div>
+                                        <div className="mt-6 flex justify-center">
+                                            <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+
+
+                            </div>
+
+                        </div>
+                    </>
+                    : null
+
+            }
+
         </div>
     )
 }

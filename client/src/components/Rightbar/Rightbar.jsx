@@ -12,9 +12,11 @@ function Rightbar() {
     const userdata = jwt_decode(user)
     console.log(userdata.id);
     console.log('userdata');
+    const logid = userdata.id
 
     const [userprofile, setuserprofile] = useState([])
     const [userposts, setuserposts] = useState([])
+    const [userlog, setuserlog] = useState()
 
     useEffect(
         () => {
@@ -26,11 +28,20 @@ function Rightbar() {
                 setuserprofile(response.data)
             })
 
+            axios.post('http://localhost:4000/app/loguser', { logid }).then((response) => {
+                console.log(response);
+                console.log('responseloggggggg');
+                setuserlog(response.data)
+
+            })
+
         }, []
     )
 
+    console.log(userlog);
+    console.log('userprofileeeeeeeeeeee');
     console.log(userprofile);
-    console.log('userprofileeeeeee');
+    console.log('userprofilevvvvvvvvvvvvvvvv');
 
 
     const getuserprofile = (data) => {
@@ -65,6 +76,39 @@ function Rightbar() {
 
     }
 
+    const followrequest = (data) => {
+
+        axios.post('http://localhost:4000/app/followrequest', { data }, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            alert('followed succesfully')
+        })
+
+    }
+
+    const unfollowrequest = (data) => {
+        axios.post('http://localhost:4000/app/unfollowrequest', { data }, {
+            headers: { token: `Bearer ${token}` }
+        }).then((response) => {
+            console.log('response');
+            alert('unfollow successfully')
+
+        })
+
+    }
+
+    const followback=(data)=>{
+        axios.post('http://localhost:4000/app/followback',{ data},{
+            headers: { token: `Bearer ${token}` }
+        }).then((response)=>{
+
+            console.log(response);
+            alert('followback successfully')
+
+        })
+
+    }
+
 
 
 
@@ -87,11 +131,18 @@ function Rightbar() {
                                 </div>
                                 <div>
                                     <div className='mt-2 ml-2 text-lg text-[#12233d]'>{dataa.fname}</div>
-                                    {dataa.following.includes( userdata.id ) ?
+                                    {userlog?.follower?.includes(dataa._id) && userlog?.following?.includes(dataa._id) ?
+                                        <Link to=''><button onClick={() => unfollowrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>unfollow</button></Link> :
+                                        userlog?.following?.includes(dataa._id) ?
+                                            <Link to=''><button onClick={() => unfollowrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Following</button></Link> :
+                                            userlog?.follower?.includes(dataa._id) ?
+                                                <Link to=''><button onClick={() => followback({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link> :
+                                                <Link to=''><button onClick={() => followrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
 
-                                        <div><button className='bg-[#153f7c] hover:bg-[#041329] text-white font-bold py-1 px-8 ml-2 rounded'>Following</button></div> :
-                                        <div><button className='bg-[#153f7c] hover:bg-[#041329] text-white font-bold py-1 px-8 ml-2 rounded'>Follow</button></div>
                                     }
+
+
+
 
 
                                 </div>

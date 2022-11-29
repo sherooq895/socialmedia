@@ -10,6 +10,50 @@ const nodemailer = require("nodemailer");
 
 
 
+
+
+const emailsend = async(data) => {
+
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'testshrq@gmail.com',
+            pass: 'pfdxyxspayvomzff',
+        },
+    });
+
+    var otp = Math.floor(Math.random() * (9000000));
+
+    let info =await  transporter.sendMail({
+        from: '"nodemailer contact" <testshrq@gmail.com>',
+        to:  data.email ,
+        subject: "OTP VERIFICATION",
+        text: "Hello world?",
+        html: `YOUR OTP IS ${otp}`,
+    });
+
+    console.log("Message sent: %s", info.messageId);
+
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+        
+        signUpTemplate.findByIdAndUpdate(data._id,{
+            $set:{
+                otp:otp
+            }
+
+        }).then((response)=>{
+            console.log('update');
+            // res.json({user:true})
+        })
+
+
+
+
+}
+
+
+
 module.exports = {
     signup: async (request, response) => {
         console.log("ghjjjj");
@@ -23,9 +67,14 @@ module.exports = {
                 number: request.body.number,
                 password: request.body.password,
                 cpassword: request.body.cpassword,
-                profilepicture: request.file.filename
+                profilepicture: request.file.filename,
+                otpstatus: 'false',
+                otp: ''
+
 
             })
+
+            
 
             const emailcheck = await signUpTemplate.findOne({ "email": request.body.email })
 
@@ -36,48 +85,19 @@ module.exports = {
             } else {
 
                 // //nodemailer
+                    
+                signedUpUser.save().then((responsee) => {
+                    emailsend(responsee).then((data)=>{
 
-                // let testAccount = await nodemailer.createTestAccount();
-
-                // // create reusable transporter object using the default SMTP transport
-                // let transporter = nodemailer.createTransport({
-
-                //     service: 'gmail', // true for 465, false for other ports
-                //     auth: {
-                //         user:'', // generated ethereal user
-                //         pass: '', // generated ethereal password
-                //     },
-                // });
-
-                // // send mail with defined transport object
-                // let info = await transporter.sendMail({
-                //     from: '"nodemailer contact" <testshrq@gmail.com>', // sender address
-                //     to: "sherooqillu895@gmial.com", // list of receivers
-                //     subject: "Hello ✔", // Subject line
-                //     text: "Hello world?", // plain text body
-                //     html: "<b>Hello world?</b>", // html body
-                // }); 
-
-                // console.log("Message sent: %s", info.messageId);
-                // // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-                // // Preview only available when sending through an Ethereal account
-                // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                // // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-
-
-
-
-
-                signedUpUser.save().then(data => {
-                    response.status(200).json({ user: true })
+                        response.status(200).json({ user: true ,id:responsee._id})
+                    })
                 })
                     .catch(error => {
                         console.log(error);
                     })
 
             }
-
+ 
         } catch (error) {
             console.log(error);
             response.status(200).send({ message: error })
@@ -530,6 +550,44 @@ module.exports = {
             res.json(response)
 
         })
+
+    },
+
+    loguser: async (req, res) => {
+
+
+        const datalog = await signUpTemplate.findOne({ _id: req.body.logid })
+
+        res.json(datalog)
+    },
+    verifyotp:async(req,res)=>{
+        console.log(req.body);
+        console.log('sjsjsjsjsjsjsjsjsjsjsjsjsj');
+
+     const user= await  signUpTemplate.findOne({_id:req.body.otpp.id})
+     console.log(user);
+     if(user.otp===req.body.otpp.otpp){
+        console.log('otpsuccessfully');
+        await signUpTemplate.findByIdAndUpdate(req.body.otpp.id,{
+            $set:{
+                otpstatus:'true'
+
+            }
+        }).then((response)=>{
+
+            res.json({user:true})
+
+        })
+     }else{
+        console.log('otpfaillllll');
+        res.json({error:'otp is incurrect'})
+     }
+
+
+
+
+
+
 
     }
 

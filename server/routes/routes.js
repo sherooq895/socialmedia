@@ -97,7 +97,11 @@ router.post('/getloguser',controller.getloguser)
 
 router.post('/followback',controller.followback)
 
+router.post('/loguser',controller.loguser)
+
+router.post('/verifyotp',controller.verifyotp)
 
 
+  
 
 module.exports = router   

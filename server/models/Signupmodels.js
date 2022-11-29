@@ -39,7 +39,13 @@ const signUpTemplate= new mongoose.Schema({
     }],
     follower:[{
         type:String
-    }]
+    }],
+    otpstatus:{
+        type:String
+    },
+    otp:{
+        type:String
+    }
 
 
 })

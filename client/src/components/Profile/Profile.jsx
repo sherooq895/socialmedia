@@ -12,7 +12,7 @@ function Profile() {
     const [logdata, setlogdata] = useState()
     const userdata = localStorage.getItem('token')
     let userdatadecode = jwt_decode(userdata)
-    let userdataaa=userdatadecode.id
+    let userdataaa = userdatadecode.id
 
     console.log(userdatadecode.id);
     console.log('userdatadecode');
@@ -35,8 +35,8 @@ function Profile() {
 
                 })
 
-                axios.post('http://localhost:4000/app/getloguser',{userdataaa}).then((response)=>{
-                   
+                axios.post('http://localhost:4000/app/getloguser', { userdataaa }).then((response) => {
+
                     setlogdata(response.data)
 
                 })
@@ -85,10 +85,10 @@ function Profile() {
     }
 
 
-    const followback=(data)=>{
-        axios.post('http://localhost:4000/app/followback',{ data},{
+    const followback = (data) => {
+        axios.post('http://localhost:4000/app/followback', { data }, {
             headers: { token: `Bearer ${token}` }
-        }).then((response)=>{
+        }).then((response) => {
 
             console.log(response);
             alert('followback successfully')
@@ -142,14 +142,14 @@ function Profile() {
 
                                 <div className=' mt-1'>
                                     {
-                                        logdata?.follower?.includes(dataa._id)&&logdata?.following?.includes(dataa._id)?
+                                        logdata?.follower?.includes(dataa._id) && logdata?.following?.includes(dataa._id) ?
                                             <Link to=''><button onClick={() => unfollowrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>unfollow</button></Link> :
-                                           
+
                                             logdata?.following?.includes(dataa._id) ?
                                                 <Link to=''><button onClick={() => unfollowrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Following</button></Link> :
                                                 logdata?.follower?.includes(dataa._id) ?
-                                                <Link to=''><button onClick={() => followback({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link>:
-                                                <Link to=''><button onClick={() => followrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
+                                                    <Link to=''><button onClick={() => followback({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link> :
+                                                    <Link to=''><button onClick={() => followrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
                                     }
 
                                 </div>
