@@ -188,8 +188,14 @@ module.exports = {
     getallpost: async (req, res) => {
         try {
             console.log('sjsjssj');
-            const getposts = await PostModelTemplate.find().populate('userId')
-            console.log('getposts');
+            const getposts = await PostModelTemplate.find().populate({
+                path:'comment',
+                populate:{
+                    path:'userId'
+                }
+            }).populate('userId')
+            console.log(getposts[0].comment);
+            console.log('getpostsssssspopulateeeeeeeeeeeee');   
 
             if (getposts) {
                 res.status(200).send(getposts)
@@ -207,7 +213,12 @@ module.exports = {
     singlepost: async (req, res) => {
 
         try {
-            const postdata = await PostModelTemplate.find({ 'image': req.body.image.image }).populate('userId')
+            const postdata = await PostModelTemplate.find({ 'image': req.body.image.image }).populate({
+                path:'comment',
+                populate:{
+                    path:'userId'
+                }
+            }).populate('userId')
             if (postdata) {
                 res.status(200).send(postdata)
             } else {
@@ -289,7 +300,12 @@ module.exports = {
     getallcomment: async (req, res) => {
         try {
 
-            const comment = await PostModelTemplate.findOne({ '_id': req.body.data }).populate('userId')
+            const comment = await PostModelTemplate.findOne({ '_id': req.body.data }).populate({
+                path:'comment',
+                populate:{
+                    path:'userId'
+                }
+            }).populate('userId')
             console.log(comment);
             console.log('comments');
             if (comment) {

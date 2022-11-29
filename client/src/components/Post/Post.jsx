@@ -123,7 +123,7 @@ function Post() {
         }, [like, alldata,commentresp])
 
 console.log(slidecomment);
-console.log('slidecomment');
+console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
     const getallcomment = (data) => {
         console.log(data);
@@ -316,16 +316,23 @@ console.log('slidecomment');
                                                                             return (
 
                                                                                 <div className='flex justify-center'>
-                                                                                    < div className='w-[80%] bg-slate-700 rounded-md mt-2 ' >
+                                                                                    < div className='w-[95%] bg-slate-700 rounded-md mt-2 ' >
 
                                                                                         <div className='flex ml-5 mt-2'>
 
                                                                                             <div>
                                                                                                 <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                             </div>
-                                                                                            <div className='mt-3 ml-1 text-white mb-3'>
-                                                                                                {dataa._id}
+                                                                                            <div>
+                                                                                            <div className='mt-3 text-xl ml-1 text-white mb-1'>
+                                                                                                {dataa.userId.fname}
                                                                                             </div>
+                                                                                            <div className='mt-1 text-xs ml-1 text-white mb-3'>
+                                                                                                {dataa.date}
+                                                                                            </div>
+
+                                                                                            </div>
+                                                                                           
 
                                                                                         </div>
                                                                                         <div className='flex justify-center mt-3'>

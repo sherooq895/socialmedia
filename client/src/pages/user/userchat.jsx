@@ -8,13 +8,14 @@ function userchat() {
         <>
             <Navbar />
             <div className='flex justify-center'>
-                <div className='w-[50%]'>
-
-                    <Rightchat />
+                <div className='w-[30%] mt-10 mb-10 h-96 bg-red-500'>
+                <Leftchat />
+                    
                 </div>
-                <div className='w-[50%]'>
+                <div className='w-[50%] mt-10 mb-10 h-fit bg-blue-500'>
 
-                    <Leftchat />
+                 
+                    <Rightchat />
                 </div>
 
             </div>

@@ -1,49 +1,49 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const signUpTemplate = require('./Signupmodels')
 
 
 
 
-const  userPostTemplate= new mongoose.Schema({
+const userPostTemplate = new mongoose.Schema({
 
-    userId:{
-        type:Schema.Types.ObjectId,
-        ref:signUpTemplate
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: signUpTemplate
     },
-    image:{
-        type:String,
-        required:true
+    image: {
+        type: String,
+        required: true
     },
-    description:{
-        type:String,
-        required:true
+    description: {
+        type: String,
+        required: true
     },
-    date:{
-        type:Date,
-        required:true
+    date: {
+        type: Date,
+        required: true
     },
-    like:[{
-            type:String
-        }],
-     comment:[{
-        comment:{
-            type:String
+    like: [{
+        type: String
+    }],
+    comment: [{
+        comment: {
+            type: String
         },
-        userId:{
-            type:Schema.Types.ObjectId,
-             ref:signUpTemplate
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: signUpTemplate
         },
-        date:{
-            type:Date
+        date: {
+            type: Date
         }
 
     }]
 
-        
+
 
 })
 
 
 
-module.exports=mongoose.model('Posts',userPostTemplate)
+module.exports = mongoose.model('Posts', userPostTemplate)

@@ -42,6 +42,8 @@ function Centerbar() {
 
     }
 
+    
+
 
     useEffect(
         () => {
@@ -116,20 +118,17 @@ function Centerbar() {
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
            
-            console.log(response.data.comment.comment);
-            console.log('getcomment');
+           
             setallcomment(response.data.comment.comment)
 
 
         })
-
-        console.log(allcomment);
+        console.log(allcomment)
         console.log('allcommenttttttttttttttttttttttttttttttttt');
 
+       
     }
-    console.log(allpost);
-    console.log('allpost');
-
+    
 
     return (
         <>
@@ -224,9 +223,16 @@ function Centerbar() {
                                                                                         <div>
                                                                                             <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                         </div>
-                                                                                        <div className='mt-3 ml-1 text- mb-3 text-[#153f7c]'>
-                                                                                            {dataa._id}
+                                                                                        <div className=''>
+                                                                                        <div className='mt-1 ml-1 text-xl mb-1 text-[#153f7c]'>
+                                                                                            {dataa.userId.fname}
                                                                                         </div>
+                                                                                        <div className=' ml-1 text- mb-3 text-[#153f7c]'>
+                                                                                            {dataa.date}
+                                                                                        </div>
+
+                                                                                        </div>
+                                                                                       
 
                                                                                     </div>
                                                                                     <div className='flex justify-center mt-5'>

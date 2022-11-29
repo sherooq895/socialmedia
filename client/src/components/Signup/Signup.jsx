@@ -249,9 +249,7 @@ function Signup() {
                             </button>
                         </div>
                     </form>
-                    <button onClick={() => setpopup(!popup)} className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
-                        SignUp
-                    </button>
+                   
 
 
                 </div>
