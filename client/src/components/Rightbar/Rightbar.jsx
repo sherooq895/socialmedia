@@ -38,17 +38,11 @@ function Rightbar() {
         }, []
     )
 
-    console.log(userlog);
-    console.log('userprofileeeeeeeeeeee');
-    console.log(userprofile);
-    console.log('userprofilevvvvvvvvvvvvvvvv');
-
 
     const getuserprofile = (data) => {
 
 
-        console.log(data);
-        console.log('dataccxcxcxcxcxcxcxcxcxcxcxcxcxxxxcxcxxxcx');
+
 
         axios.post('http://localhost:4000/app/getuserprofile', { data }, {
             headers: { token: `Bearer ${token}` },
@@ -90,17 +84,16 @@ function Rightbar() {
         axios.post('http://localhost:4000/app/unfollowrequest', { data }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
-            console.log('response');
             alert('unfollow successfully')
 
         })
 
     }
 
-    const followback=(data)=>{
-        axios.post('http://localhost:4000/app/followback',{ data},{
+    const followback = (data) => {
+        axios.post('http://localhost:4000/app/followback', { data }, {
             headers: { token: `Bearer ${token}` }
-        }).then((response)=>{
+        }).then((response) => {
 
             console.log(response);
             alert('followback successfully')
