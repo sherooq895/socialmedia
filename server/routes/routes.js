@@ -12,7 +12,7 @@ const controller = require('../controller/controller')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '../client/public/images')
-    },                  
+    },                        
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + file.originalname
         cb(null, file.fieldname + '-' + uniqueSuffix)
@@ -102,6 +102,5 @@ router.post('/loguser',controller.loguser)
 router.post('/verifyotp',controller.verifyotp)
 
 
-  
 
 module.exports = router   
