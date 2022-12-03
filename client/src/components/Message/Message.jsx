@@ -3,10 +3,7 @@ import './Message.css'
 import {format} from 'timeago.js'
 
 function Message({message,own}) {
-    console.log(message);
-    console.log('message');
-    console.log(own);
-    console.log('own');
+  
     return (
         <div className={own? "message own" : "message"}>
           

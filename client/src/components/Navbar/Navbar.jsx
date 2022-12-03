@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { BiBell, BiConversation, BiCircle } from "react-icons/bi";
 import jwt_decode from 'jwt-decode'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {Link, Navigate, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 // import { usercontext } from '../context/context'
 
@@ -54,7 +54,7 @@ function Navbar() {
                             </div>
                             <div className='pr-3 text-2xl'>
                                 <button>
-                                    <p className='text-[#ffffff]'><BiConversation /></p>
+                               <Link to='/userchat'> <p className='text-[#ffffff]'><BiConversation /></p></Link>
                                 </button>
                             </div>
                             <div className='pr-3 flex'>

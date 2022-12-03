@@ -101,6 +101,11 @@ router.post('/loguser',controller.loguser)
 
 router.post('/verifyotp',controller.verifyotp)
 
+router.post('/getfollowers',controller.getfollowers)
+
+router.post('/getfollowing',controller.getfollowing)
+
+  
 
 
 module.exports = router   

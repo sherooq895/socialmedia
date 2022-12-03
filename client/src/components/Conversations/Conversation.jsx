@@ -11,17 +11,13 @@ function Conversation({conversation,currentUser}) {
 useEffect(()=>{
     const friendId=conversation.members.find((m)=>m !==currentUser._id)
 
-    console.log(friendId);
-    console.log('friendIdvvvvvvvvvvxxxxxxxxxxxxxxxxxxxxxxxx');
+  
     
     const getUser=async ()=>{
         try{
 
            axios.post('http://localhost:4000/conversation/getuser',{friendId}).then((response)=>{
-                console.log('shshshshshshshshshshshsh');
-                console.log('shshshshshshshshshshshsh');
-                console.log(response);
-                console.log('response');
+               
                 setUser(response.data)
 
             })
@@ -33,8 +29,7 @@ useEffect(()=>{
     getUser()
 }
     ,[])
-    console.log(user);
-    console.log('user');
+   
 
 
   return (

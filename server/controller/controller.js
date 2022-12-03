@@ -12,7 +12,7 @@ const nodemailer = require("nodemailer");
 
 
 
-const emailsend = async(data) => {
+const emailsend = async (data) => {
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -24,9 +24,9 @@ const emailsend = async(data) => {
 
     var otp = Math.floor(Math.random() * (9000000));
 
-    let info =await  transporter.sendMail({
+    let info = await transporter.sendMail({
         from: '"nodemailer contact" <testshrq@gmail.com>',
-        to:  data.email ,
+        to: data.email,
         subject: "OTP VERIFICATION",
         text: "Hello world?",
         html: `YOUR OTP IS ${otp}`,
@@ -36,16 +36,16 @@ const emailsend = async(data) => {
 
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
-        
-        signUpTemplate.findByIdAndUpdate(data._id,{
-            $set:{
-                otp:otp
-            }
 
-        }).then((response)=>{
-            console.log('update');
-            // res.json({user:true})
-        })
+    signUpTemplate.findByIdAndUpdate(data._id, {
+        $set: {
+            otp: otp
+        }
+
+    }).then((response) => {
+        console.log('update');
+        // res.json({user:true})
+    })
 
 
 
@@ -74,7 +74,7 @@ module.exports = {
 
             })
 
-            
+
 
             const emailcheck = await signUpTemplate.findOne({ "email": request.body.email })
 
@@ -85,11 +85,11 @@ module.exports = {
             } else {
 
                 // //nodemailer
-                    
-                signedUpUser.save().then((responsee) => {
-                    emailsend(responsee).then((data)=>{
 
-                        response.status(200).json({ user: true ,id:responsee._id})
+                signedUpUser.save().then((responsee) => {
+                    emailsend(responsee).then((data) => {
+
+                        response.status(200).json({ user: true, id: responsee._id })
                     })
                 })
                     .catch(error => {
@@ -97,7 +97,7 @@ module.exports = {
                     })
 
             }
- 
+
         } catch (error) {
             console.log(error);
             response.status(200).send({ message: error })
@@ -189,13 +189,13 @@ module.exports = {
         try {
             console.log('sjsjssj');
             const getposts = await PostModelTemplate.find().populate({
-                path:'comment',
-                populate:{
-                    path:'userId'
+                path: 'comment',
+                populate: {
+                    path: 'userId'
                 }
             }).populate('userId')
             console.log(getposts[0].comment);
-            console.log('getpostsssssspopulateeeeeeeeeeeee');   
+            console.log('getpostsssssspopulateeeeeeeeeeeee');
 
             if (getposts) {
                 res.status(200).send(getposts)
@@ -214,9 +214,9 @@ module.exports = {
 
         try {
             const postdata = await PostModelTemplate.find({ 'image': req.body.image.image }).populate({
-                path:'comment',
-                populate:{
-                    path:'userId'
+                path: 'comment',
+                populate: {
+                    path: 'userId'
                 }
             }).populate('userId')
             if (postdata) {
@@ -301,9 +301,9 @@ module.exports = {
         try {
 
             const comment = await PostModelTemplate.findOne({ '_id': req.body.data }).populate({
-                path:'comment',
-                populate:{
-                    path:'userId'
+                path: 'comment',
+                populate: {
+                    path: 'userId'
                 }
             }).populate('userId')
             console.log(comment);
@@ -576,34 +576,54 @@ module.exports = {
 
         res.json(datalog)
     },
-    verifyotp:async(req,res)=>{
+    verifyotp: async (req, res) => {
         console.log(req.body);
         console.log('sjsjsjsjsjsjsjsjsjsjsjsjsj');
 
-     const user= await  signUpTemplate.findOne({_id:req.body.otpp.id})
-     console.log(user);
-     if(user.otp===req.body.otpp.otpp){
-        console.log('otpsuccessfully');
-        await signUpTemplate.findByIdAndUpdate(req.body.otpp.id,{
-            $set:{
-                otpstatus:'true'
+        const user = await signUpTemplate.findOne({ _id: req.body.otpp.id })
+        console.log(user);
+        if (user.otp === req.body.otpp.otpp) {
+            console.log('otpsuccessfully');
+            await signUpTemplate.findByIdAndUpdate(req.body.otpp.id, {
+                $set: {
+                    otpstatus: 'true'
 
-            }
-        }).then((response)=>{
+                }
+            }).then((response) => {
 
-            res.json({user:true})
+                res.json({ user: true })
 
-        })
-     }else{
-        console.log('otpfaillllll');
-        res.json({error:'otp is incurrect'})
-     }
-
-
+            })
+        } else {
+            console.log('otpfaillllll');
+            res.json({ error: 'otp is incurrect' })
+        }
 
 
 
 
+
+
+
+    },
+    getfollowers: async (req, res) => {
+        console.log(req.body);
+        console.log('dsdsdsdsd');
+
+        const data = await signUpTemplate.find({'_id':req.body.data})
+        // res.status(200).json(data)
+        console.log(data);
+        console.log('data');
+      
+        console.log('data');
+        res.status(200).json(data)
+
+    },
+    getfollowing: async (req, res) => {
+
+        const data = await signUpTemplate.find({'_id':req.body.data})
+      
+        res.status(200).json(data)
 
     }
 

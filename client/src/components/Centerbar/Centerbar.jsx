@@ -197,8 +197,8 @@ function Centerbar() {
 
                                                 <div className='bg- bg-[#ccc] w-[85%] rounded-lg'>
                                                     <div className=''>
-                                                        <div className='flex justify-center pt-4'>
-                                                            <div className='mr-4 ml-8 '>
+                                                        <div className='flex justify-center pt-4 w-full mx-auto'>
+                                                            <div className='mr-4  w-[80%]'>
                                                                 <input
                                                                     name='comment'
                                                                     value={register.comment}
@@ -224,10 +224,10 @@ function Centerbar() {
                                                                                             <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                         </div>
                                                                                         <div className=''>
-                                                                                        <div className='mt-1 ml-1 text-xl mb-1 text-[#153f7c]'>
+                                                                                        <div className=' ml-1 text-xl  text-[#153f7c]'>
                                                                                             {dataa.userId.fname}
                                                                                         </div>
-                                                                                        <div className=' ml-1 text- mb-3 text-[#153f7c]'>
+                                                                                        <div className=' ml-1 text-sm mb-3 text-[#153f7c]'>
                                                                                             {dataa.date}
                                                                                         </div>
 
@@ -240,7 +240,7 @@ function Centerbar() {
                                                                                             <div>{dataa.comment}</div>
 
                                                                                         </div>
-                                                                                        <  hr />
+                                                                                        
                                                                                     </div>
                                                                                
                                                                             </div>

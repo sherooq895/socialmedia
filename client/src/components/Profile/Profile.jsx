@@ -52,12 +52,7 @@ function Profile() {
         }, []
 
     )
-    console.log(logdata);
-    console.log('logdataaxxxxxxxxxxxxxxxxx');
-
-    console.log(dataa);
-    console.log('userrrrrrrrrrrrrrrrr');
-
+  
 
 
 
@@ -97,6 +92,23 @@ function Profile() {
 
     }
 
+    const usermessage=(logId,userId)=>{
+        console.log(logId);
+        console.log(userId);
+        console.log('sasasaasssasxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        axios.post('http://localhost:4000/conversation', { senderId:logId,recieverId:userId }, {
+            headers: { token: `Bearer ${token}` }
+        }).then((response) => {
+            console.log(response);
+            console.log('response');
+            Navigate('/userchat')
+
+          
+        })
+
+
+    }
+
     return (
         <div >
 
@@ -125,13 +137,13 @@ function Profile() {
 
                             <div className='mr-5 mt-5'>
                                 <div>
-                                    <div className='text-[#6e6f72] text-2xl'>1000</div>
+                                    <div className='text-[#6e6f72] text-2xl'>{dataa?.follower?.length}</div>
                                 </div>
                                 <div className='mb-3'>
                                     <div className='text-[#153f7c] mt-2'>Followers</div>
                                 </div>
                                 <div>
-                                    <div className='text-[#6e6f72] text-2xl'>1000</div>
+                                    <div className='text-[#6e6f72] text-2xl'>{dataa?.following?.length}</div>
                                 </div>
                                 <div>
                                     <div className='text-[#153f7c] mt-2 '>Following</div>
@@ -151,6 +163,11 @@ function Profile() {
                                                     <Link to=''><button onClick={() => followback({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link> :
                                                     <Link to=''><button onClick={() => followrequest({ userid: logdata._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
                                     }
+
+                                </div>
+                                <div>
+                                <button onClick={()=>usermessage(logdata?._id,dataa?._id )}  className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded mt-1 ml-3'>message</button>
+
 
                                 </div>
 

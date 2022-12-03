@@ -1,7 +1,11 @@
 import React from 'react'
 import './ChatOnline.css'
 
-function ChatOnline() {
+function ChatOnline({onlineusers,currentId,setCurrentChat}) {
+
+// const [friends,setFriends]=useState([])
+// const [onlinefriends,setOnlineFriends]=useState([])
+
     return (
         <div className='chatonline'>
             <div className="chatonlinefriend">

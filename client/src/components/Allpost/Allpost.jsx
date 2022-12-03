@@ -8,17 +8,11 @@ function Allpost() {
 
   let Navigate = useNavigate()
   let token = localStorage.getItem('token')
-  console.log(token);
-  console.log('token');
+ 
 
   const userid = localStorage.getItem('userid')
-  console.log(userid);
-  console.log('userid');
   const [posts, getposts] = useState([])
 
-
-  console.log(posts);
-  console.log('posts');
 
 
   useEffect(() => {
@@ -36,7 +30,7 @@ function Allpost() {
 
       })
 
-  }, [])
+  }, [posts])
 
   const singlepost = (datas) => {
     const image = datas

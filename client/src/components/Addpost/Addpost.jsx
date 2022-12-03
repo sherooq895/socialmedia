@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 function Addpost() {
     
     let token=localStorage.getItem('token')
+
+    const Navigate=useNavigate()
    
 
 
@@ -61,15 +64,12 @@ function Addpost() {
         }, {
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
-            console.log(response);
-            console.log('response');
-
+            Navigate('/profile')
         })
 
 
     }
-    console.log(register);
-    console.log('registerrrrr');
+   
 
 
 

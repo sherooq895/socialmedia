@@ -11,11 +11,11 @@ import axios from 'axios'
 function Post() {
     const Location = useLocation()
     const userid = localStorage.getItem('userid')
-     let token=localStorage.getItem('token')
+    let token = localStorage.getItem('token')
 
 
     const [post, setpost] = useState([])
-    const[slidecomment,setslidecomment]=useState()
+    const [slidecomment, setslidecomment] = useState()
     const [like, setlike] = useState()
     const [allcomment, setallcomment] = useState()
     const [comment, setcomment] = useState({
@@ -23,14 +23,14 @@ function Post() {
         postId: ''
     })
     const [register, setregister] = useState({
-        comment:''
+        comment: ''
     })
     const [commentresp, setcommentresp] = useState('')
 
     const [popup, setPopup] = useState(false)
     const [editpopup, seteditpopup] = useState(false)
     const [alldata, setalldata] = useState()
-  
+
 
 
 
@@ -40,9 +40,9 @@ function Post() {
             useridd: userid
         }
 
-        axios.post("http://localhost:4000/app/postlike", imageid,{
+        axios.post("http://localhost:4000/app/postlike", imageid, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             setlike(response)
         })
     }
@@ -52,9 +52,9 @@ function Post() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid,{
+        axios.post("http://localhost:4000/app/postdislike", imageid, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             setlike(response)
         })
     }
@@ -72,12 +72,12 @@ function Post() {
     }
 
 
-    const handlesubmitedit=(e)=>{
+    const handlesubmitedit = (e) => {
         e.preventDefault()
-        const {name,value}=e.target
+        const { name, value } = e.target
         setalldata({
             ...alldata,
-            [name]:value
+            [name]: value
         })
     }
 
@@ -89,9 +89,9 @@ function Post() {
         }
         console.log(dataa);
         console.log('aaaaaaaaaaaaaaaaaaa');
-        axios.post('http://localhost:4000/app/addcomment', dataa,{
+        axios.post('http://localhost:4000/app/addcomment', dataa, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             console.log(response);
             console.log('response');
             setcommentresp(Math.random())
@@ -107,9 +107,9 @@ function Post() {
                 image: Location.state.images
             }
 
-            axios.post('http://localhost:4000/app/singlepost', { image },{
+            axios.post('http://localhost:4000/app/singlepost', { image }, {
                 headers: { token: `Bearer ${token}` },
-              }
+            }
             ).then((response) => {
                 setpost(response.data)
                 console.log(response.data);
@@ -120,10 +120,10 @@ function Post() {
             })
 
 
-        }, [like, alldata,commentresp])
+        }, [like, alldata, commentresp])
 
-console.log(slidecomment);
-console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+    console.log(slidecomment);
+    console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
     const getallcomment = (data) => {
         console.log(data);
@@ -143,17 +143,17 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     }
 
-// console.log(allcomment);
-// console.log('allcomment');
-// console.log(post);
-// console.log('postxxxxxxxxxxxxxxxxxxx');
+    // console.log(allcomment);
+    // console.log('allcomment');
+    // console.log(post);
+    // console.log('postxxxxxxxxxxxxxxxxxxx');
     const editdata = (data) => {
 
         console.log(data);
         console.log('dataidddddddd');
-        axios.post('http://localhost:4000/app/geteditpostdata', { data },{
+        axios.post('http://localhost:4000/app/geteditpostdata', { data }, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             console.log(response);
             console.log('response');
 
@@ -167,9 +167,9 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     const editsubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/app/editpost', { alldata },{
+        axios.post('http://localhost:4000/app/editpost', { alldata }, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             console.log('updatedd');
             alert('edit succesfully')
             seteditpopup(!editpopup)
@@ -185,9 +185,9 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     const deletedata = (data) => {
         console.log(data);
         console.log('data');
-        axios.post('http://localhost:4000/app/deletepost', { data },{
+        axios.post('http://localhost:4000/app/deletepost', { data }, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             console.log('updatedd');
             alert('post removed successfully')
 
@@ -264,10 +264,10 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                                     </div>
 
 
-                                    <div className='flex justify-center'>
+                                    <div className=''>
                                         <div>
 
-                                            <div className='w-[90%]  bg-neutral-800 mt-2 h-10 flex mb-5 rounded-xl p-2'>
+                                            <div className='mx-auto w-[64%]  bg-neutral-800 mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                                 {data.like.includes(userid) ?
                                                     <div className='text-3xl ml-9'>
                                                         <button onClick={() => { postdislike(data._id) }} className='text-red-600'><AiOutlineHeart /></button>
@@ -295,15 +295,15 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                                                     <div className='flex justify-center'>
 
 
-                                                        <div className='bg-neutral-800 w-[95%]'>
+                                                        <div className='bg-neutral-800 w-[64%] '>
                                                             <div className=''>
-                                                                <div className='flex justify-center pt-4'>
-                                                                    <div className='mr-4 ml-8 '>
+                                                                <div className='flex justify-center pt-4 w-full mx-auto'>
+                                                                    <div className='mr-4  w-[80%]'>
                                                                         <input
                                                                             name='comment'
                                                                             value={register.comment}
                                                                             onChange={handlesubmit}
-                                                                            className='appearance-none  border border-black w-full text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
+                                                                            className='appearance-none w-full border border-black text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
                                                                     </div>
                                                                     <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-yellow-500'>
                                                                         <div  ><BsFillArrowRightSquareFill /></div>
@@ -323,16 +323,16 @@ console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                                                                                             <div>
                                                                                                 <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                             </div>
-                                                                                            <div>
-                                                                                            <div className='mt-3 text-xl ml-1 text-white mb-1'>
-                                                                                                {dataa.userId.fname}
-                                                                                            </div>
-                                                                                            <div className='mt-1 text-xs ml-1 text-white mb-3'>
-                                                                                                {dataa.date}
-                                                                                            </div>
+                                                                                            <div className='flex items-center gap-5'>
+                                                                                                <div className='text-xl ml-1 text-white'>
+                                                                                                    {dataa.userId.fname}
+                                                                                                </div>
+                                                                                                <div className='text-xs ml-1 text-white'>
+                                                                                                    {dataa.date}
+                                                                                                </div>
 
                                                                                             </div>
-                                                                                           
+
 
                                                                                         </div>
                                                                                         <div className='flex justify-center mt-3'>
