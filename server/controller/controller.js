@@ -55,6 +55,7 @@ const emailsend = async (data) => {
 
 
 module.exports = {
+
     signup: async (request, response) => {
         console.log("ghjjjj");
         try {
@@ -113,17 +114,10 @@ module.exports = {
 
     login: async (request, response) => {
         try {
-            console.log(request.body);
-            console.log('bodyyyyy');
+          
             const user = await signUpTemplate.findOne({ email: request.body.email })
 
-            console.log(user);
-            console.log('userccccccccc');
-
-            if (user.password == request.body.password) {
-
-                console.log("user true");
-
+            if (user.password == request.body.password&&user.otpstatus=='true') {
                 const resp = {
                     id: user._id,
                     email: user.email,
@@ -131,10 +125,7 @@ module.exports = {
                     profilepicture: user.profilepicture
                 }
                 let token = jwt.sign(resp, "secret")
-
                 response.status(200).json({ user, auth: true, token: token })
-
-
             } else {
                 console.log("error");
                 response.status(500).json({ loginerror: "ivalid username and password" })
@@ -340,23 +331,23 @@ module.exports = {
     editprofile: async (req, res) => {
 
         try {
-            console.log(req.body.register);
+            console.log(req.body);
             console.log('req.body.register');
-            const useremail = await signUpTemplate.findOne({ 'email': req.body.register.email })
+            const useremail = await signUpTemplate.findOne({ 'email': req.body.email })
             if (useremail) {
-                res.json(error)
+                res.json({error:true})
             } else {
 
-                signUpTemplate.findByIdAndUpdate(req.body.register._id, {
+                signUpTemplate.findByIdAndUpdate(req.body._id, {
                     $set: {
-                        fname: req.body.register.fname,
-                        lname: req.body.register.lname,
-                        email: req.body.register.email,
-                        number: req.body.register.number,
-                        password: req.body.register.password,
-                        cpassword: req.body.register.cpassword,
-                        profilepicture: req.body.register.profilepicture,
-                        discription: req.body.register.discription,
+                        fname: req.body.fname,
+                        lname: req.body.lname,
+                        email: req.body.email,
+                        number: req.body.number,
+                        password: req.body.password,
+                        cpassword: req.body.cpassword,
+                        profilepicture: req.file.filename,
+                        discription: req.body.discription,
 
                     }
                 }).then((response) => {
@@ -502,11 +493,9 @@ module.exports = {
 
     },
     getuserdataa: async (req, res) => {
-        console.log(req.body);
-        console.log('ddddddddddddreqbody');
+       
         const data = await signUpTemplate.findOne({ '_id': req.body.dataa })
-        console.log(data);
-        console.log('dataxjxjxx');
+      
         res.json(data)
 
     },
@@ -570,10 +559,9 @@ module.exports = {
     },
 
     loguser: async (req, res) => {
-
-
+        console.log(req.body);
+        console.log('lalalalalalalalalalalallalalalalalaallalalal');
         const datalog = await signUpTemplate.findOne({ _id: req.body.logid })
-
         res.json(datalog)
     },
     verifyotp: async (req, res) => {
@@ -625,6 +613,37 @@ module.exports = {
       
         res.status(200).json(data)
 
+    },
+    getuserpicture:async(req,res)=>{
+        console.log(req.body);
+        console.log('req');
+       const data=await PostModelTemplate.findOne({_id:req.body.imgId.id})
+       .populate({
+        path: 'comment',
+        populate: {
+            path: 'userId'   
+        }
+    })
+    .populate('userId')
+    console.log(data);
+    console.log('datavvvvvvvvvvv');
+       res.json(data)
+
+    },
+    getonlineuser:async(req,res)=>{
+        console.log(req.body);
+        console.log('vvvvvvvvvvv');
+        const userdataa=await Promise.all( req.body.map((person)=>{
+           return (
+
+               signUpTemplate.find({'_id':person.userId})
+           )
+            
+           
+        }))
+        console.log(userdataa);    
+        console.log('userdataa');
+        res.json(userdataa)
     }
 
 }

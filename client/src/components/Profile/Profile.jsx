@@ -29,13 +29,17 @@ function Profile() {
                 const dataa = userdata?._id
 
 
-                axios.post('http://localhost:4000/app/getuserdataa', { dataa }).then((response) => {
+                axios.post('http://localhost:4000/app/getuserdataa', { dataa },{
+                    headers: { token: `Bearer ${token}` },
+                }).then((response) => {
 
                     setdataa(response.data)
 
                 })
 
-                axios.post('http://localhost:4000/app/getloguser', { userdataaa }).then((response) => {
+                axios.post('http://localhost:4000/app/getloguser', { userdataaa },{
+                    headers: { token: `Bearer ${token}` },
+                }).then((response) => {
 
                     setlogdata(response.data)
 

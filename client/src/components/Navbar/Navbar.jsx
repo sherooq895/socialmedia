@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiBell, BiConversation, BiCircle } from "react-icons/bi";
 import jwt_decode from 'jwt-decode'
 import {Link, Navigate, useNavigate } from 'react-router-dom'
 import './Navbar.css'
+import axios from 'axios'
 // import { usercontext } from '../context/context'
 
 function Navbar() {
@@ -12,17 +13,32 @@ function Navbar() {
     // const [userdataa, setuserdata] = useState(usercontext)
 
     const [popup, setPopup] = useState(false)
+    const [data, setdata] = useState()
 
     const userdata = localStorage.getItem('token')
-    console.log(userdata);
-    console.log('userdata');
-
     let decodedata = jwt_decode(userdata)
-    console.log(decodedata);
-    console.log('decodedata');
     localStorage.setItem('userid', decodedata.id)
     localStorage.setItem('username', decodedata.fname)
     localStorage.setItem('profilepicture', decodedata.profilepicture)
+    const logid=localStorage.getItem('userid')
+    const token=localStorage.getItem('token')
+   
+
+
+    useEffect(
+       
+        ()=>{
+            axios.post('http://localhost:4000/app/loguser',{logid}, {
+                headers: { token: `Bearer ${token}` },
+            }).then((response)=>{
+                console.log(response);
+                console.log('responsebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+                setdata(response.data)
+
+            })
+
+        },[]
+    ) 
 
 
 
@@ -31,6 +47,9 @@ function Navbar() {
         Navigate('/')
     }
 
+    console.log(data)
+    console.log("data")
+   
 
 
     return (
@@ -60,12 +79,12 @@ function Navbar() {
                             <div className='pr-3 flex'>
                                 <div>
                                     <div className='propic'>
-                                        <img src={`./images/${decodedata.profilepicture}`} alt="" />
+                                        <img src={`./images/${data?.profilepicture}`} alt="" />
                                         
                                     </div>
                                 </div>
                                 <div onClick={() => { setPopup(!popup) }}>
-                                    <p className='text-white mt-5'>{decodedata.fname}</p>
+                                    <p className='text-white mt-5'>{data?.fname}</p>
                                 </div>
 
                             </div>
@@ -76,7 +95,7 @@ function Navbar() {
                     </div>
                 </div>
 
-                <div className="sm:hidden" id="mobile-menu">
+                {/* <div className="sm:hidden" id="mobile-menu">
                     <div className="space-y-1 px-2 pt-2 pb-3">
                         <a href="#" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
 
@@ -86,7 +105,7 @@ function Navbar() {
 
                         <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
                     </div>
-                </div>
+                </div> */}
             </nav>
 
 

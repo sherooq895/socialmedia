@@ -112,41 +112,21 @@ function Post() {
             }
             ).then((response) => {
                 setpost(response.data)
-                console.log(response.data);
-                console.log('responseaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaazzz',);
                 setslidecomment(response.data[0].comment)
-                // console.log('responseaaaaaaaaaaaaaacommmnntttttttttttttttt');
-
             })
 
 
         }, [like, alldata, commentresp])
 
-    console.log(slidecomment);
-    console.log('slidecommentXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-
+   
     const getallcomment = (data) => {
         console.log(data);
         console.log('data');
         setcomment({ postId: data, status: !comment.status })
-        // axios.post('http://localhost:4000/app/getallcomment', { data }).then((response) => {
-        //     console.log(response.data.comment.comment);
-        //     console.log('getcomment');
-        //     setallcomment(response.data.comment.comment)
-
-
-        // }
-        // )
-
-        // console.log(allcomment);
-        // console.log('allcommenttttttttttttttttttttttttttttttttt');
-
+      
     }
 
-    // console.log(allcomment);
-    // console.log('allcomment');
-    // console.log(post);
-    // console.log('postxxxxxxxxxxxxxxxxxxx');
+   
     const editdata = (data) => {
 
         console.log(data);
@@ -267,24 +247,24 @@ function Post() {
                                     <div className=''>
                                         <div>
 
-                                            <div className='mx-auto w-[64%]  bg-neutral-800 mt-2 h-10 flex mb-5 rounded-xl p-2'>
+                                            <div className='mx-auto w-[64%]  bg-white mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                                 {data.like.includes(userid) ?
                                                     <div className='text-3xl ml-9'>
                                                         <button onClick={() => { postdislike(data._id) }} className='text-red-600'><AiOutlineHeart /></button>
                                                     </div> :
                                                     <div className='text-3xl ml-9'>
-                                                        <button onClick={() => { postlike(data._id) }} className='text-yellow-600'><AiOutlineHeart /></button>
+                                                        <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                     </div>
 
                                                 }
 
 
                                                 <div className='text-3xl  ml-9'>
-                                                    <button onClick={() => { getallcomment(data._id) }} className='text-yellow-600' ><BsFillChatLeftQuoteFill /></button>
+                                                    <button onClick={() => { getallcomment(data._id) }} className='text-[#153f7c]' ><BsFillChatLeftQuoteFill /></button>
                                                 </div>
 
                                                 <div className='text-3xl  ml-9'>
-                                                    <button className='text-yellow-600'><FaShare /></button>
+                                                    <button className='text-[#153f7c]'><FaShare /></button>
                                                 </div>
 
                                             </div>
@@ -295,7 +275,7 @@ function Post() {
                                                     <div className='flex justify-center'>
 
 
-                                                        <div className='bg-neutral-800 w-[64%] '>
+                                                        <div className=' bg-[#ccc] w-[64%] '>
                                                             <div className=''>
                                                                 <div className='flex justify-center pt-4 w-full mx-auto'>
                                                                     <div className='mr-4  w-[80%]'>
@@ -305,7 +285,7 @@ function Post() {
                                                                             onChange={handlesubmit}
                                                                             className='appearance-none w-full border border-black text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
                                                                     </div>
-                                                                    <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-yellow-500'>
+                                                                    <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-[#153f7c]'>
                                                                         <div  ><BsFillArrowRightSquareFill /></div>
                                                                     </div>
 
@@ -316,7 +296,7 @@ function Post() {
                                                                             return (
 
                                                                                 <div className='flex justify-center'>
-                                                                                    < div className='w-[95%] bg-slate-700 rounded-md mt-2 ' >
+                                                                                    < div className='w-[95%] bg-white rounded-md mt-2 mb-3' >
 
                                                                                         <div className='flex ml-5 mt-2'>
 
@@ -324,10 +304,10 @@ function Post() {
                                                                                                 <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
                                                                                             </div>
                                                                                             <div className='flex items-center gap-5'>
-                                                                                                <div className='text-xl ml-1 text-white'>
+                                                                                                <div className='text-xl ml-1 text-[#153f7c]'>
                                                                                                     {dataa.userId.fname}
                                                                                                 </div>
-                                                                                                <div className='text-xs ml-1 text-white'>
+                                                                                                <div className='text-xs ml-1 text-[#153f7c]'>
                                                                                                     {dataa.date}
                                                                                                 </div>
 

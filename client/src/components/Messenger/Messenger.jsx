@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import Conversation from '../Conversations/Conversation'
 import Message from '../Message/Message'
-import ChatOnline from '../ChatOnline/ChatOnline'
 import "./Messenger.css"
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
@@ -122,13 +121,15 @@ function Messenger() {
         <div className='messenger flex justify-between bg-[#ccc]'>
             <div className='chatMenu bg-white h-96 m-4 rounded-xl'>
                 <div className="chatMenuWrapper">
-                    <input placeholder='Search for friends' type="text" className='chatMenuInput ' />
+                   <p className=' ml-16 text-3xl '>Chats</p>
+                   <hr className='w-[100%] h-.4 bg-slate-400 mt-4' />
                     {
                         conversations.map((c) => {
                             return (
                                 <div onClick={() => setCurrentChat(c)}>
 
                                     <Conversation conversation={c} currentUser={user} />
+                                    <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
                                 </div>
 
                             )
@@ -142,6 +143,7 @@ function Messenger() {
                     {
                         currentChat ?
                             <>
+
 
                                 <div className="chatBoxTop">
                                     {
@@ -173,13 +175,7 @@ function Messenger() {
 
                 </div>
             </div>
-            {/* <div className='chatOnline'>
-                <div className="chatOnlineWrapper">
-                    <ChatOnline onlineusers={onlineUsers} currentId={user._id} setCurrentChat={setCurrentChat} />
-
-
-                </div>
-            </div> */}
+          
         </div>
     )
 }

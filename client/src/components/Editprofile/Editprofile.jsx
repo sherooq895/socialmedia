@@ -9,16 +9,12 @@ function Editprofile() {
 
     const userid = localStorage.getItem('userid')
     const [register,setregister]=useState({
-        discription:''
+        discription:'',
+        profilepicture:''
     })
 
     const [update,setupdate]=useState()
-
     const fileupload = (event) => {
-        // setfile(URL.createObjectURL(event.target.files[0]))
-        console.log(event.target.files[0]);
-        console.log('event.target.files[0]');
-        console.log('sfsfsfsfsfsfsf');
         setregister({
             ...register,
             profilepicture: event.target.files[0]
@@ -28,12 +24,8 @@ function Editprofile() {
     useEffect(
         ()=>{
             axios.post('http://localhost:4000/app/userdata',{userid}).then((response)=>{
-                console.log(response.data);
-                console.log('response');
                 setregister(response.data.userdata)
-
             })
-          
         },[update]
 
     )
@@ -46,20 +38,18 @@ function Editprofile() {
             [name]: value
 
         })
-
-        console.log(register);
-        console.log('register');
-
     }
 
     const formsubmit=(e)=>{
         e.preventDefault()
+        const formdata = new FormData();
+        for (let key in register) {
+            formdata.append(key, register[key])
+        }
 
-        axios.post('http://localhost:4000/app/editprofile',{register},{
+        axios.post('http://localhost:4000/app/editprofile',formdata,{
             headers: { token: `Bearer ${token}` },
           }).then((response)=>{
-            console.log(response);
-            console.log('responsezzzz');
             setupdate(response)
 
             if(response.data.error){
@@ -67,11 +57,8 @@ function Editprofile() {
             }else{
                 alert('profile updated')
                 Navigate('/profile')
-
             }
-
         })
-
     }
    
 

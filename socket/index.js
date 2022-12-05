@@ -16,11 +16,12 @@ const addUser=(userId,socketId)=>{
 let removeUser=(socketId)=>{
     users=users.filter(user=>user.socketId !== socketId)
 
-}
+} 
 
-const getUser=(userId)=>{
+const getUser=(userId)=>{   
     return users.find(user=>user.userId===userId)
 }
+
 
 io.on("connection",(socket)=>{
     console.log('A user connected.');
@@ -29,6 +30,9 @@ io.on("connection",(socket)=>{
         console.log('socket');
         addUser(userId, socket.id);
         io.emit("getUsers",users)
+        console.log(users);
+        console.log('usersxxxx');
+
     })
 
     //SEND AND GET MESSAGE

@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 import './Signup.css'
 import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form'
 
 function Signup() {
 
     let Navigate = useNavigate()
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [file, setfile] = useState()
     const [popup, setpopup] = useState(false)
 
-    const [register, setregister] = useState({
+    const [registerData, setRegisterData] = useState({
         fname: '',
         lname: '',
         email: '',
@@ -38,21 +40,25 @@ function Signup() {
   
 
 
-    const handlesubmit = (e) => {
+    const handleChange = (e) => {
+        console.log('e.target.value');
+        console.log(e.target.value);
         e.preventDefault()
         const { name, value } = e.target
-        setregister({
-            ...register,
+        setRegisterData({
+            ...registerData,
             [name]: value
         })
+        console.log(registerData);
+        console.log('registerData');
 
 
     }
 
     const fileupload = (event) => {
         setfile(URL.createObjectURL(event.target.files[0]))
-        setregister({
-            ...register,
+        setRegisterData({
+            ...registerData,
             profilepicture: event.target.files[0]
         })
     }
@@ -60,11 +66,11 @@ function Signup() {
 
 
     const submit = (e) => {
-        e.preventDefault()
+     
 
         const formdata = new FormData();
-        for (let key in register) {
-            formdata.append(key, register[key])
+        for (let key in registerData) {
+            formdata.append(key, registerData[key])
         }
        
 
@@ -123,39 +129,27 @@ function Signup() {
                     <h1 className="text-3xl font-semibold text-center text-white">
                         Create your Account
                     </h1>
-                    <form className="mt-6 " onSubmit={submit} >
+                    <form className="mt-6 " onSubmit={handleSubmit(submit)} >
                         <div className='flex justify-center'>
                             <div className="mb-2">
                                 <label
-                                    for="email"
+                                    htmlFor="fname"
                                     className="block text-sm font-semibold text-white"
                                 >
                                     First Name
                                 </label>
-                                <input
-                                    type="text"
-                                    name='fname'
-                                    value={register.fname}
-                                    onChange={handlesubmit}
-
-                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                />
+                                <input type="text" {...register("fname", {required: true})} value={registerData?.fname}  onChange={handleChange} className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                {errors.fname && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your name</p>}
                             </div>
                             <div className="mb-2 ml-8">
-                                <label
-                                    for="lname"
-                                    className="block text-sm font-semibold text-white"
-                                >
+                                <label for="lname" className="block text-sm font-semibold text-white">
                                     Last Name
                                 </label>
-                                <input
-                                    type="text"
-                                    name='lname'
-                                    value={register.lname}
-                                    onChange={handlesubmit}
-
+                                <input type="text"  {...register("lname", {required: true, pattern: /^[a-zA-Z]+$/, maxLength: 100})} value={registerData.lname} onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
+                                {errors.lname && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your name</p>}
+
                             </div>
                         </div>
 
@@ -167,14 +161,8 @@ function Signup() {
                                 >
                                     Email
                                 </label>
-                                <input
-                                    type="email"
-                                    name='email'
-                                    value={register.email}
-                                    onChange={handlesubmit}
-
-                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                />
+                                <input  type="email" {...register("email", {required: true, pattern: /^\S+@\S+$/i})} value={registerData.email} onChange={handleChange}
+                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
                             </div>
                             <div className="mb-2 ml-8">
                                 <label
@@ -183,14 +171,10 @@ function Signup() {
                                 >
                                     Phone Number
                                 </label>
-                                <input
-                                    type="tel"
-                                    name='number'
-                                    value={register.number}
-                                    onChange={handlesubmit}
-
-                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                <input type="tel" {...register("number", {required: true, pattern:/^[0-9+-]+$/, minLength: 6, maxLength: 12})}   value={registerData.number} 
+                                    onChange={handleChange} className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
+                                {errors.number && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your number</p>}
                             </div>
                         </div>
                         <div className='flex justify-center'>
@@ -204,8 +188,8 @@ function Signup() {
                                 <input
                                     type="password"
                                     name='password'
-                                    value={register.password}
-                                    onChange={handlesubmit}
+                                    value={registerData.password}
+                                    onChange={handleChange}
 
                                     className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
@@ -220,8 +204,8 @@ function Signup() {
                                 <input
                                     type="password"
                                     name='cpassword'
-                                    value={register.cpassword}
-                                    onChange={handlesubmit}
+                                    value={registerData.cpassword}
+                                    onChange={handleChange}
 
                                     className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
@@ -284,7 +268,7 @@ function Signup() {
                                     <div>
                                         <div className="mt-6 flex justify-center">
                                             <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
-                                                Save
+                                                Submit
                                             </button>
                                         </div>
                                     </div>

@@ -27,8 +27,6 @@ function Centerbar() {
 
     const [allcomment, setallcomment] = useState()
     const [commentresp, setcommentresp] = useState('')
-    // console.log(comment);
-    console.log('aaaaaaa',commentresp);
 
 
     const handlesubmit = (e) => {
@@ -97,13 +95,11 @@ function Centerbar() {
             userId: user,
             postId: postId
         }
-        console.log(dataa);
-        console.log('aaaaaaaaaaaaaaaaaaa');
+
         axios.post('http://localhost:4000/app/addcomment', dataa,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
            
-            console.log('kjasdfhladsjflksdjflsdajfl',response);
             setcommentresp(Math.random())
 
         })
@@ -111,21 +107,18 @@ function Centerbar() {
     }
 
     const getallcomment = (data) => {
-        console.log(data);
-        console.log('data');
+       
         setcomment({ postId: data, status: !comment.status })
         axios.post('http://localhost:4000/app/getallcomment', { data },{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
-           
-           
+               
             setallcomment(response.data.comment.comment)
+            setcommentresp(Math.random())
 
 
         })
-        console.log(allcomment)
-        console.log('allcommenttttttttttttttttttttttttttttttttt');
-
+       
        
     }
     

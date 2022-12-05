@@ -28,7 +28,7 @@ function Userprofile() {
 
             })
 
-        }, []
+        }, [dataa]
     )
 
 
@@ -37,8 +37,6 @@ function Userprofile() {
         console.log('dataxxxxxxxxxxxxxxxxxxxxx');
         axios.post('http://localhost:4000/app/getfollowers', { data }).then((response) => {
 
-            console.log('sasssa');
-            console.log(response);
             setfollowers(response.data)
             setpopup(!popup)
         })

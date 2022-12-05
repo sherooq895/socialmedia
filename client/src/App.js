@@ -12,6 +12,7 @@ import Editprofile from './pages/user/editprofile'
 import Profile from './pages/user/profile'
 import { usercontext } from './context/context'
 import Messenger from './pages/user/messenger'
+import Userpost from './pages/user/userpost'
 import react, { useState } from 'react'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path='/editprofile' element={<Editprofile />} />
             <Route path='/userprofile' element={<Profile />} />
             <Route path='/userchat' element={<Messenger />} />
+            <Route path='/userpost' element={<Userpost />} />
 
           </Routes>
         </usercontext.Provider>

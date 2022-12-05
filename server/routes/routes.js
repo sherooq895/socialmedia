@@ -89,21 +89,26 @@ router.post('/followrequest',veryfyToken,controller.followrequest)
 
 router.post('/getuserdata',controller.getuserdata)
 
-router.post('/getuserdataa',controller.getuserdataa)
+router.post('/getuserdataa',veryfyToken,controller.getuserdataa)
 
-router.post('/unfollowrequest',controller.unfollowrequest)
+router.post('/unfollowrequest',veryfyToken,controller.unfollowrequest)
 
-router.post('/getloguser',controller.getloguser)
+router.post('/getloguser',veryfyToken,controller.getloguser)
 
-router.post('/followback',controller.followback)
+router.post('/followback',veryfyToken,controller.followback)
 
-router.post('/loguser',controller.loguser)
+router.post('/loguser',controller.loguser) 
 
 router.post('/verifyotp',controller.verifyotp)
 
 router.post('/getfollowers',controller.getfollowers)
 
 router.post('/getfollowing',controller.getfollowing)
+
+router.post('/getuserpicture',controller.getuserpicture)
+
+router.post('/getonlineuser',controller.getonlineuser)
+
 
   
 

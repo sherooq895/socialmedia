@@ -17,6 +17,7 @@ function Rightbar() {
     const [userprofile, setuserprofile] = useState([])
     const [userposts, setuserposts] = useState([])
     const [userlog, setuserlog] = useState()
+    const [userr, setuser] = useState('')
 
     useEffect(
         () => {
@@ -28,14 +29,16 @@ function Rightbar() {
                 setuserprofile(response.data)
             })
 
-            axios.post('http://localhost:4000/app/loguser', { logid }).then((response) => {
+            axios.post('http://localhost:4000/app/loguser', { logid },{
+                headers: { token: `Bearer ${token}` },
+            }).then((response) => {
                 console.log(response);
                 console.log('responseloggggggg');
                 setuserlog(response.data)
-
+               
             })
 
-        }, []
+        }, [userr]
     )
 
 
@@ -76,6 +79,7 @@ function Rightbar() {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('followed succesfully')
+            setuser(Math.random())
         })
 
     }
@@ -85,6 +89,7 @@ function Rightbar() {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
             alert('unfollow successfully')
+            setuser(Math.random())
 
         })
 
@@ -97,6 +102,7 @@ function Rightbar() {
 
             console.log(response);
             alert('followback successfully')
+            setuser(Math.random())
 
         })
 
