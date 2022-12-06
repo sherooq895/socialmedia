@@ -1,14 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Message.css'
 import {format} from 'timeago.js'
+import axios from 'axios'
 
 function Message({message,own}) {
+    const [data,setdata]=useState()
+
+    // useEffect(
+    //     ()=>{
+    //         console.log(message);
+    //         console.log('messageccccccccccccccccccccczzzzzzzzzzzzzzzzzzz');
+    //         const id=message.sender
+    //         axios.post('http://localhost:4000/app/senderdata',{id}).then((response)=>{
+    //             setdata(response.data)
+    //         })
+    //     },[]
+    // )
+    // console.log(data);
+    // console.log('data');
   
     return (
         <div className={own? "message own" : "message"}>
           
             <div className="messageTop">
-                <img className='messageImg' src="https://lovelace-media.imgix.net/getty/476391743.jpg" alt="vvv" />
+            {/* <img src={`./images/${data[0]?.profilepicture}`} className='messageImg'  alt="vvv" /> */}
                 <p className='messageText'>{message?.text}</p>
             </div>
 

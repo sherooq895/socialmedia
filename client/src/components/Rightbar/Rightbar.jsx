@@ -44,33 +44,12 @@ function Rightbar() {
 
     const getuserprofile = (data) => {
 
-
-
-
-        axios.post('http://localhost:4000/app/getuserprofile', { data }, {
-            headers: { token: `Bearer ${token}` },
-        }).then((response) => {
-
-            axios.post('http://localhost:4000/app/getuserprofileposts', { data }, {
-                headers: { token: `Bearer ${token}` },
-            }).then((resp) => {
-                setuserposts(resp.data)
-                Navigate('/userprofile', {
-                    state: {
-                        datas: response.data.datas,
-                        userposts: resp.data
-                    }
-                })
-            })
-
-
-
+        Navigate('/userprofile', {
+            state: {
+                datas:data,
+                // userposts: resp.data
+            }
         })
-
-
-
-
-
     }
 
     const followrequest = (data) => {

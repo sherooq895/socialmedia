@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 function Userallpost() {
+    const token = localStorage.getItem('token')
 
     const Location = useLocation()
     const [posts,setposts]=useState([])
@@ -9,14 +11,25 @@ function Userallpost() {
 
     useEffect(
         () => {
-            const posts = Location.state.userposts
+            const id = Location.state?.datas
+            console.log(id);
+            console.log('id');
+
+            axios.post('http://localhost:4000/app/getuserprofileposts',{id}, {
+                headers: { token: `Bearer ${token}` },
+            }).then((response) => {
+                console.log(response);
+                console.log('response');
+
+                // setuserprofile(response.data)
+                setposts(response.data)
+            })
             
-            setposts(posts)
 
         }, []
     )
-    console.log(posts);
-    console.log('posts');
+    // console.log(posts);
+    // console.log('posts');
 
     const getuserpic=(data)=>{
         console.log(data);
@@ -31,18 +44,19 @@ function Userallpost() {
 
     return (
         <div className='flex justify-center mt-4 '>
-            <div className='w-[80%] bg-white rounded-xl'>
+       
+            <div className='w-[80%] bg-white rounded-xl grid grid-cols-3 mx-auto p-4 gap-2 '>
                 {
-                    posts.map((data) => {
+                    posts?.map((data) => {
                         return (
-                            <div className='mt-6 flex justify-center' >
-                                <div className='grid grid-cols-3 gap-4'>
-                                    <img onClick={()=>getuserpic(data._id)} className='postpic hover:scale-110' src={`./images/${data.image}`} alt="jjjjjdfty" />
+                            <div className='' >
+                                <div className='h-[300px] '>
+                                    <img onClick={()=>getuserpic(data?._id)} className='postpic relative hover:scale-110 w-full' src={`./images/${data.image}`} alt="jjjjjdfty" />
                                 </div>
                             </div>
                         )
                     })
-                }
+                }               
             </div>
         </div>
     )

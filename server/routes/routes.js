@@ -109,6 +109,10 @@ router.post('/getuserpicture',controller.getuserpicture)
 
 router.post('/getonlineuser',controller.getonlineuser)
 
+router.post('/senderdata',controller.senderdata)
+
+router.post('/searchuser',controller.searchuser)
+
 
   
 

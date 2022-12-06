@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const signUpTemplate = require('../models/Signupmodels')
 const LoginTemplate = require('../models/Loginmodel')
-//  const { response, request } = require('express')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 const PostModelTemplate = require('../models/Postmodal')
@@ -31,11 +30,8 @@ const emailsend = async (data) => {
         text: "Hello world?",
         html: `YOUR OTP IS ${otp}`,
     });
-
     console.log("Message sent: %s", info.messageId);
-
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
 
     signUpTemplate.findByIdAndUpdate(data._id, {
         $set: {
@@ -55,12 +51,9 @@ const emailsend = async (data) => {
 
 
 module.exports = {
-
     signup: async (request, response) => {
         console.log("ghjjjj");
         try {
-
-
             const signedUpUser = new signUpTemplate({
                 fname: request.body.fname,
                 lname: request.body.lname,
@@ -71,11 +64,7 @@ module.exports = {
                 profilepicture: request.file.filename,
                 otpstatus: 'false',
                 otp: ''
-
-
             })
-
-
 
             const emailcheck = await signUpTemplate.findOne({ "email": request.body.email })
 
@@ -89,7 +78,6 @@ module.exports = {
 
                 signedUpUser.save().then((responsee) => {
                     emailsend(responsee).then((data) => {
-
                         response.status(200).json({ user: true, id: responsee._id })
                     })
                 })
@@ -114,10 +102,10 @@ module.exports = {
 
     login: async (request, response) => {
         try {
-          
+
             const user = await signUpTemplate.findOne({ email: request.body.email })
 
-            if (user.password == request.body.password&&user.otpstatus=='true') {
+            if (user.password == request.body.password && user.otpstatus == 'true') {
                 const resp = {
                     id: user._id,
                     email: user.email,
@@ -144,8 +132,8 @@ module.exports = {
         try {
 
             const post = new PostModelTemplate({
-                image: req.file.filename,
-                description: req.body.description,
+                image: req.file?.filename,
+                description: req.body?.description,
                 userId: req.query.useridd,
                 date: req.query.date
 
@@ -335,19 +323,19 @@ module.exports = {
             console.log('req.body.register');
             const useremail = await signUpTemplate.findOne({ 'email': req.body.email })
             if (useremail) {
-                res.json({error:true})
+                res.json({ error: true })
             } else {
 
                 signUpTemplate.findByIdAndUpdate(req.body._id, {
                     $set: {
-                        fname: req.body.fname,
-                        lname: req.body.lname,
-                        email: req.body.email,
-                        number: req.body.number,
-                        password: req.body.password,
-                        cpassword: req.body.cpassword,
-                        profilepicture: req.file.filename,
-                        discription: req.body.discription,
+                        fname: req.body?.fname,
+                        lname: req.body?.lname,
+                        email: req.body?.email,
+                        number: req.body?.number,
+                        password: req.body?.password,
+                        cpassword: req.body?.cpassword,
+                        profilepicture: req.file?.filename,
+                        discription: req.body?.discription,
 
                     }
                 }).then((response) => {
@@ -428,7 +416,7 @@ module.exports = {
     getuserprofileposts: async (req, res) => {
         try {
 
-            const posts = await PostModelTemplate.find({ userId: req.body.data })
+            const posts = await PostModelTemplate.find({ userId: req.body.id })
             if (posts) {
                 res.status(200).send(posts)
             } else {
@@ -493,9 +481,9 @@ module.exports = {
 
     },
     getuserdataa: async (req, res) => {
-       
-        const data = await signUpTemplate.findOne({ '_id': req.body.dataa })
-      
+
+        const data = await signUpTemplate.findOne({ '_id': req.body.userdata })
+
         res.json(data)
 
     },
@@ -598,54 +586,71 @@ module.exports = {
         console.log(req.body);
         console.log('dsdsdsdsd');
 
-        const data = await signUpTemplate.find({'_id':req.body.data})
+        const data = await signUpTemplate.find({ '_id': req.body.data })
         // res.status(200).json(data)
         console.log(data);
         console.log('data');
-      
+
         console.log('data');
         res.status(200).json(data)
 
     },
     getfollowing: async (req, res) => {
 
-        const data = await signUpTemplate.find({'_id':req.body.data})
-      
+        const data = await signUpTemplate.find({ '_id': req.body.data })
+
         res.status(200).json(data)
 
     },
-    getuserpicture:async(req,res)=>{
+    getuserpicture: async (req, res) => {
         console.log(req.body);
         console.log('req');
-       const data=await PostModelTemplate.findOne({_id:req.body.imgId.id})
-       .populate({
-        path: 'comment',
-        populate: {
-            path: 'userId'   
-        }
-    })
-    .populate('userId')
-    console.log(data);
-    console.log('datavvvvvvvvvvv');
-       res.json(data)
+        const data = await PostModelTemplate.findOne({ _id: req.body.imgId.id })
+            .populate({
+                path: 'comment',
+                populate: {
+                    path: 'userId'
+                }
+            })
+            .populate('userId')
+        console.log(data);
+        console.log('datavvvvvvvvvvv');
+        res.json(data)
 
     },
-    getonlineuser:async(req,res)=>{
+    getonlineuser: async (req, res) => {
         console.log(req.body);
         console.log('vvvvvvvvvvv');
-        const userdataa=await Promise.all( req.body.map((person)=>{
-           return (
+        const userdataa = await Promise.all(req.body.map((person) => {
+            return (
 
-               signUpTemplate.find({'_id':person.userId})
-           )
-            
-           
+                signUpTemplate.find({ '_id': person.userId })
+            )
+
+
         }))
-        console.log(userdataa);    
+        console.log(userdataa);
         console.log('userdataa');
         res.json(userdataa)
+    },
+    senderdata: async (req, res) => {
+        console.log(req.body);
+        console.log('ddddddd');
+        const data = await signUpTemplate.find({ '_id': req.body.id })
+        res.json(data)
+    },
+    searchuser: async (req, res) => {
+        try {
+            const data = await signUpTemplate.find({ fname: new RegExp(req.body.data, "i") })
+            if (data.length !== 0) {
+                res.json(data)
+            } else {
+                res.json({ error: 'no search result' })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
-
 }
 
 

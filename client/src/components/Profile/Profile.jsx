@@ -10,51 +10,33 @@ function Profile() {
     const Location = useLocation()
     const [dataa, setdataa] = useState()
     const [logdata, setlogdata] = useState()
+    const [refersh, setrefresh] = useState('')
     const userdata = localStorage.getItem('token')
     let userdatadecode = jwt_decode(userdata)
     let userdataaa = userdatadecode.id
 
-    console.log(userdatadecode.id);
-    console.log('userdatadecode');
-
 
     const token = localStorage.getItem('token')
 
-
     useEffect(
         () => {
-
             if (Location.state) {
                 const userdata = Location.state?.datas
-                const dataa = userdata?._id
-
-
-                axios.post('http://localhost:4000/app/getuserdataa', { dataa },{
+                axios.post('http://localhost:4000/app/getuserdataa', { userdata },{
                     headers: { token: `Bearer ${token}` },
                 }).then((response) => {
-
                     setdataa(response.data)
-
                 })
 
                 axios.post('http://localhost:4000/app/getloguser', { userdataaa },{
                     headers: { token: `Bearer ${token}` },
                 }).then((response) => {
-
                     setlogdata(response.data)
-
                 })
-
             } else {
                 Navigate('/home')
-
             }
-
-
-
-
-        }, []
-
+        }, [refersh]
     )
   
 
@@ -66,6 +48,7 @@ function Profile() {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('followed succesfully')
+            setrefresh(Math.random())
         })
 
     }
@@ -78,6 +61,7 @@ function Profile() {
         }).then((response) => {
             console.log('response');
             alert('unfollow successfully')
+            setrefresh(Math.random())
 
         })
 
@@ -91,6 +75,7 @@ function Profile() {
 
             console.log(response);
             alert('followback successfully')
+            setrefresh(Math.random())
 
         })
 
@@ -106,22 +91,14 @@ function Profile() {
             console.log(response);
             console.log('response');
             Navigate('/userchat')
-
-          
         })
-
-
     }
 
     return (
         <div >
 
             <div className='w-100% bg-white h-55 p-4'>
-
                 <div>
-                    {/* <div className='flex justify-center mr-80'>
-                <div className='text-yellow-300 text-4xl'>john__</div>
-            </div> */}
                     <div>
                         <div className='flex justify-end mr-80'>
 

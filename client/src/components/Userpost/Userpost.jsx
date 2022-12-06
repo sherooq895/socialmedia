@@ -6,6 +6,7 @@ import { BsFillChatLeftQuoteFill, BsFillArrowRightSquareFill } from "react-icons
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
 import axios from 'axios'
+import {format} from 'timeago.js'
 
 function Userpost() {
     const Location = useLocation()
@@ -105,7 +106,7 @@ function Userpost() {
                         </div>
                         <div>
                             <div className='text-[#153f7c] text-2xl mt-4 ml-3'>{post?.userId?.fname}</div>
-                            <div className='text-[#6e6f72]  ml-3'>{post?.date}</div>
+                            <div className='text-[#6e6f72]  ml-3'>{format(post?.date)}</div>
                         </div>
                     </div>
 
@@ -144,17 +145,20 @@ function Userpost() {
                 <div>
                     <div className='mx-auto w-[64%]  bg-white mt-2 h-10 flex mb-5 rounded-xl p-2'>
                         {post?.like?.includes(userid) ?
-                            <div className='text-3xl ml-9'>
+                            <div className='text-3xl ml-9 flex'>
+                                <div className='text-lg'>{post?.like?.length}</div>
                                 <button onClick={() => postdislike(post?._id)} className='text-red-600'><AiOutlineHeart /></button>
                             </div> :
-                            <div className='text-3xl ml-9'>
+                            <div className='text-3xl ml-9 flex'>
+                                <div className='text-lg'>{post?.like?.length}</div>
                                 <button onClick={() => postlike(post?._id)} className='text-[#153f7c]'><AiOutlineHeart /></button>
                             </div>
 
                         }
 
 
-                        <div className='text-3xl  ml-9'>
+                        <div className='text-3xl  ml-9 flex'>
+                        <div className='text-lg'>{post?.comment?.length}</div>
                             <button onClick={() => { getallcomment(post?._id) }} className='text-[#153f7c]' ><BsFillChatLeftQuoteFill /></button>
                         </div>
 

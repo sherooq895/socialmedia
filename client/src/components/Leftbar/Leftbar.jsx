@@ -21,7 +21,13 @@ function Sidebar() {
   }, [])
 
   useEffect(() => {
-    const onlineuser = onlineUsers
+
+    console.log(onlineUsers);
+    console.log('onlineUsers');
+
+
+
+    const onlineuser = onlineUsers.filter(person=>person.userId)
     axios.post('http://localhost:4000/app/getonlineuser', onlineuser).then((response) => {
       setuserdata(response.data)
     })
@@ -37,10 +43,13 @@ function Sidebar() {
       </div>
       <div className='scoller-left-bar  '>
         {
+          
 
           userdata?.map((data) => {
             return (
-
+              data[0]?._id==userid?
+              <div > 
+            </div>:
               <div className='flex mb-3'>
                 <div className='leftitem'>
                   <img src={`./images/${data[0]?.profilepicture}`} alt="profilepic" />

@@ -24,21 +24,21 @@ function Messenger() {
 
     useEffect(() => {
         socket.current = io("ws://localhost:8900");
-       
-            socket.current.on("getMessage",data=>{
-                setArrivalMessage({
-                    sender:data.senderId,
-                    text:data.text,
-                    createdAt:Date.now()
-                })
+
+        socket.current.on("getMessage", data => {
+            setArrivalMessage({
+                sender: data.senderId,
+                text: data.text,
+                createdAt: Date.now()
             })
+        })
     }, []);
 
-    useEffect(()=>{
-        arrivalMessage&&
-        currentChat?.members.includes(arrivalMessage.sender)&&
-        setmessages((prev)=>[...prev,arrivalMessage])
-    },[arrivalMessage,currentChat])
+    useEffect(() => {
+        arrivalMessage &&
+            currentChat?.members.includes(arrivalMessage.sender) &&
+            setmessages((prev) => [...prev, arrivalMessage])
+    }, [arrivalMessage, currentChat])
 
     useEffect(() => {
         axios.post('http://localhost:4000/app/loguser', { logid }).then((response) => {
@@ -58,11 +58,11 @@ function Messenger() {
 
 
     useEffect(() => {
-       
+
         socket.current?.emit("addUser", user._id);
         socket.current?.on("getUsers", (users) => {
             setOnlineUsers(users)
-        
+
         })
     }, [user, socket])
 
@@ -81,7 +81,7 @@ function Messenger() {
 
     }, [currentChat])
 
-  
+
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behaviour: "smooth" })
@@ -96,12 +96,12 @@ function Messenger() {
             conversationId: currentChat._id
         }
 
-        const receiverId=currentChat.members.find(member=>member !==user._id)
+        const receiverId = currentChat.members.find(member => member !== user._id)
 
-        socket.current.emit("sendMessage",{
-            senderId:user._id,
+        socket.current.emit("sendMessage", {
+            senderId: user._id,
             receiverId,
-            text:newMessage,
+            text: newMessage,
 
 
         })
@@ -116,13 +116,17 @@ function Messenger() {
     }
 
 
+    console.log(messages);
+    console.log('messagesvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+
+
 
     return (
         <div className='messenger flex justify-between bg-[#ccc]'>
             <div className='chatMenu bg-white h-96 m-4 rounded-xl'>
                 <div className="chatMenuWrapper">
-                   <p className=' ml-16 text-3xl '>Chats</p>
-                   <hr className='w-[100%] h-.4 bg-slate-400 mt-4' />
+                    <p className=' ml-16 text-3xl '>Chats</p>
+                    <hr className='w-[100%] h-.4 bg-slate-400 mt-4' />
                     {
                         conversations.map((c) => {
                             return (
@@ -131,14 +135,22 @@ function Messenger() {
                                     <Conversation conversation={c} currentUser={user} />
                                     <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
                                 </div>
-
                             )
                         })
                     }
-
                 </div>
             </div>
             <div className='chatBox bg-white m-4'>
+                {/* <div className='flex ml-6 mt-3'>
+                    <div >
+                         <img className='messageImg' src="https://lovelace-media.imgix.net/getty/476391743.jpg" alt="vvv" />
+                        
+                    </div>
+                    <div>
+                        sdsdsdsd
+                    </div>
+                </div>  
+                <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' /> */}
                 <div className="chatBoxWrapper">
                     {
                         currentChat ?
@@ -175,7 +187,7 @@ function Messenger() {
 
                 </div>
             </div>
-          
+
         </div>
     )
 }

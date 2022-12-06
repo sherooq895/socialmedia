@@ -17,6 +17,7 @@ function Userprofile() {
     const [dataa, setdata] = useState()
     const [followers, setfollowers] = useState([])
     const [following, setfollowing] = useState([])
+    const [commentresp,setcommentresp]=useState('')
     const data = decodedata.id
 
     useEffect(
@@ -24,11 +25,12 @@ function Userprofile() {
             axios.post('http://localhost:4000/app/getuserdata', { data }).then((response) => {
 
                 setdata(response.data)
+                setcommentresp(Math.random())
                
 
             })
 
-        }, [dataa]
+        }, []
     )
 
 

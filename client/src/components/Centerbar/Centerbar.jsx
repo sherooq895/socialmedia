@@ -5,6 +5,7 @@ import { BsFillChatLeftQuoteFill, BsFillArrowRightSquareFill } from "react-icons
 import { FaShare } from "react-icons/fa";
 import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
+import {format} from 'timeago.js'
 
 
 function Centerbar() {
@@ -137,7 +138,7 @@ function Centerbar() {
                                         </div>
                                         <div>
                                             <div className='mt-6 ml-2 text-xl text-[#153f7c]'>{data.userId.fname}</div>
-                                            <div className='mt-1 ml-2 text-sm text-[#6e6f72]'>{data.date}</div>
+                                            <div className='mt-1 ml-2 text-sm text-[#6e6f72]'>{format(data.date)}</div>
 
                                         </div>  
 
@@ -161,17 +162,20 @@ function Centerbar() {
 
                                         <div className='w-[80%]  mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                             {data.like.includes(userid) ?
-                                                <div className='text-3xl ml-9'>
+                                                <div className='text-3xl ml-9 flex'>
+                                                    <div className='text-lg mr-1'>{data.like.length}</div>
                                                     <button onClick={() => { postdislike(data._id) }} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
                                                 </div> :
-                                                <div className='text-3xl ml-9'>
+                                                <div className='text-3xl ml-9 flex'>
+                                                    <div className='text-lg mr-1'>{data.like.length}</div>
                                                     <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                 </div>
 
                                             }
 
 
-                                            <div className='text-3xl  ml-9'>
+                                            <div className='text-3xl  ml-9 flex'>
+                                                <div className='text-lg mr-1'>{data.comment.length}</div>
                                                 <button onClick={() => { getallcomment(data._id) }} className='text-[#153f7c]' ><BsFillChatLeftQuoteFill /></button>
                                             </div>
 
@@ -221,7 +225,7 @@ function Centerbar() {
                                                                                             {dataa.userId.fname}
                                                                                         </div>
                                                                                         <div className=' ml-1 text-sm mb-3 text-[#153f7c]'>
-                                                                                            {dataa.date}
+                                                                                           {format(dataa.date)}
                                                                                         </div>
 
                                                                                         </div>

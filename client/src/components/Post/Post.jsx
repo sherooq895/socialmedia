@@ -6,6 +6,7 @@ import { SlOptions } from "react-icons/sl";
 import { FaShare } from "react-icons/fa";
 import { Link, Navigate, useNavigate, useLocation, Form } from 'react-router-dom'
 import axios from 'axios'
+import {format} from 'timeago.js'
 
 
 function Post() {
@@ -104,7 +105,7 @@ function Post() {
     useEffect(
         () => {
             const image = {
-                image: Location.state.images
+                image: Location?.state?.images
             }
 
             axios.post('http://localhost:4000/app/singlepost', { image }, {
@@ -118,15 +119,14 @@ function Post() {
 
         }, [like, alldata, commentresp])
 
-   
+
     const getallcomment = (data) => {
-        console.log(data);
-        console.log('data');
+
         setcomment({ postId: data, status: !comment.status })
-      
+
     }
 
-   
+
     const editdata = (data) => {
 
         console.log(data);
@@ -134,13 +134,10 @@ function Post() {
         axios.post('http://localhost:4000/app/geteditpostdata', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
-            console.log(response);
-            console.log('response');
 
             setalldata(response.data)
             seteditpopup(!editpopup)
-            console.log(alldata);
-            console.log('alldata');
+
         })
 
     }
@@ -150,29 +147,20 @@ function Post() {
         axios.post('http://localhost:4000/app/editpost', { alldata }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
-            console.log('updatedd');
             alert('edit succesfully')
             seteditpopup(!editpopup)
-
-
-
-
+            setcommentresp(Math.random())
         })
-
-
     }
 
     const deletedata = (data) => {
-        console.log(data);
-        console.log('data');
         axios.post('http://localhost:4000/app/deletepost', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             console.log('updatedd');
             alert('post removed successfully')
-
+            setcommentresp(response)
         })
-
     }
 
 
@@ -201,7 +189,7 @@ function Post() {
                                             </div>
                                             <div>
                                                 <div className='text-[#153f7c] text-2xl mt-4 ml-3'>{data.userId.fname}</div>
-                                                <div className='text-[#6e6f72]  ml-3'>{data.date}</div>
+                                                <div className='text-[#6e6f72]  ml-3'>{format(data?.date)}</div>
                                             </div>
                                         </div>
 
@@ -249,17 +237,21 @@ function Post() {
 
                                             <div className='mx-auto w-[64%]  bg-white mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                                 {data.like.includes(userid) ?
-                                                    <div className='text-3xl ml-9'>
+                                                    <div className='text-3xl ml-9 flex'>
+                                                        <div className='text-lg mr-1'>{data?.like?.length}</div>
                                                         <button onClick={() => { postdislike(data._id) }} className='text-red-600'><AiOutlineHeart /></button>
+
                                                     </div> :
                                                     <div className='text-3xl ml-9'>
+                                                        <div className='text-lg mr-1'>{data?.like?.length}</div>
                                                         <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                     </div>
 
                                                 }
 
 
-                                                <div className='text-3xl  ml-9'>
+                                                <div className='text-3xl  ml-9 flex'>
+                                                    <div className='text-lg mr-1'>{data?.comment?.length}</div>
                                                     <button onClick={() => { getallcomment(data._id) }} className='text-[#153f7c]' ><BsFillChatLeftQuoteFill /></button>
                                                 </div>
 

@@ -107,10 +107,13 @@ function Signup() {
             if(response.data.error){
                 alert(response.data.error)
                 Navigate('/signup')
+                setpopup(!popup)
 
             }else{
                 alert('Email Verification Successfully')
                 Navigate('/')
+                setpopup(!popup)
+
                 
 
             }
