@@ -13,6 +13,9 @@ import Profile from './pages/user/profile'
 import { usercontext } from './context/context'
 import Messenger from './pages/user/messenger'
 import Userpost from './pages/user/userpost'
+import Reportpost from './pages/admin/Reportpost'
+import Reportuser from './pages/admin/Areportuser'
+import Error from './pages/user/error'
 import react, { useState } from 'react'
 
 function App() {
@@ -34,19 +37,18 @@ function App() {
             <Route path='/userprofile' element={<Profile />} />
             <Route path='/userchat' element={<Messenger />} />
             <Route path='/userpost' element={<Userpost />} />
+            <Route path='/error' element={<Error />} />
 
           </Routes>
         </usercontext.Provider>
 
         <Routes>
-          <Route exact path='/admin' element={<Adminlogin />} />
-          <Route path='/admin/dashboard' element={<Admindashboard />} />
-
-
-
+          <Route exact path='/adminlogin' element={<Adminlogin />} />
+          <Route path='/admin' element={<Admindashboard />} >
+               <Route path='/admin/reportpost' element={<Reportpost/>} />
+               <Route path='/admin/reportuser' element={<Reportuser/>} />
+          </Route>
         </Routes>
-
-
       </BrowserRouter>
 
 

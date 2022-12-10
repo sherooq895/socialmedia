@@ -33,7 +33,9 @@ function Userpost() {
             const imgId = {
                 id: Location.state.postId
             }
-            axios.post('http://localhost:4000/app/getuserpicture', { imgId }).then((response) => {
+            axios.post('http://localhost:4000/app/getuserpicture', { imgId }, {
+                headers: { token: `Bearer ${token}` },
+            }).then((response) => {
                 setpost(response.data)
                 setslidecomment(response.data.comment)
             })
@@ -92,6 +94,27 @@ function Userpost() {
         })
     }
 
+    const reportpost=(dataa)=>{
+        const data={
+            postId:dataa,
+            userId:userid
+        }
+        axios.post('http://localhost:4000/app/reportpost',data, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            console.log(response);
+            console.log('response');
+            if(response.data.report){
+                alert('Post Reported')
+                setpopup(!popup)
+            }else{
+                console.log('dsds');
+            }
+           
+
+        })
+    }
+
     return (
         <div className=' m-auto w-[60%] bg-white rounded-xl'>
 
@@ -127,9 +150,7 @@ function Userpost() {
                     {popup ?
                         <div className='p-8 mt-5 bg-neutral-300 w-[7%] absolute right-[18rem]  flex justify-end  '>
                             <ul>
-
-                                <li><button >Edit</button></li>
-                                <br />
+                                <li><button onClick={()=>reportpost(post._id)} >Report</button></li>
                             </ul>
                         </div> : null
                     }

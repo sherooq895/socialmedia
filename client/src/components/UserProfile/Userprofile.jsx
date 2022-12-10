@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 
 function Userprofile() {
+    const token = localStorage.getItem('token')
 
     const Navigate=useNavigate()
     const [popup, setpopup] = useState(false)
@@ -19,6 +20,9 @@ function Userprofile() {
     const [following, setfollowing] = useState([])
     const [commentresp,setcommentresp]=useState('')
     const data = decodedata.id
+
+    console.log(token);
+    console.log('token');
 
     useEffect(
         () => {
@@ -35,9 +39,12 @@ function Userprofile() {
 
 
     const getfollowers = async (data) => {
+        console.log('dataxxxxxxxxxxxxxxxxxxxxx');
         console.log(data);
         console.log('dataxxxxxxxxxxxxxxxxxxxxx');
-        axios.post('http://localhost:4000/app/getfollowers', { data }).then((response) => {
+        axios.post('http://localhost:4000/app/getfollowers', { data }, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
 
             setfollowers(response.data)
             setpopup(!popup)
@@ -49,7 +56,9 @@ function Userprofile() {
 
 
     const getfollowing = async (data) => {
-        axios.post('http://localhost:4000/app/getfollowing', { data }).then((response) => {
+        axios.post('http://localhost:4000/app/getfollowing', { data}, {
+            headers: { token: `Bearer ${token}` },
+        } ).then((response) => {
             setfollowing(response.data)
             setfollowingpopup(!followingpopup)
         })

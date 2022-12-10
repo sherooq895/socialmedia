@@ -7,6 +7,7 @@ import axios from 'axios'
 // import { usercontext } from '../context/context'
 
 function Navbar() {
+    const token = localStorage.getItem('token')
 
     let Navigate = useNavigate()
 
@@ -29,7 +30,9 @@ function Navbar() {
             [name]: value
         })
         const data = searchvalue.search
-        axios.post('http://localhost:4000/app/searchuser', { data }).then((response) => {
+        axios.post('http://localhost:4000/app/searchuser', { data },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             console.log(response);
             console.log('response');
             setsearchdata(response.data)
@@ -48,7 +51,7 @@ function Navbar() {
     localStorage.setItem('username', decodedata.fname)
     localStorage.setItem('profilepicture', decodedata.profilepicture)
     const logid = localStorage.getItem('userid')
-    const token = localStorage.getItem('token')
+   
 
 
 
@@ -103,7 +106,7 @@ function Navbar() {
                         </div>
                         <div className="  absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div className='mr-3 '>
-                                <form className='rounded-xl' onClick={() => setsearchPopup(!searchpopup)}>
+                                <form className='rounded-xl' onClick={() => setsearchPopup(!searchpopup)} autocomplete="off">
                                     <input
                                         placeholder="Search for..."
                                         name='search'

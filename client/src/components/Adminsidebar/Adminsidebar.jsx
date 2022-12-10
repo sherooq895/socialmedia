@@ -1,18 +1,38 @@
 import React from 'react'
 import './Adminsidebar.css'
+import {Link, Navigate, useNavigate } from "react-router-dom";
 
 function Adminsidebar() {
-  return (
-   <>
-   <div className='w-[20%] bg-neutral-800 h-screen pl-10 pt-11'>
+  let Navigate = useNavigate()
 
-    <div className='text-white mb-8 text-2xl hover:bg-yellow-500'>Dashboard</div>
-    <div className='text-white mb-8 text-2xl  hover:bg-yellow-500'>Users</div>
-    <div className='text-white mb-8 text-2xl  hover:bg-yellow-500'>Posts</div>
-   
-   
-   </div>
-   </>
+  const data = [{
+    title: 'Report post',
+    to:'/admin/reportpost'
+  }, {
+    title: 'report user',
+    to:'/admin/reportuser'
+  }]
+  return (
+    <>
+      <div className='w-[20%] bg-[#153f7c] h-screen pl-10 pt-16'>
+        <div className=' flex-col'>
+
+        </div>
+
+        {
+          data.map((dataa) => {
+            return (
+             <Link to={dataa?.to}> <div className='text-white mb-8 text-xl hover:bg-yellow-500'>{dataa?.title}</div></Link>
+            )
+
+          })
+        }
+
+
+
+
+      </div>
+    </>
   )
 }
 

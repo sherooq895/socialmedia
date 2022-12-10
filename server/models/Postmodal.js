@@ -38,10 +38,13 @@ const userPostTemplate = new mongoose.Schema({
             type: Date
         }
 
-    }]
-
-
-
+    }],
+    report:[
+       { type:String}
+    ],
+    block:{
+        type:Boolean
+    }
 })
 
 

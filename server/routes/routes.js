@@ -50,6 +50,7 @@ function veryfyToken(req, res, next) {
 
 router.get('/isauth', veryfyToken, controller.isauth)
 router.post('/signup', upload.single('profilepicture'), controller.signup)
+router.post('/resendotp', upload.single('profilepicture'), controller.resendotp)
      
 router.post('/login', controller.login)
 
@@ -65,19 +66,19 @@ router.post('/postlike', veryfyToken, controller.postlike)
 
 router.post('/postdislike', veryfyToken, controller.postdislike)
 
-router.post('/addcomment',  controller.addcomment)
+router.post('/addcomment', veryfyToken,controller.addcomment)
 
-router.post('/getallcomment',  controller.getallcomment)
+router.post('/getallcomment', veryfyToken,controller.getallcomment)
 
 router.post('/userdata', controller.userdata)
 
 router.post('/editprofile',upload.single('profilepicture'), controller.editprofile)
 
-router.post('/geteditpostdata',  controller.geteditpostdata)
+router.post('/geteditpostdata', veryfyToken, controller.geteditpostdata)
 
-router.post('/editpost' ,controller.editpost)
+router.post('/editpost', veryfyToken,controller.editpost)
 
-router.post('/deletepost',  controller.deletepost)
+router.post('/deletepost', veryfyToken,  controller.deletepost)
 
 router.get('/getusers', veryfyToken, controller.getusers)
 
@@ -97,21 +98,31 @@ router.post('/getloguser',veryfyToken,controller.getloguser)
 
 router.post('/followback',veryfyToken,controller.followback)
 
-router.post('/loguser',controller.loguser) 
+router.post('/loguser',veryfyToken,controller.loguser) 
 
 router.post('/verifyotp',controller.verifyotp)
 
-router.post('/getfollowers',controller.getfollowers)
+router.post('/getfollowers',veryfyToken,controller.getfollowers)
+      
+router.post('/getfollowing',veryfyToken,controller.getfollowing)
 
-router.post('/getfollowing',controller.getfollowing)
+router.post('/getuserpicture',veryfyToken,controller.getuserpicture)    
 
-router.post('/getuserpicture',controller.getuserpicture)
-
-router.post('/getonlineuser',controller.getonlineuser)
-
+router.post('/getonlineuser',veryfyToken,controller.getonlineuser)
+  
 router.post('/senderdata',controller.senderdata)
 
-router.post('/searchuser',controller.searchuser)
+router.post('/searchuser',veryfyToken,controller.searchuser)
+
+router.post('/reportpost',veryfyToken,controller.reportpost)
+
+
+   
+router.post('/reportuser',veryfyToken,controller.reportuser)
+
+
+
+
 
 
   

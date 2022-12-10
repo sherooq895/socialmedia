@@ -45,7 +45,16 @@ const signUpTemplate= new mongoose.Schema({
     },
     otp:{
         type:String
+    },
+    report:[
+        {
+            type:String
+        }
+    ],
+    blocked:{
+        type:Boolean
     }
+    
 
 
 })

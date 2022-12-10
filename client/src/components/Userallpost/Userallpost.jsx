@@ -47,15 +47,16 @@ function Userallpost() {
        
             <div className='w-[80%] bg-white rounded-xl grid grid-cols-3 mx-auto p-4 gap-2 '>
                 {
-                    posts?.map((data) => {
-                        return (
+                    posts?.map((data) => 
+                        (
+                            data?.block== false?
                             <div className='' >
                                 <div className='h-[300px] '>
                                     <img onClick={()=>getuserpic(data?._id)} className='postpic relative hover:scale-110 w-full' src={`./images/${data.image}`} alt="jjjjjdfty" />
                                 </div>
-                            </div>
+                            </div>:''
                         )
-                    })
+                    )
                 }               
             </div>
         </div>

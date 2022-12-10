@@ -94,7 +94,7 @@ function Login() {
                         Sign in
                     </h1>
                     <div></div>
-                    <form className="mt-6" on onSubmit={formsubmit}>
+                    <form className="mt-6"  onSubmit={formsubmit}>
                         <div className="mb-2">
                             <label
                                 for="email"

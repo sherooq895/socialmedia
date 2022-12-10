@@ -30,7 +30,7 @@ function Allpost() {
 
       })
 
-  }, [posts])
+  }, [])
 
   const singlepost = (datas) => {
     const image = datas

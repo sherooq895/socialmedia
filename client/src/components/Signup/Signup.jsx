@@ -3,14 +3,17 @@ import './Signup.css'
 import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form'
+import Countdown from 'react-countdown'
 
 function Signup() {
+
 
     let Navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [file, setfile] = useState()
     const [popup, setpopup] = useState(false)
+    const [resendres, setresendres] = useState()
 
     const [registerData, setRegisterData] = useState({
         fname: '',
@@ -23,21 +26,21 @@ function Signup() {
 
     })
 
-    const [otp,setotp]=useState({
-        otp:'',
-        id:''
+    const [otp, setotp] = useState({
+        otp: '',
+        id: ''
     })
 
-     const otphandlechange=(e)=>{
+    const otphandlechange = (e) => {
         e.preventDefault()
-        const{name,value}=e.target
+        const { name, value } = e.target
         setotp({
             ...otp,
-            [name]:value
+            [name]: value
         })
     }
 
-  
+
 
 
     const handleChange = (e) => {
@@ -66,21 +69,25 @@ function Signup() {
 
 
     const submit = (e) => {
-     
+
 
         const formdata = new FormData();
         for (let key in registerData) {
             formdata.append(key, registerData[key])
         }
-       
+
 
         axios.post("http://localhost:4000/app/signup", formdata).then((response) => {
-          
+
             if (response.data.user) {
-                setotp({id:response.data.id})
+                console.log(response.data, "nbhbghvbgvb");
+                console.log(response.data);
+                setresendres(response.data.response)
+                console.log('resppppppppppppppppppppppppppoooooooooooonse');
+                setotp({ id: response.data.id })
                 setpopup(!popup)
-              
-               
+
+
             } else if (response.data.emailerror) {
                 Navigate('/signup')
                 alert(response.data.emailerror)
@@ -94,32 +101,39 @@ function Signup() {
 
     }
 
-    const verifyotp=(e)=>{
+    const verifyotp = (e) => {
         e.preventDefault()
-        const otpp={
-           otpp: otp.otp,
-           id:otp.id
+        const otpp = {
+            otpp: otp.otp,
+            id: otp.id
 
         }
-        axios.post('http://localhost:4000/app/verifyotp',{otpp}).then((response)=>{
-            
+        axios.post('http://localhost:4000/app/verifyotp', { otpp }).then((response) => {
+
             setpopup(!popup)
-            if(response.data.error){
+            if (response.data.error) {
                 alert(response.data.error)
                 Navigate('/signup')
                 setpopup(!popup)
 
-            }else{
+            } else {
                 alert('Email Verification Successfully')
                 Navigate('/')
                 setpopup(!popup)
 
-                
+
 
             }
         })
 
-        
+    }
+
+    const resendotp = (e) => {
+        e.preventDefault()
+        const responsee = resendres
+        axios.post('http://localhost:4000/app/resendotp', responsee).then((response) => {
+            alert('resend OTP successfully')
+        })
     }
 
 
@@ -141,14 +155,16 @@ function Signup() {
                                 >
                                     First Name
                                 </label>
-                                <input type="text" {...register("fname", {required: true})} value={registerData?.fname}  onChange={handleChange} className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                <input type="text" {...register("fname", { required: true })} value={registerData?.fname} onChange={handleChange} className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" />
                                 {errors.fname && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your name</p>}
                             </div>
                             <div className="mb-2 ml-8">
                                 <label for="lname" className="block text-sm font-semibold text-white">
                                     Last Name
                                 </label>
-                                <input type="text"  {...register("lname", {required: true, pattern: /^[a-zA-Z]+$/, maxLength: 100})} value={registerData.lname} onChange={handleChange}
+
+
+                                <input type="text"  {...register("lname", { required: true, pattern: /^[a-zA-Z]+$/, maxLength: 100 })} value={registerData.lname} onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 {errors.lname && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your name</p>}
@@ -164,8 +180,8 @@ function Signup() {
                                 >
                                     Email
                                 </label>
-                                <input  type="email" {...register("email", {required: true, pattern: /^\S+@\S+$/i})} value={registerData.email} onChange={handleChange}
-                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                <input type="email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} value={registerData.email} onChange={handleChange}
+                                    className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" />
                             </div>
                             <div className="mb-2 ml-8">
                                 <label
@@ -174,7 +190,7 @@ function Signup() {
                                 >
                                     Phone Number
                                 </label>
-                                <input type="tel" {...register("number", {required: true, pattern:/^[0-9+-]+$/, minLength: 6, maxLength: 12})}   value={registerData.number} 
+                                <input type="tel" {...register("number", { required: true, pattern: /^[0-9+-]+$/, minLength: 6, maxLength: 12 })} value={registerData.number}
                                     onChange={handleChange} className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
                                 {errors.number && <p className='text-red-500 font-[8px] mb-3 pl-3'>Please check your number</p>}
@@ -236,7 +252,7 @@ function Signup() {
                             </button>
                         </div>
                     </form>
-                   
+
 
 
                 </div>
@@ -251,7 +267,7 @@ function Signup() {
                                 <div className='flex justify-center'>
                                     <div className='text-black text-2xl'>OTP VERIFICATION</div>
                                 </div>
-                                <form  onSubmit={verifyotp}>
+                                <form onSubmit={verifyotp}>
                                     <div className="mb-2">
                                         <label
                                             for="description"
@@ -268,6 +284,7 @@ function Signup() {
                                             className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         />
                                     </div>
+
                                     <div>
                                         <div className="mt-6 flex justify-center">
                                             <button className=" px-4 py-2 tracking-wide text-white transition-colors duration-200 transform  bg-neutral-800 rounded-md hover:bg-black image.png focus:outline-none">
@@ -278,9 +295,15 @@ function Signup() {
 
 
                                 </form>
+                                <div>
+                                    <Countdown date={Date.now() + 60000}>
+                                        <button onClick={(e) => resendotp(e)} className=" mt-2 px-4 py-1  text-black transition-colors duration-200 transform  image.png focus:outline-none">
+                                            Resend OTP
+                                        </button>
+                                    </Countdown>
 
 
-
+                                </div>
                             </div>
 
                         </div>

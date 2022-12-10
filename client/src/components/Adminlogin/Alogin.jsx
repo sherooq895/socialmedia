@@ -2,8 +2,58 @@
 
 import React, { useState } from 'react'
 import './Alogin.css'
+import axios from 'axios'
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Alogin() {
+    let Navigate = useNavigate()
+    const [register, setregister] = useState({
+        email: '',
+        password: ''
+    })
+    const handlesubmit = (e) => {
+        e.preventDefault()
+        const { name, value } = e.target
+        setregister({
+            ...register,
+            [name]: value
+
+        })
+        console.log(register)
+        console.log('register')
+    }
+
+
+
+    const formsubmit = (e) => {
+        e.preventDefault()
+
+        const form = {
+            email: register.email,
+            password: register.password
+        }
+        try {
+            axios.post("http://localhost:4000/admin/login", form).then(response => {
+            console.log(response);
+            console.log('response');
+            if(response.data.admin){
+                localStorage.setItem('Atoken',response.data.token)
+                const atoken=localStorage.getItem('Atoken')
+
+                console.log(atoken);
+                console.log('atoken');
+                Navigate('/admin')
+            }else{
+                alert(response.data.error)
+                Navigate('/adminlogin')
+            }})
+        } catch (error) {
+          console.log(error.message);  
+        }
+        
+
+
+    }
 
     return (
         <div className="pic min-h-screen pt-8">
@@ -15,7 +65,7 @@ function Alogin() {
                        Admin Login
                     </h1>
                     <div></div>
-                    <form className="mt-6" >
+                    <form onSubmit={formsubmit} className="mt-6" >
                         <div className="mb-2">
                             <label
                                 for="email"
@@ -26,8 +76,8 @@ function Alogin() {
                             <input
                                 type="email"
                                 name='email'
-                                // value={register.email}
-                                // onChange={handlesubmit}
+                                value={register.email}
+                                onChange={handlesubmit}
 
                                 className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             />
@@ -42,8 +92,8 @@ function Alogin() {
                             </label>
                             <input
                                 name='password'
-                                // value={register.password}
-                                // onChange={handlesubmit}
+                                value={register.password}
+                                onChange={handlesubmit}
 
                                 type="password"
                                 className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -56,17 +106,6 @@ function Alogin() {
                             </button>
                         </div>
                     </form>
-
-                    {/* <p className="mt-8 text-m font-light text-center  text-white ">
-        
-            Don't have an account?
-            <a
-                href="/signup"
-                className="font-medium text-red-600 hover:underline"
-            >
-                Sign up
-            </a>
-        </p> */}
                 </div>
             </div>
         </div>

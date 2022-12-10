@@ -9,6 +9,7 @@ import { io } from "socket.io-client"
 function Messenger() {
     const userr = localStorage.getItem('token')
     const userdata = jwt_decode(userr)
+     const token = localStorage.getItem('token')
 
     const logid = userdata.id
 
@@ -40,8 +41,10 @@ function Messenger() {
             setmessages((prev) => [...prev, arrivalMessage])
     }, [arrivalMessage, currentChat])
 
-    useEffect(() => {
-        axios.post('http://localhost:4000/app/loguser', { logid }).then((response) => {
+    useEffect(() => { 
+        axios.post('http://localhost:4000/app/loguser', { logid },{
+            headers: { token: `Bearer ${token}` },
+          }).then((response) => {
             setuser(response.data)
         })
 
@@ -58,11 +61,9 @@ function Messenger() {
 
 
     useEffect(() => {
-
         socket.current?.emit("addUser", user._id);
         socket.current?.on("getUsers", (users) => {
             setOnlineUsers(users)
-
         })
     }, [user, socket])
 
@@ -71,14 +72,11 @@ function Messenger() {
             try {
                 const res = await axios.get("http://localhost:4000/message/" + currentChat?._id)
                 setmessages(res.data)
-
             } catch (err) {
                 console.log(err);
             }
         }
-
         getMessages()
-
     }, [currentChat])
 
 
@@ -95,7 +93,6 @@ function Messenger() {
             text: newMessage,
             conversationId: currentChat._id
         }
-
         const receiverId = currentChat.members.find(member => member !== user._id)
 
         socket.current.emit("sendMessage", {
@@ -114,12 +111,6 @@ function Messenger() {
         }
 
     }
-
-
-    console.log(messages);
-    console.log('messagesvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-
-
 
     return (
         <div className='messenger flex justify-between bg-[#ccc]'>

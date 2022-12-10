@@ -20,10 +20,16 @@ router.post('/', async (req, res) => {
 
 router.get("/:userId", async (req, res) => {
     console.log('kittii...kittiii');
+    console.log(req.params.userId);
+    console.log('reqnnnnnnnnnnnnn');
     try {
         const conversation = await conversationSchema.find({
             members: { $in: [req.params.userId] }
         })
+
+
+        console.log(conversation);
+        console.log('conversationvvvvvvvvvvvvvvvvvvvvvvvvv');
         res.status(200).json(conversation)
     } catch (err) {
         res.status(500).json(err)

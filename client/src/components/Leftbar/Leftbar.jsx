@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 function Sidebar() {
+  const token = localStorage.getItem('token')
   const user = localStorage.getItem('token')
   const userid = localStorage.getItem('userid')
 
@@ -22,13 +23,10 @@ function Sidebar() {
 
   useEffect(() => {
 
-    console.log(onlineUsers);
-    console.log('onlineUsers');
-
-
-
     const onlineuser = onlineUsers.filter(person=>person.userId)
-    axios.post('http://localhost:4000/app/getonlineuser', onlineuser).then((response) => {
+    axios.post('http://localhost:4000/app/getonlineuser', onlineuser, {
+      headers: { token: `Bearer ${token}` },
+  } ).then((response) => {
       setuserdata(response.data)
     })
   }, [onlineUsers])
