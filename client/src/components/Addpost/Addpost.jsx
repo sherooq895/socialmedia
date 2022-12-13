@@ -164,7 +164,7 @@ function Addpost() {
                                         file.file ?
                                             <img
                                                 style={{
-                                                    width: "100%",
+                                                    width: "250px",
                                                     height: "250px",
                                                     border: 0,
                                                     outline: 0,

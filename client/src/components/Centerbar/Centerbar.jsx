@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Centerbar.css'
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillChatLeftQuoteFill, BsFillArrowRightSquareFill } from "react-icons/bs";
@@ -6,11 +6,17 @@ import { FaShare } from "react-icons/fa";
 import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 import {format} from 'timeago.js'
+import { io } from "socket.io-client"
 
 
 function Centerbar() {
-    let Navigate = useNavigate()
 
+   
+
+
+    let Navigate = useNavigate()
+    const socket = useRef();
+ 
     const token=localStorage.getItem('token')
     const [allpost, getallpost] = useState([])
     const [like, setlike] = useState()
@@ -41,11 +47,33 @@ function Centerbar() {
 
     }
 
+    console.log(allpost);
+    console.log('allpostvvvvvvvvvvvvvvvvvvvvvvv');
+   
+    //    const notification =(dataa)=>{
+    //     console.log(dataa);
+    //     console.log('datavvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    //     console.log(userid);
+    //     console.log('useridvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    //        const datax=dataa
+    //         socket.current.emit("sendnotification", {
+    //             senderId: userid,
+    //             receiverId:datax,
+            
+    //         })
+
+    //     }
+
+    console.log(allpost);
+    console.log('allpostccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+   
+
     
 
 
     useEffect(
         () => {
+            socket.current = io("ws://localhost:8900");
             axios.get('http://localhost:4000/app/getallpost',{
                 headers: { token: `Bearer ${token}` },
               }).then((response) => {
@@ -55,17 +83,16 @@ function Centerbar() {
                 } else {
                     getallpost(response.data)
                 }
-               
             })
-           
-        }
-        , [like, commentresp, allcomment])
+        } , [like, commentresp, allcomment])
 
 
-    const postlike = (data) => {
+    const postlike = (data,postuserr) => {
         const imageid = {
             postid: data,
-            useridd: userid
+            useridd: userid,
+            postuser:postuserr,
+            type:'1'
         }
 
         axios.post("http://localhost:4000/app/postlike", imageid,{
@@ -73,6 +100,14 @@ function Centerbar() {
           }).then((response) => {
             setlike(response)
         })
+
+        axios.post("http://localhost:4000/app/sendnotification",imageid, {
+            headers: { token: `Bearer ${token}` },
+          }).then((response)=>{
+            console.log(response);
+
+          })
+        
     }
 
     const postdislike = (data) => {
@@ -90,11 +125,13 @@ function Centerbar() {
 
 
 
-    const commentsubmit = (user, postId) => {
+    const commentsubmit = (user, postId,postuserr) => {
         const dataa = {
             comment: register.comment,
             userId: user,
-            postId: postId
+            postId: postId,
+            postuser:postuserr,
+            type:'2'
         }
 
         axios.post('http://localhost:4000/app/addcomment', dataa,{
@@ -105,6 +142,13 @@ function Centerbar() {
 
         })
 
+        axios.post("http://localhost:4000/app/sendnotification",dataa, {
+            headers: { token: `Bearer ${token}` },
+          }).then((response)=>{
+            console.log(response);
+
+          })
+
     }
 
     const getallcomment = (data) => {
@@ -113,14 +157,9 @@ function Centerbar() {
         axios.post('http://localhost:4000/app/getallcomment', { data },{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
-               
             setallcomment(response.data.comment.comment)
             setcommentresp(Math.random())
-
-
         })
-       
-       
     }
     
 
@@ -130,6 +169,8 @@ function Centerbar() {
                 {
                     allpost?.map((data) => {
                         return (
+                          
+
                             <div className='p-4 bg-white m-3 h-fit rounded-xl'>
                                 < div >
                                     <div className='flex mb-3'>
@@ -164,11 +205,11 @@ function Centerbar() {
                                             {data.like.includes(userid) ?
                                                 <div className='text-3xl ml-9 flex'>
                                                     <div className='text-lg mr-1'>{data.like.length}</div>
-                                                    <button onClick={() => { postdislike(data._id) }} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
+                                                    <button onClick={() => { postdislike(data._id,data.userId._id) }} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
                                                 </div> :
                                                 <div className='text-3xl ml-9 flex'>
                                                     <div className='text-lg mr-1'>{data.like.length}</div>
-                                                    <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
+                                                    <button onClick={() => { postlike(data._id,data.userId._id)} } className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                 </div>
 
                                             }
@@ -202,7 +243,7 @@ function Centerbar() {
                                                                     onChange={handlesubmit}
                                                                     className='appearance-none  border border-black w-full text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
                                                             </div>
-                                                            <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-[#153f7c]'>
+                                                            <div onClick={() => { commentsubmit(userid, data._id, data.userId)}} className='text-3xl text-[#153f7c]'>
                                                                 <div  ><BsFillArrowRightSquareFill /></div>
                                                             </div>
 

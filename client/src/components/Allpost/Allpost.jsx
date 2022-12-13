@@ -8,7 +8,7 @@ function Allpost() {
 
   let Navigate = useNavigate()
   let token = localStorage.getItem('token')
- 
+
 
   const userid = localStorage.getItem('userid')
   const [posts, getposts] = useState([])
@@ -49,15 +49,13 @@ function Allpost() {
         <div className='mt-6 flex justify-center' >
           <div className='grid grid-cols-3 gap-4'>
             {
-              posts.map((datas) => {
-                return (
+              posts.map((datas) =>
+              (
+                datas.block == false ?
+                  <div ><img onClick={() => singlepost(datas.image)} className='postpic hover:scale-110' src={`/images/${datas.image}`} alt="jjjjjdfty" /></div> : ''
+              )
 
-                  // <Link to='/post'><img className='postpic hover:scale-110' src={`/images/${datas.image}`} alt="jjjjjdfty" /></Link> 
-                  <div ><img onClick={() => singlepost(datas.image)} className='postpic hover:scale-110' src={`/images/${datas.image}`} alt="jjjjjdfty" /></div>
-
-                )
-
-              })
+              )
 
             }
 

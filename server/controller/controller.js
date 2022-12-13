@@ -3,10 +3,13 @@ const router = express.Router()
 const signUpTemplate = require('../models/Signupmodels')
 const LoginTemplate = require('../models/Loginmodel')
 const AdminTemplate = require('../models/Adminlogin')
+const Notificationtemplate = require('../models/Notification')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 const PostModelTemplate = require('../models/Postmodal')
 const nodemailer = require("nodemailer");
+// const { now, default: mongoose } = require('mongoose')
+const mongoose=require('mongoose')
 
 
 
@@ -133,7 +136,10 @@ module.exports = {
 
             const user = await signUpTemplate.findOne({ email: request.body.email })
 
-            if (user.password == request.body.password && user.otpstatus == 'true') {
+            console.log(user);
+            console.log('user');
+
+            if (user.password == request.body.password && user.otpstatus == 'true' && user.blocked==false) {
                 const resp = {
                     id: user._id,
                     email: user.email,
@@ -144,7 +150,7 @@ module.exports = {
                 response.status(200).json({ user, auth: true, token: token })
             } else {
                 console.log("error");
-                response.status(500).json({ loginerror: "ivalid username and password" })
+                response.json({ loginerror: "ivalid username and password" })
             }
 
         } catch (error) {
@@ -532,7 +538,7 @@ module.exports = {
     getuserdataa: async (req, res) => {
         try {
             const data = await signUpTemplate.findOne({ '_id': req.body.userdata })
-        res.json(data)
+            res.json(data)
         } catch (error) {
             res.status(500).json({ error: true })
         }
@@ -541,7 +547,7 @@ module.exports = {
     unfollowrequest: async (req, res) => {
 
         try {
-           
+
             await signUpTemplate.findByIdAndUpdate(req.body.data.userdataid, {
                 $pull: {
                     follower: req.body.data.userid
@@ -552,8 +558,8 @@ module.exports = {
                     following: req.body.data.userdataid
                 }
             }).then((response) => {
-                    res.json(response)
-                })
+                res.json(response)
+            })
         } catch (error) {
             res.status(500).json({ error: true })
         }
@@ -571,19 +577,20 @@ module.exports = {
     followback: async (req, res) => {
 
         try {
-        await signUpTemplate.findByIdAndUpdate(req.body.data.userdataid, {
-            $push: {
-                follower: req.body.data.userid
+            await signUpTemplate.findByIdAndUpdate(req.body.data.userdataid, {
+                $push: {
+                    follower: req.body.data.userid
+                }
             }
-        }
-        )
-        await signUpTemplate.findByIdAndUpdate(req.body.data.userid, {
-            $push: {
-                following: req.body.data.userdataid
-            }
-        }).then((response) => {
-            res.json(response)
-        })} catch (error) {
+            )
+            await signUpTemplate.findByIdAndUpdate(req.body.data.userid, {
+                $push: {
+                    following: req.body.data.userdataid
+                }
+            }).then((response) => {
+                res.json(response)
+            })
+        } catch (error) {
             res.status(500).json({ error: true })
         }
     },
@@ -598,7 +605,8 @@ module.exports = {
         }
     },
     verifyotp: async (req, res) => {
-        try { console.log(req.body);
+        try {
+            console.log(req.body);
             const user = await signUpTemplate.findOne({ _id: req.body.otpp.id })
             console.log(user);
             if (user.otp === req.body.otpp.otpp) {
@@ -607,7 +615,7 @@ module.exports = {
                         otpstatus: 'true'
                     }
                 }).then((response) => {
-    
+
                     res.json({ user: true })
                 })
             } else {
@@ -778,6 +786,75 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ error: true })
         }
+    },
+    getcurrentuserdatax: async (req, res) => {
+        console.log(req.body);
+        console.log('reqccccccccccccccccccccccc');
+        // const data=await signUpTemplate.find({'_id':req.body.receiverId})
+        // res.json(data)    
+    },
+    sendnotification: async (req, res) => {
+        console.log(req.body);
+        console.log('sdsdsdsdsdsd');
+
+        const user = await Notificationtemplate.findOne({ userid: req.body.postuser })
+        if (user) {
+            const data = await Notificationtemplate.findOneAndUpdate({ userid: req.body.postuser },
+                {
+                    $push: {
+                        Notification: {
+                            actionuser: req.body.useridd,
+                            type: req.body.type,
+                            date: new Date(),
+                            status:'true'
+
+                        }
+                    }
+                })
+        } else {
+            const notification = new Notificationtemplate({
+                userid: req.body.postuser,
+                Notification: {
+                    actionuser: req.body.useridd,
+                    type: req.body.type,
+                    date: new Date(),
+                    status:'true'
+                }
+            })
+            notification.save().then((response) => {
+                console.log('response');
+            })
+        }
+    },
+    getnotification: async (req, res) => {
+        const data = await Notificationtemplate.findOne({ userid: req.body.logid }).populate({
+            path: 'Notification',
+            populate: {
+                path: 'actionuser'
+            }
+        })
+        if (data) {
+            console.log('get');
+            res.json(data)
+        } else {
+            res.json({ notget: true })
+            console.log('notget');
+        }
+
+
+    },
+    statusfalse:async(req,res)=>{
+        const data = await Notificationtemplate.updateOne({ userid: req.body.logid, Notification : { "$elemMatch": { "status" : "true" }} }, {
+            $set: {
+                "Notification.$.status" : "false"
+            }
+        }, { "multi": true })     
+
+            if(data){    
+                res.json({changed:true})
+            }else{
+                res.json({notchanged:true})
+            }
     }
 }
 

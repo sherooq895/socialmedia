@@ -1,25 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { BiBell, BiConversation, BiCircle } from "react-icons/bi";
 import jwt_decode from 'jwt-decode'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import axios from 'axios'
+import { io } from "socket.io-client"
+import { format } from 'timeago.js'
+
 // import { usercontext } from '../context/context'
 
 function Navbar() {
     const token = localStorage.getItem('token')
+    const socket = useRef();
+
 
     let Navigate = useNavigate()
+    const [datax, setdatax] = useState([])
+
+    // useEffect(
+    //     ()=>{
+    //         socket.current = io("ws://localhost:8900");
+    //         socket.current.on("getnotification", data => {
+
+    //             console.log(data);
+    //             console.log('datavvvvvvvvvvvvvvvvvvvvvv');
+    //             setdatax((prev)=>[...prev,data])
+    //         })
+    //     },[socket]
+    // )
+
+
+
 
     // const [userdataa, setuserdata] = useState(usercontext)
 
     const [popup, setPopup] = useState(false)
     const [searchpopup, setsearchPopup] = useState(false)
+    const [notification, setnotification] = useState(false)
     const [data, setdata] = useState()
     const [searchvalue, setsearchvalue] = useState({
         search: ''
     })
     const [searchdata, setsearchdata] = useState([])
+    const [notificationdata, setnotificationdata] = useState([])
+    const [notificationicon, setnotificationicon] = useState([])
+    const [notificationnumber, setnotificationnumber] = useState()
+    const [refresh, setrefresh] = useState('')
 
 
     const searchsubmit = async (e) => {
@@ -30,16 +56,11 @@ function Navbar() {
             [name]: value
         })
         const data = searchvalue.search
-        axios.post('http://localhost:4000/app/searchuser', { data },{
+        axios.post('http://localhost:4000/app/searchuser', { data }, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
-            console.log(response);
-            console.log('response');
+        }).then((response) => {
             setsearchdata(response.data)
-
         })
-
-
     }
 
     console.log(searchdata);
@@ -51,7 +72,7 @@ function Navbar() {
     localStorage.setItem('username', decodedata.fname)
     localStorage.setItem('profilepicture', decodedata.profilepicture)
     const logid = localStorage.getItem('userid')
-   
+
 
 
 
@@ -63,7 +84,30 @@ function Navbar() {
             }).then((response) => {
                 setdata(response.data)
             })
-        }, []
+
+
+            axios.post('http://localhost:4000/app/getnotification', { logid }, {
+                headers: { token: `Bearer ${token}` },
+            }).then((response) => {
+                if (response.data.notget) {
+                    console.log('dsd');
+                } else {
+                    setnotificationicon(response.data.Notification)
+                }
+            })
+
+        }, [notificationdata, notificationnumber]
+    )
+    useEffect(
+        () => {
+            var count = 0;
+            notificationicon?.map((data) => {
+                if (data?.status == 'true') {
+                    count += 1
+                }
+            })
+            setnotificationnumber(count)
+        }, [notificationicon]
     )
 
 
@@ -76,17 +120,54 @@ function Navbar() {
     console.log(searchvalue)
     console.log("data")
 
-    const getuser=(data)=>{
-        
+    const getuser = (data) => {
+
         Navigate('/userprofile', {
             state: {
-                datas:data,
+                datas: data,
                 // userposts: resp.data
             }
         })
-        
+
 
     }
+
+    const statusfalse = (logid) => {
+        axios.post('http://localhost:4000/app/statusfalse', { logid }, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            console.log(response);
+            console.log('response');
+        })
+
+    }
+
+
+
+    const getnotification = (data) => {
+        axios.post('http://localhost:4000/app/getnotification', { logid }, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            if (response.data.notget) {
+                console.log('dsd');
+                setnotification(!notification)
+            } else {
+                console.log(response.data);
+                console.log('responsexxxxxxxxx');
+                setnotificationdata(response.data.Notification)
+                setnotification(!notification)
+                statusfalse(logid)
+            }
+
+
+        })
+
+    }
+
+
+
+
+
 
 
 
@@ -116,7 +197,14 @@ function Navbar() {
                                 </form>
                             </div>
                             <div className='pr-3 text-2xl'>
-                                <button> <h3 className='text-[#fafafa]'>  <BiBell /> </h3></button>
+                                {/* {notificationicon?.map((data)=>(
+                                  count= data?.status=='true'
+                                  
+                                  ?
+                                  ''                                  
+                                  ))} */}
+                              
+                                <button onClick={() => getnotification(logid)}> <h3 className='text-[#fafafa] relative'>  <BiBell />  <div className='text-sm bg-red-600 w-3 text-white rounded-full absolute top-0 right-0'>{notificationnumber}</div> </h3></button>
 
                             </div>
                             <div className='pr-3 text-2xl'>
@@ -188,13 +276,66 @@ function Navbar() {
                                                 <li>
                                                     <div className='flex mb-3' >
                                                         <div className='leftitem'  >
-                                                            <img onClick={()=>getuser(data?._id)} src={`./images/${data?.profilepicture}`} alt="profilepic" />
+                                                            <img onClick={() => getuser(data?._id)} src={`./images/${data?.profilepicture}`} alt="profilepic" />
                                                         </div>
                                                         <div className='mt-5 ml-2 text-lg text-[#153f7c]'>{data?.fname}</div>
                                                     </div>
                                                 </li>
                                             )
                                         })
+                                    }
+                                </div>
+                        }
+                        <div >
+
+                        </div>
+
+
+                    </ul>
+                </div> : null
+            }
+            {notification ?
+                <div className='p-8  bg-neutral-300 w-[30%] absolute right-[9rem] top-[3rem] z-50 rounded-md'>
+                    <ul>
+
+                        {
+                            searchdata?.error ?
+                                <div>{searchdata?.error}</div> :
+                                <div>
+                                    {
+                                        notificationdata.length == 0 ?
+                                            <div>
+                                                <div className='mt-4 ml-2 mr-2 text-lg text-[#153f7c]'>No new notifications</div>
+
+                                            </div> :
+                                            notificationdata?.map((data) => {
+                                                return (
+                                                    <li>
+                                                        <div className='flex mb-3' >
+                                                            <div className='leftitem'  >
+                                                                <img src={`./images/${data?.actionuser?.profilepicture}`} alt="profilepic" />
+                                                            </div>
+                                                            <div className=''>
+                                                                <div className='flex'>
+                                                                    <div className='mt-4 ml-2 mr-2 text-lg text-[#153f7c]'>{data?.actionuser?.fname}</div>
+                                                                    <div>
+                                                                        {
+                                                                            data.type == '1' ?
+                                                                                <div className='mt-5 text-[#153f7c]'>Likes Your Post</div> :
+                                                                                data.type == '2' ? <div className='mt-5 text-[#153f7c]'>
+                                                                                    Comments Your Post
+                                                                                </div> : ''
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                                <div className='text-xs ml-2'>{format(data.date)}</div>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
+                                                    </li>
+                                                )
+                                            })
                                     }
                                 </div>
                         }

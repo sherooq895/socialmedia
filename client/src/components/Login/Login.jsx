@@ -66,7 +66,7 @@ function Login() {
                 localStorage.setItem('token', response.data.token)
 
                 Navigate('/home')
-            } else {
+            } else if(response.data.loginerror) {
 
                 console.log('ddddd');
                 console.log(response.data.loginerror);

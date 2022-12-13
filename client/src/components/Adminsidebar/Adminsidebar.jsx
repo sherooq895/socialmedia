@@ -6,10 +6,10 @@ function Adminsidebar() {
   let Navigate = useNavigate()
 
   const data = [{
-    title: 'Report post',
+    title: ' Post Report',
     to:'/admin/reportpost'
   }, {
-    title: 'report user',
+    title: 'User Report',
     to:'/admin/reportuser'
   }]
   return (

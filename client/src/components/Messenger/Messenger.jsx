@@ -9,7 +9,7 @@ import { io } from "socket.io-client"
 function Messenger() {
     const userr = localStorage.getItem('token')
     const userdata = jwt_decode(userr)
-     const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const logid = userdata.id
 
@@ -20,6 +20,7 @@ function Messenger() {
     const [newMessage, setnewMessage] = useState('')
     const [arrivalMessage, setArrivalMessage] = useState(null)
     const [onlineUsers, setOnlineUsers] = useState([])
+    const [chatuserdata, setchatuserdata] = useState([])
     const scrollRef = useRef();
     const socket = useRef();
 
@@ -41,10 +42,10 @@ function Messenger() {
             setmessages((prev) => [...prev, arrivalMessage])
     }, [arrivalMessage, currentChat])
 
-    useEffect(() => { 
-        axios.post('http://localhost:4000/app/loguser', { logid },{
+    useEffect(() => {
+        axios.post('http://localhost:4000/app/loguser', { logid }, {
             headers: { token: `Bearer ${token}` },
-          }).then((response) => {
+        }).then((response) => {
             setuser(response.data)
         })
 
@@ -66,6 +67,9 @@ function Messenger() {
             setOnlineUsers(users)
         })
     }, [user, socket])
+
+
+
 
     useEffect(() => {
         const getMessages = async () => {
@@ -112,6 +116,30 @@ function Messenger() {
 
     }
 
+    
+    const getuserdata=() => {
+
+        const receiverId = currentChat?.members?.find(member => member !== logid)
+
+        console.log(receiverId);
+        console.log('receiverId');
+
+        axios.post('http://localhost:4000/app/getcurrentuserdatax', receiverId, {
+            headers: { token: `Bearer ${token}` },
+        }).then((response) => {
+            console.log(response.data);
+            console.log('gfgfgfgfgfgfg');
+            setchatuserdata(response.data)
+        })
+
+
+    }
+
+
+
+
+
+
     return (
         <div className='messenger flex justify-between bg-[#ccc]'>
             <div className='chatMenu bg-white h-96 m-4 rounded-xl'>
@@ -123,6 +151,7 @@ function Messenger() {
                             return (
                                 <div onClick={() => setCurrentChat(c)}>
 
+
                                     <Conversation conversation={c} currentUser={user} />
                                     <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
                                 </div>
@@ -132,33 +161,49 @@ function Messenger() {
                 </div>
             </div>
             <div className='chatBox bg-white m-4'>
-                {/* <div className='flex ml-6 mt-3'>
+                <div className='flex ml-6 mt-3'>
                     <div >
-                         <img className='messageImg' src="https://lovelace-media.imgix.net/getty/476391743.jpg" alt="vvv" />
-                        
+                        <img className='messageImg' src="https://lovelace-media.imgix.net/getty/476391743.jpg" alt="vvv" />
+
                     </div>
                     <div>
                         sdsdsdsd
                     </div>
-                </div>  
-                <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' /> */}
+                </div>
+                <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
                 <div className="chatBoxWrapper">
+
                     {
                         currentChat ?
                             <>
 
 
+
                                 <div className="chatBoxTop">
                                     {
+                                       
+
+
                                         messages.map((m) => {
                                             return (
-                                                <div ref={scrollRef}>
+                                                <>
+                                                 
+                                           
+                                        
+                                                   
+                                                    <div ref={scrollRef}>
 
-                                                    <Message message={m} own={m.sender === user._id} />
-                                                </div>
+                                                        <Message message={m} own={m.sender === user._id} />
+
+
+                                                    </div>
+
+                                                </>
 
                                             )
+                                            
                                         })
+                                        
                                     }
 
                                 </div>

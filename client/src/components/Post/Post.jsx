@@ -35,10 +35,12 @@ function Post() {
 
 
 
-    const postlike = (data) => {
+    const postlike = (data,postuserr) => {
         const imageid = {
             postid: data,
-            useridd: userid
+            useridd: userid,
+            postuser:postuserr,
+            type:'1'
         }
 
         axios.post("http://localhost:4000/app/postlike", imageid, {
@@ -46,6 +48,13 @@ function Post() {
         }).then((response) => {
             setlike(response)
         })
+
+        axios.post("http://localhost:4000/app/sendnotification",imageid, {
+            headers: { token: `Bearer ${token}` },
+          }).then((response)=>{
+            console.log(response);
+
+          })
     }
 
     const postdislike = (data) => {
@@ -82,11 +91,19 @@ function Post() {
         })
     }
 
-    const commentsubmit = (user, postId) => {
+    const commentsubmit = (user, postId,postuserr) => {
+
+        // postid: data,
+        // useridd: userid,
+        // postuser:postuserr,
+        // type:'1'
+
         const dataa = {
             comment: register.comment,
             userId: user,
-            postId: postId
+            postId: postId,
+            postuser:postuserr,
+            type:'2'
         }
         console.log(dataa);
         console.log('aaaaaaaaaaaaaaaaaaa');
@@ -98,6 +115,13 @@ function Post() {
             setcommentresp(Math.random())
 
         })
+
+        axios.post("http://localhost:4000/app/sendnotification",dataa, {
+            headers: { token: `Bearer ${token}` },
+          }).then((response)=>{
+            console.log(response);
+
+          })
 
     }
 
@@ -242,9 +266,9 @@ function Post() {
                                                         <button onClick={() => { postdislike(data._id) }} className='text-red-600'><AiOutlineHeart /></button>
 
                                                     </div> :
-                                                    <div className='text-3xl ml-9'>
+                                                    <div className='text-3xl ml-9 flex'>
                                                         <div className='text-lg mr-1'>{data?.like?.length}</div>
-                                                        <button onClick={() => { postlike(data._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
+                                                        <button onClick={() => { postlike(data._id,data.userId._id) }} className='text-[#153f7c]'><AiOutlineHeart /></button>
                                                     </div>
 
                                                 }
@@ -277,7 +301,7 @@ function Post() {
                                                                             onChange={handlesubmit}
                                                                             className='appearance-none w-full border border-black text-black mr-3 py-1 px-2 leading-tight focus:outline-none' type="text" placeholder='enter your comments' />
                                                                     </div>
-                                                                    <div onClick={() => { commentsubmit(userid, data._id) }} className='text-3xl text-[#153f7c]'>
+                                                                    <div onClick={() => { commentsubmit(userid, data._id ,data.userId) }} className='text-3xl text-[#153f7c]'>
                                                                         <div  ><BsFillArrowRightSquareFill /></div>
                                                                     </div>
 

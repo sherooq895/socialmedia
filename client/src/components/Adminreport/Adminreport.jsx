@@ -46,6 +46,7 @@ function Adminreport() {
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
+                            <h1 className='ml-10 text-3xl mb-2'>Reported Posts</h1>
                             <table class="min-w-full text-center">
                                 <thead class="border-b">
                                     <tr>
@@ -71,11 +72,12 @@ function Adminreport() {
                                 </thead>
                                 <tbody>
                                     {
-                                        data?.map((dataa) =>
+                                        data?.map((dataa,index) =>
                                         (
                                             dataa?.report.length !== 0 ?
                                                 <tr class="border-b bg-indigo-100 border-indigo-200">
                                                     <td class="text-sm text-gray-900 font-medium px-6 py-4 whitespace-nowrap">
+                                                      
                                                     </td>
                                                     <td class="text-sm text-gray-900 font-medium px-6 py-4 whitespace-nowrap">
                                                         {dataa?.userId?._id}

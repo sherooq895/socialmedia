@@ -15,7 +15,7 @@ function homepage() {
             <div className='flex bg-[#ccc]'>
                     <Sidebar />
                 <div className='w-[60%] '>
-                <Story/>
+              
                     <Centerbar />
                 </div>
                 <div className='w-[25%]'>
