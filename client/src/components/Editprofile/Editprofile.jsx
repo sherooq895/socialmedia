@@ -132,6 +132,7 @@ function Editprofile() {
                                         name='email'
                                         value={register?.email}
                                         onChange={handlesubmit}
+                                        disabled={true}
 
                                         className="block w-full px-4 py-2 mt-3 bg-white border rounded-md focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                     />

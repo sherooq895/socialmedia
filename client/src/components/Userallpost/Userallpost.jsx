@@ -47,6 +47,8 @@ function Userallpost() {
        
             <div className='w-[80%] bg-white rounded-xl grid grid-cols-3 mx-auto p-4 gap-2 '>
                 {
+                    posts.length==0?
+                    <div className='text-xl'>No posts Available</div>:
                     posts?.map((data) => 
                         (
                             data?.block== false?

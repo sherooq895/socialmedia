@@ -49,6 +49,8 @@ function Allpost() {
         <div className='mt-6 flex justify-center' >
           <div className='grid grid-cols-3 gap-4'>
             {
+              posts.length==0?
+              <div>No Posts Available</div>:
               posts.map((datas) =>
               (
                 datas.block == false ?

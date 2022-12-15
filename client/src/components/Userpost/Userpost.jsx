@@ -134,6 +134,11 @@ function Userpost() {
         })
     }
 
+    const reportalert=()=>{
+        alert('This Post is Already Reported')
+        setpopup(!popup)
+    }
+
     return (
         <div className=' m-auto w-[60%] bg-white rounded-xl'>
 
@@ -168,9 +173,16 @@ function Userpost() {
 
                     {popup ?
                         <div className='p-8 mt-5 bg-neutral-300 w-[7%] absolute right-[18rem]  flex justify-end  '>
-                            <ul>
+                            {
+                                post?.report?.includes(userid)?
+                                <ul>
+                                <li><button onClick={reportalert}>Reported</button></li>
+                            </ul>:
+                                <ul>
                                 <li><button onClick={()=>reportpost(post._id)} >Report</button></li>
                             </ul>
+                            }
+                           
                         </div> : null
                     }
 
@@ -247,7 +259,7 @@ function Userpost() {
                                                                             {dataa?.userId.fname}
                                                                         </div>
                                                                         <div className='text-xs ml-1 text-[#153f7c]'>
-                                                                            {dataa?.date}
+                                                                           {format(dataa?.date)} 
                                                                         </div>
 
                                                                     </div>

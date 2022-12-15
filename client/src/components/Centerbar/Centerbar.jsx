@@ -64,12 +64,7 @@ function Centerbar() {
 
     //     }
 
-    console.log(allpost);
-    console.log('allpostccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
    
-
-    
-
 
     useEffect(
         () => {
@@ -259,7 +254,7 @@ function Centerbar() {
                                                                                     <div className='flex ml-5 mt-2'>
 
                                                                                         <div>
-                                                                                            <img className='commentimage' src={`/images/${data.image}`} alt="dddddd" />
+                                                                                            <img className='commentimage' src={`/images/${data.userId.profilepicture}`} alt="dddddd" />
                                                                                         </div>
                                                                                         <div className=''>
                                                                                         <div className=' ml-1 text-xl  text-[#153f7c]'>

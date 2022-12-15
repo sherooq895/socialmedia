@@ -189,7 +189,7 @@ function Navbar() {
                             <div className='mr-3 '>
                                 <form className='rounded-xl' onClick={() => setsearchPopup(!searchpopup)} autocomplete="off">
                                     <input
-                                        placeholder="Search for..."
+                                        placeholder="Search friends.."
                                         name='search'
                                         value={searchvalue.search}
                                         onChange={searchsubmit}
@@ -204,7 +204,12 @@ function Navbar() {
                                   ''                                  
                                   ))} */}
                               
-                                <button onClick={() => getnotification(logid)}> <h3 className='text-[#fafafa] relative'>  <BiBell />  <div className='text-sm bg-red-600 w-3 text-white rounded-full absolute top-0 right-0'>{notificationnumber}</div> </h3></button>
+                                <button onClick={() => getnotification(logid)}> <h3 className='text-[#fafafa] relative'>  <BiBell />  
+                                {
+                                    notificationnumber!==0?
+                                    <div className='text-sm bg-red-600 w-3 text-white rounded-full absolute top-0 right-0'>{notificationnumber}</div> :''
+                                }
+                                </h3></button>
 
                             </div>
                             <div className='pr-3 text-2xl'>

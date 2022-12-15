@@ -147,9 +147,14 @@ function Profile() {
                                     }
 
                                 </div>
-                                <div>
+                                {
+                                    logdata?.follower?.includes(dataa._id)?
+                                    <div>
                                     <button onClick={() => usermessage(logdata?._id, dataa?._id)} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded mt-1 ml-3'>message</button>
-                                </div>
+                                </div>:''
+
+                                }
+                               
                                 <div>
                                     {dataa?.report.includes(logdata?._id) ?
                                         <button  className='bg-[#cc1c1ce0]  text-white font-bold py-1 px-4 rounded mt-1 ml-3'>Reported </button> :

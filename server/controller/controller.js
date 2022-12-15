@@ -74,7 +74,7 @@ module.exports = {
                 blocked: 'false'
             })
 
-            const emailcheck = await signUpTemplate.findOne({ "email": request.body.email })
+            const emailcheck = await signUpTemplate.findOne({ email: request.body.email , otpstatus:'true'})
 
             if (emailcheck) {
                 console.log("emailcheck");
@@ -364,10 +364,7 @@ module.exports = {
         try {
             console.log(req.body);
             console.log('req.body.register');
-            const useremail = await signUpTemplate.findOne({ 'email': req.body.email })
-            if (useremail) {
-                res.json({ error: true })
-            } else {
+           
 
                 signUpTemplate.findByIdAndUpdate(req.body._id, {
                     $set: {
@@ -384,7 +381,7 @@ module.exports = {
                 }).then((response) => {
                     res.json(response)
                 })
-            }
+       
 
 
 
@@ -690,6 +687,7 @@ module.exports = {
     },
     reportpost: async (req, res) => {
         try {
+
             PostModelTemplate.findByIdAndUpdate(req.body?.postId,
                 {
                     $push: {
