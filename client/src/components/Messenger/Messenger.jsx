@@ -36,10 +36,14 @@ function Messenger() {
         })
     }, []);
 
+    console.log(setCurrentChat);
+    console.log('setCurrentChatxxxxxxxxxxx');
+
     useEffect(() => {
         arrivalMessage &&
             currentChat?.members.includes(arrivalMessage.sender) &&
             setmessages((prev) => [...prev, arrivalMessage])
+        getuserdata()
     }, [arrivalMessage, currentChat])
 
     useEffect(() => {
@@ -68,6 +72,8 @@ function Messenger() {
         })
     }, [user, socket])
 
+    console.log(onlineUsers);
+    console.log('onlineUsersvzvzvzvzvzvzzvzvzv');
 
 
 
@@ -89,6 +95,7 @@ function Messenger() {
         scrollRef.current?.scrollIntoView({ behaviour: "smooth" })
 
     }, [messages])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -116,24 +123,36 @@ function Messenger() {
 
     }
 
-    
-    const getuserdata=() => {
+
+    const getuserdata =async () => {
 
         const receiverId = currentChat?.members?.find(member => member !== logid)
 
         console.log(receiverId);
-        console.log('receiverId');
+        console.log('receiverIdxxxxx');
 
-        axios.post('http://localhost:4000/app/getcurrentuserdatax', receiverId, {
+        axios.post('http://localhost:4000/app/getcurrentuserdatax', { receiverId }, {
             headers: { token: `Bearer ${token}` },
-        }).then((response) => {
+        }).then(async(response) => {
             console.log(response.data);
             console.log('gfgfgfgfgfgfg');
             setchatuserdata(response.data)
+            console.log(onlineUsers);
+            console.log('onlineUsersbbbbbbbbbbbbbbbbbbbbb');
+            console.log(chatuserdata);
+            console.log('chatuserdatabbbbbbbbbbbbbbbbbbbb');
+
+
+
         })
 
 
     }
+
+    console.log(conversations);
+    console.log('conversationsxxx');
+
+
 
 
 
@@ -161,16 +180,8 @@ function Messenger() {
                 </div>
             </div>
             <div className='chatBox bg-white m-4'>
-                <div className='flex ml-6 mt-3'>
-                    <div >
-                        <img className='messageImg' src="https://lovelace-media.imgix.net/getty/476391743.jpg" alt="vvv" />
 
-                    </div>
-                    <div>
-                        sdsdsdsd
-                    </div>
-                </div>
-                <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
+
                 <div className="chatBoxWrapper">
 
                     {
@@ -178,19 +189,44 @@ function Messenger() {
                             <>
 
 
+                                <div className='flex ml-6 mt-3'>
+                                    <div >
+                                        <img className='messageImg' src={`./images/${chatuserdata?.profilepicture}`} alt="vvv" />
+
+                                    </div>
+                                    <div>
+                                        <div className='text-xl'>
+                                            {chatuserdata?.fname}
+                                        </div>
+                                        <div>
+                                            {
+                                                onlineUsers?.find(data => data.userId==chatuserdata?._id) ?
+
+                                                    <div className='text-green-800 '>Online</div> :
+                                                    <div className='text-black text-sm'>Offline</div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
+
+
 
                                 <div className="chatBoxTop">
                                     {
-                                       
+
 
 
                                         messages.map((m) => {
                                             return (
                                                 <>
-                                                 
-                                           
-                                        
-                                                   
+
+
+
+
                                                     <div ref={scrollRef}>
 
                                                         <Message message={m} own={m.sender === user._id} />
@@ -201,9 +237,9 @@ function Messenger() {
                                                 </>
 
                                             )
-                                            
+
                                         })
-                                        
+
                                     }
 
                                 </div>

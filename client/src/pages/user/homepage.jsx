@@ -12,13 +12,20 @@ function homepage() {
 
             <Navbar />
            
-            <div className='flex bg-[#ccc]'>
-                    <Sidebar />
-                <div className='w-[60%] '>
+            <div className='flex bg-[#ccc] '>
+
+                {/* <div> */}
+
+                    <Sidebar  />
+                {/* </div> */}
+
+        
+    
+                <div className=' w-full md:w-[60%]  '>
               
                     <Centerbar />
                 </div>
-                <div className='w-[25%]'>
+                <div className='w-[25%] hidden md:block'>
                     <Rightbar />
                 </div>
             </div>

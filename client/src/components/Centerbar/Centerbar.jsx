@@ -7,15 +7,19 @@ import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 import {format} from 'timeago.js'
 import { io } from "socket.io-client"
+import { useContext } from 'react';
+// import {socket} from '../../context/socketcontext'
+import {socket, Socketcontext} from '../../context/socketcontext';
 
 
 function Centerbar() {
 
    
+//    const socket = useContext(Socketcontext)
 
 
     let Navigate = useNavigate()
-    const socket = useRef();
+    // const socket = useRef();
  
     const token=localStorage.getItem('token')
     const [allpost, getallpost] = useState([])
@@ -47,28 +51,8 @@ function Centerbar() {
 
     }
 
-    console.log(allpost);
-    console.log('allpostvvvvvvvvvvvvvvvvvvvvvvv');
-   
-    //    const notification =(dataa)=>{
-    //     console.log(dataa);
-    //     console.log('datavvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-    //     console.log(userid);
-    //     console.log('useridvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-    //        const datax=dataa
-    //         socket.current.emit("sendnotification", {
-    //             senderId: userid,
-    //             receiverId:datax,
-            
-    //         })
-
-    //     }
-
-   
-
     useEffect(
         () => {
-            socket.current = io("ws://localhost:8900");
             axios.get('http://localhost:4000/app/getallpost',{
                 headers: { token: `Bearer ${token}` },
               }).then((response) => {
@@ -79,7 +63,7 @@ function Centerbar() {
                     getallpost(response.data)
                 }
             })
-        } , [like, commentresp, allcomment])
+        } , [like, commentresp,allcomment])
 
 
     const postlike = (data,postuserr) => {
@@ -93,16 +77,13 @@ function Centerbar() {
         axios.post("http://localhost:4000/app/postlike", imageid,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
+            socket.emit('send-notifications',{
+                senderid:userid,
+                reciverId:postuserr,
+                type:'1'
+            })
             setlike(response)
         })
-
-        axios.post("http://localhost:4000/app/sendnotification",imageid, {
-            headers: { token: `Bearer ${token}` },
-          }).then((response)=>{
-            console.log(response);
-
-          })
-        
     }
 
     const postdislike = (data) => {
@@ -117,9 +98,6 @@ function Centerbar() {
         })
     }
 
-
-
-
     const commentsubmit = (user, postId,postuserr) => {
         const dataa = {
             comment: register.comment,
@@ -132,22 +110,17 @@ function Centerbar() {
         axios.post('http://localhost:4000/app/addcomment', dataa,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
-           
+            socket.emit('send-notifications',{
+                senderid:userid,
+                reciverId:postuserr,
+                type:'2'
+            })
             setcommentresp(Math.random())
-
         })
-
-        axios.post("http://localhost:4000/app/sendnotification",dataa, {
-            headers: { token: `Bearer ${token}` },
-          }).then((response)=>{
-            console.log(response);
-
-          })
 
     }
 
     const getallcomment = (data) => {
-       
         setcomment({ postId: data, status: !comment.status })
         axios.post('http://localhost:4000/app/getallcomment', { data },{
             headers: { token: `Bearer ${token}` },
@@ -156,6 +129,7 @@ function Centerbar() {
             setcommentresp(Math.random())
         })
     }
+
     
 
     return (
@@ -190,17 +164,17 @@ function Centerbar() {
 
                                     </div>
                                     <div className='flex justify-center'>
-                                        <div><img className='picsize  align-middle max-w-xl h-30 rounded-lg shadow-xl dark:shadow-gray-800' src={`/images/${data.image}`} alt="nnnnnn" /></div>
+                                        <div><img className='picsize  align-middle w-full h-30 rounded-lg shadow-xl dark:shadow-gray-800' src={`/images/${data.image}`} alt="nnnnnn" /></div>
                                     </div>
 
 
                                     <div className='flex justify-center'>
 
-                                        <div className='w-[80%]  mt-2 h-10 flex mb-5 rounded-xl p-2'>
+                                        <div className='md:w-[80%]  mt-2 h-10 flex mb-5 rounded-xl p-2'>
                                             {data.like.includes(userid) ?
-                                                <div className='text-3xl ml-9 flex'>
+                                                <div className='text-3xl md:ml-9 flex'>
                                                     <div className='text-lg mr-1'>{data.like.length}</div>
-                                                    <button onClick={() => { postdislike(data._id,data.userId._id) }} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
+                                                    <button onClick={() => postdislike(data._id,data.userId._id)} className='text-[#ff3b3b]'><AiOutlineHeart /></button>
                                                 </div> :
                                                 <div className='text-3xl ml-9 flex'>
                                                     <div className='text-lg mr-1'>{data.like.length}</div>
@@ -254,14 +228,14 @@ function Centerbar() {
                                                                                     <div className='flex ml-5 mt-2'>
 
                                                                                         <div>
-                                                                                            <img className='commentimage' src={`/images/${data.userId.profilepicture}`} alt="dddddd" />
+                                                                                            <img className='commentimage' src={`/images/${dataa?.userId?.profilepicture}`} alt="dddddd" />
                                                                                         </div>
                                                                                         <div className=''>
                                                                                         <div className=' ml-1 text-xl  text-[#153f7c]'>
-                                                                                            {dataa.userId.fname}
+                                                                                            {dataa?.userId?.fname}
                                                                                         </div>
                                                                                         <div className=' ml-1 text-sm mb-3 text-[#153f7c]'>
-                                                                                           {format(dataa.date)}
+                                                                                           {format(dataa?.date)}
                                                                                         </div>
 
                                                                                         </div>

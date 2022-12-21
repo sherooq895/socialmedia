@@ -12,3 +12,25 @@ height: 100%;
 object-fit: cover;
 border-radius: 50%;
 }
+
+
+.scoller-notify-bar{
+    max-height:250PX;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    
+}
+
+.scoller-notify-bar::-webkit-scrollbar{
+    display: none;
+}
+/* .leftitem{
+    position: relative;
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgb(46, 43, 43);
+    border-radius: 50%;
+} */

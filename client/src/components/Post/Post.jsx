@@ -324,7 +324,8 @@ function Post() {
                                                                                                     {dataa.userId.fname}
                                                                                                 </div>
                                                                                                 <div className='text-xs ml-1 text-[#153f7c]'>
-                                                                                                    {dataa.date}
+                                                                                                   
+                                                                                                   { format(dataa.date)}
                                                                                                 </div>
 
                                                                                             </div>

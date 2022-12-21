@@ -18,9 +18,11 @@ let removeUser=(socketId)=>{
 
 } 
 
-const getUser=(userId)=>{   
+const getUser=(userId)=>{    
     console.log(userId);
-    console.log('userId');
+    console.log('userIdxx');
+    console.log(users);
+    console.log('bbbbbbbusers'); 
     return users.find(user=>user.userId===userId)
 }
 
@@ -42,24 +44,42 @@ io.on("connection",(socket)=>{
            senderId,
             text,
 
-        })
-
+        })    
+    
     })
-
-    socket.on("sendnotification",({senderId,receiverId})=>{
-
-        console.log(senderId,"senderId");
-        console.log(receiverId,"recevier");
-        const user=getUser(receiverId)
-        console.log(users,"users");
-        console.log(user);
     
-        io.to(user?.socketId).emit("getnotification",{
-            senderId
+
+    // socket.on("send-notification",({senderId,receiverId})=>{
+
+    //     console.log(senderId,"senderId");
+    //     console.log(receiverId,"recevier");
+    //     const user=getUser(receiverId)
+    //     console.log(users,"usersw");
+    //     console.log(user);
+    //     console.log('user');
+    
+    //     io.to(user?.socketId).emit("getnotification",{
+    //         senderId
             
-         })
+    //      })
     
     
+    // })
+
+    socket.on('send-notifications',(data)=>{
+        console.log(data,'daaaaaataa');
+    const {senderid,reciverId,type}=data
+    const user=users?.find(user=>user.userId===reciverId)
+    console.log(users);
+    console.log('users');
+    console.log(user);
+    console.log('userbbbbb');
+    if(user){
+        console.log(senderid);
+        console.log('senderid');
+        io.emit('get-notifications',{senderid,type})
+    }
+
     })
 
    

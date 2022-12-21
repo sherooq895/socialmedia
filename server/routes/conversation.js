@@ -6,8 +6,16 @@ const signUpTemplate = require('../models/Signupmodels')
 
 
 router.post('/', async (req, res) => {
+    console.log(req.body, "jmkinnj");
+    // const   user = await conversationSchema.find({ $all:{members: [req.body.senderId,req.body.recieverId]}})
+    const   user = await conversationSchema.find({members:{$all:[req.body.senderId,req.body.recieverId]}})
+console.log(user,"hh");
+if(user.length>0){
+    console.log('ddssd');
+    res.status(200).json(true)
 
-    const newConversation = new conversationSchema({
+}else{
+    const newConversation = new conversationSchema({ 
         members: [req.body.senderId, req.body.recieverId]
     })
     try {
@@ -16,6 +24,7 @@ router.post('/', async (req, res) => {
     } catch (err) {
         res.status(500).json(err)
     }
+}
 })
 
 router.get("/:userId", async (req, res) => {

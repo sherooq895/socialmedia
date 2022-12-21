@@ -45,7 +45,6 @@ function Editprofile() {
         setregister({
             ...register,
             [name]: value
-
         })
     }
 
@@ -60,7 +59,6 @@ function Editprofile() {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setupdate(response)
-
             if (response.data.error) {
                 alert('email is already exist,please try anotherone')
             } else {
@@ -69,10 +67,6 @@ function Editprofile() {
             }
         })
     }
-
-
-
-
 
 
     return (

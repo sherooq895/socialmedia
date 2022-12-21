@@ -7,6 +7,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { FaShare } from "react-icons/fa";
 import axios from 'axios'
 import {format} from 'timeago.js'
+import {socket, Socketcontext} from '../../context/socketcontext';
 
 function Userpost() {
     const Location = useLocation()
@@ -52,15 +53,14 @@ function Userpost() {
         axios.post("http://localhost:4000/app/postlike", imageid, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
+            socket.emit('send-notifications',{
+                senderid:userid,
+                reciverId:postuserr,
+                type:'1'
+            })
+
             setlike(response)
         })
-
-        axios.post("http://localhost:4000/app/sendnotification",imageid, {
-            headers: { token: `Bearer ${token}` },
-          }).then((response)=>{
-            console.log(response);
-
-          })
     }
 
     const postdislike = (data) => {
@@ -100,16 +100,15 @@ function Userpost() {
         axios.post('http://localhost:4000/app/addcomment', dataa, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
+
+            socket.emit('send-notifications',{
+                senderid:userid,
+                reciverId:postuserr,
+                type:'2'
+            })
             setcommentresp(Math.random())
 
         })
-
-        axios.post("http://localhost:4000/app/sendnotification",dataa, {
-            headers: { token: `Bearer ${token}` },
-          }).then((response)=>{
-            console.log(response);
-
-          })
 
     }
 
@@ -129,8 +128,6 @@ function Userpost() {
             }else{
                 console.log('dsds');
             }
-           
-
         })
     }
 
@@ -139,6 +136,7 @@ function Userpost() {
         setpopup(!popup)
     }
 
+    
     return (
         <div className=' m-auto w-[60%] bg-white rounded-xl'>
 
@@ -190,7 +188,7 @@ function Userpost() {
 
                 <div className='flex justify-center'>
                     <div className='postpicsingle mt-1 '>
-                        <img src={`./images/${post?.image}`} alt="kjjk" />
+                        <img className='w-full' src={`./images/${post?.image}`} alt="kjjk" />
                     </div>
 
                 </div>

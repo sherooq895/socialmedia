@@ -9,7 +9,8 @@ const multer = require('multer')
 const PostModelTemplate = require('../models/Postmodal')
 const nodemailer = require("nodemailer");
 // const { now, default: mongoose } = require('mongoose')
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
+const notiSchema = require('../models/Notificationschema')
 
 
 
@@ -74,7 +75,7 @@ module.exports = {
                 blocked: 'false'
             })
 
-            const emailcheck = await signUpTemplate.findOne({ email: request.body.email , otpstatus:'true'})
+            const emailcheck = await signUpTemplate.findOne({ email: request.body.email, otpstatus: 'true' })
 
             if (emailcheck) {
                 console.log("emailcheck");
@@ -134,17 +135,19 @@ module.exports = {
     login: async (request, response) => {
         try {
 
-            const user = await signUpTemplate.findOne({ email: request.body.email })
+            console.log('sddsdsdsd');
+
+            const user = await signUpTemplate.findOne({ email: request.body.email , otpstatus:'true' })
 
             console.log(user);
             console.log('user');
 
-            if (user.password == request.body.password && user.otpstatus == 'true' && user.blocked==false) {
+            if (user.password == request.body.password && user.otpstatus == 'true' && user.blocked == false) {
                 const resp = {
                     id: user._id,
-                    email: user.email,
+                    email: user.email, 
                     fname: user.fname,
-                    profilepicture: user.profilepicture
+                    profilepicture: user.profilepicture 
                 }
                 let token = jwt.sign(resp, "secret")
                 response.status(200).json({ user, auth: true, token: token })
@@ -207,8 +210,7 @@ module.exports = {
                     path: 'userId'
                 }
             }).populate('userId')
-            console.log(getposts[0].comment);
-            console.log('getpostsssssspopulateeeeeeeeeeeee');
+           
 
             if (getposts) {
                 res.status(200).send(getposts)
@@ -249,17 +251,32 @@ module.exports = {
 
     },
 
-    postlike: (req, res) => {
+    postlike: async (req, res) => {
         console.log(req.body);
         console.log(' likebody');
         try {
+
+            const details = {
+                user: req.body.useridd,
+                type:"1",
+                time: Date.now(),
+                status:'false'
+            }
 
             PostModelTemplate.findByIdAndUpdate(req.body.postid, {
                 $push: {
                     like: req.body.useridd
 
                 }
-            }).then((response) => {
+            }).then(async (response) => {
+                if (response.userId !== req.body.useridd) {
+                    await notiSchema.updateOne({ userId: response.userId }, {
+                        $push: {
+                            Notification: details
+                        }
+                    }, { upsert: true }
+                    )
+                }
                 console.log('like');
                 res.status(200).send({ like: true })
             })
@@ -294,6 +311,13 @@ module.exports = {
 
     addcomment: async (req, res) => {
         try {
+
+            const details = {
+                user: req.body.userId,
+                type:"2",
+                time: Date.now(),
+                status:'false'
+            }
             const comment = await PostModelTemplate.findByIdAndUpdate(req.body.postId, {
 
                 $push: {
@@ -305,14 +329,18 @@ module.exports = {
                 }
 
             })
+            await notiSchema.updateOne({ userId: req.body.postuser._id }, {
+                $push: {
+                    Notification: details
+                }
+            }, { upsert: true }
+            )
             console.log('comment', comment);
             res.json(comment)
         } catch (error) {
             console.log(error);
             res.status(500).json({ error: true })
-
         }
-
     },
 
     getallcomment: async (req, res) => {
@@ -324,8 +352,7 @@ module.exports = {
                     path: 'userId'
                 }
             }).populate('userId')
-            console.log(comment);
-            console.log('comments');
+           
             if (comment) {
                 res.status(200).send({ comment })
             } else {
@@ -362,26 +389,23 @@ module.exports = {
     editprofile: async (req, res) => {
 
         try {
-            console.log(req.body);
-            console.log('req.body.register');
-           
 
-                signUpTemplate.findByIdAndUpdate(req.body._id, {
-                    $set: {
-                        fname: req.body?.fname,
-                        lname: req.body?.lname,
-                        email: req.body?.email,
-                        number: req.body?.number,
-                        password: req.body?.password,
-                        cpassword: req.body?.cpassword,
-                        profilepicture: req.file?.filename,
-                        discription: req.body?.discription,
 
-                    }
-                }).then((response) => {
-                    res.json(response)
-                })
-       
+
+            signUpTemplate.findByIdAndUpdate(req.body._id, {
+                $set: {
+                    fname: req.body?.fname,
+                    lname: req.body?.lname,
+                    number: req.body?.number,
+                    password: req.body?.password,
+                    profilepicture: req.file?.filename,
+                    discription: req.body?.discription,
+
+                }
+            }).then((response) => {
+                res.json(response)
+            })
+
 
 
 
@@ -786,10 +810,13 @@ module.exports = {
         }
     },
     getcurrentuserdatax: async (req, res) => {
-        console.log(req.body);
-        console.log('reqccccccccccccccccccccccc');
-        // const data=await signUpTemplate.find({'_id':req.body.receiverId})
-        // res.json(data)    
+
+        try {
+            const data = await signUpTemplate.findOne({ _id: req.body.receiverId })
+            res.json(data)
+        } catch (error) {
+            res.status(500).json({ error: true })
+        }
     },
     sendnotification: async (req, res) => {
         console.log(req.body);
@@ -804,7 +831,7 @@ module.exports = {
                             actionuser: req.body.useridd,
                             type: req.body.type,
                             date: new Date(),
-                            status:'true'
+                            status: 'true'
 
                         }
                     }
@@ -816,7 +843,7 @@ module.exports = {
                     actionuser: req.body.useridd,
                     type: req.body.type,
                     date: new Date(),
-                    status:'true'
+                    status: 'true'
                 }
             })
             notification.save().then((response) => {
@@ -825,34 +852,75 @@ module.exports = {
         }
     },
     getnotification: async (req, res) => {
-        const data = await Notificationtemplate.findOne({ userid: req.body.logid }).populate({
-            path: 'Notification',
-            populate: {
-                path: 'actionuser'
+        try {
+            const data = await Notificationtemplate.findOne({ userid: req.body.logid }).populate({
+                path: 'Notification',
+                populate: {
+                    path: 'actionuser'
+                }
+            })
+            const notify= data?.Notification?.reverse()
+          
+            if (data) {
+                console.log('get');
+                res.json(data)
+            } else {
+                res.json({ notget: true })
+                console.log('notget');
             }
-        })
-        if (data) {
-            console.log('get');
-            res.json(data)
-        } else {
-            res.json({ notget: true })
-            console.log('notget');
+
+        } catch (error) {
+            res.status(500).json({ error: true })
+
+        }
+    },
+    statusfalse: async (req, res) => {
+        console.log(req.body);
+        console.log('reqvvvvvvv');
+        try {
+            const data = await notiSchema.updateOne({ userid: req.body.logid, Notification: { "$elemMatch": { "readStatus": "false" } } }, {
+                $set: {
+                    "Notification.$.readStatus": "true"
+                }
+            }, { "multi": true })
+
+            if (data) {
+                res.json({ changed: true })
+            } else {
+                res.json({ notchanged: true })
+            }
+
+        } catch (error) {
+            res.status(500).json({ error: true })
+
         }
 
-
     },
-    statusfalse:async(req,res)=>{
-        const data = await Notificationtemplate.updateOne({ userid: req.body.logid, Notification : { "$elemMatch": { "status" : "true" }} }, {
-            $set: {
-                "Notification.$.status" : "false"
-            }
-        }, { "multi": true })     
+    getnotify:async(req,res)=>{
 
-            if(data){    
-                res.json({changed:true})
-            }else{
-                res.json({notchanged:true})
-            }
+        console.log('sdsdsdsdxxxxx');
+        console.log(req.body);
+        try{
+            console.log(req.params.id);
+            console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+
+            const data=await notiSchema.findOne({userId:req.body.logId}).populate({
+                path: 'Notification',
+                populate: {
+                    path: 'user'
+                }
+            })
+
+            console.log(data);
+            console.log('dataxxxxxxwwww');
+            const noti=data?.Notification?.reverse()
+            res.status(200).json(noti)
+
+        }catch(error){
+            res.status(500).json({ error: true })
+
+
+        }
     }
 }
 

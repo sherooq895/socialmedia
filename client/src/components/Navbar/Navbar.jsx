@@ -6,37 +6,67 @@ import './Navbar.css'
 import axios from 'axios'
 import { io } from "socket.io-client"
 import { format } from 'timeago.js'
+import { socket } from '../../context/socketcontext';
 
 // import { usercontext } from '../context/context'
 
 function Navbar() {
     const token = localStorage.getItem('token')
-    const socket = useRef();
+    // const socket = useRef();
 
 
     let Navigate = useNavigate()
     const [datax, setdatax] = useState([])
-
-    // useEffect(
-    //     ()=>{
-    //         socket.current = io("ws://localhost:8900");
-    //         socket.current.on("getnotification", data => {
-
-    //             console.log(data);
-    //             console.log('datavvvvvvvvvvvvvvvvvvvvvv');
-    //             setdatax((prev)=>[...prev,data])
-    //         })
-    //     },[socket]
-    // )
+    const [not, setnot] = useState()
+    const [notData, setnotData] = useState([])
+    const logid = localStorage.getItem('userid')
+    const [notificationnumber, setnotificationnumber] = useState()
+    const [notification, setnotification] = useState(false)
 
 
+    useEffect(() => {
+        socket.on('get-notifications', data => {
+            setnot(new Date())
+        })
+    }, [socket])
 
+    useEffect(() => {
+        try {
+            const logId = logid
+            axios.post('http://localhost:4000/app/getnotify', { logId }).then((response) => {
+                // console.log(response.data);
+                setnotData(response.data)
+                count(response.data)
+            })
 
-    // const [userdataa, setuserdata] = useState(usercontext)
+        } catch (error) {
+            console.log(error);
+
+        }
+    }, [socket, not,notificationnumber,notification])
+
+    const count=(countData)=>{
+        var count = 0;
+        countData.length>0 && countData?.map((data) => {
+            if (data?.readStatus ==false) {
+                count += 1
+            }
+        })
+        setnotificationnumber(count)
+    }
+
+   
+       
+
+    console.log(notificationnumber);
+    console.log('notificationnumberxx');
+
+    console.log(notData);
+    console.log('notData');
 
     const [popup, setPopup] = useState(false)
     const [searchpopup, setsearchPopup] = useState(false)
-    const [notification, setnotification] = useState(false)
+   
     const [data, setdata] = useState()
     const [searchvalue, setsearchvalue] = useState({
         search: ''
@@ -44,7 +74,7 @@ function Navbar() {
     const [searchdata, setsearchdata] = useState([])
     const [notificationdata, setnotificationdata] = useState([])
     const [notificationicon, setnotificationicon] = useState([])
-    const [notificationnumber, setnotificationnumber] = useState()
+    
     const [refresh, setrefresh] = useState('')
 
 
@@ -71,7 +101,6 @@ function Navbar() {
     localStorage.setItem('userid', decodedata.id)
     localStorage.setItem('username', decodedata.fname)
     localStorage.setItem('profilepicture', decodedata.profilepicture)
-    const logid = localStorage.getItem('userid')
 
 
 
@@ -83,34 +112,25 @@ function Navbar() {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 setdata(response.data)
+
+
             })
 
 
-            axios.post('http://localhost:4000/app/getnotification', { logid }, {
-                headers: { token: `Bearer ${token}` },
-            }).then((response) => {
-                if (response.data.notget) {
-                    console.log('dsd');
-                } else {
-                    setnotificationicon(response.data.Notification)
-                }
-            })
+            // axios.post('http://localhost:4000/app/getnotification', { logid }, {
+            //     headers: { token: `Bearer ${token}` },
+            // }).then((response) => {
+            //     if (response.data.notget) {
+            //         console.log('dsd');
+
+            //     } else {
+            //         setnotificationicon(response.data.Notification)
+            //     }
+            // })
 
         }, [notificationdata, notificationnumber]
     )
-    useEffect(
-        () => {
-            var count = 0;
-            notificationicon?.map((data) => {
-                if (data?.status == 'true') {
-                    count += 1
-                }
-            })
-            setnotificationnumber(count)
-        }, [notificationicon]
-    )
-
-
+   
 
     const logout = () => {
         localStorage.removeItem('token')
@@ -121,7 +141,6 @@ function Navbar() {
     console.log("data")
 
     const getuser = (data) => {
-
         Navigate('/userprofile', {
             state: {
                 datas: data,
@@ -136,31 +155,18 @@ function Navbar() {
         axios.post('http://localhost:4000/app/statusfalse', { logid }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
-            console.log(response);
-            console.log('response');
+            if(response.data.error){
+                console.log('not changed');
+            }else{
+                console.log('changed');
+            }
         })
 
     }
 
-
-
     const getnotification = (data) => {
-        axios.post('http://localhost:4000/app/getnotification', { logid }, {
-            headers: { token: `Bearer ${token}` },
-        }).then((response) => {
-            if (response.data.notget) {
-                console.log('dsd');
-                setnotification(!notification)
-            } else {
-                console.log(response.data);
-                console.log('responsexxxxxxxxx');
-                setnotificationdata(response.data.Notification)
                 setnotification(!notification)
                 statusfalse(logid)
-            }
-
-
-        })
 
     }
 
@@ -203,12 +209,12 @@ function Navbar() {
                                   ?
                                   ''                                  
                                   ))} */}
-                              
-                                <button onClick={() => getnotification(logid)}> <h3 className='text-[#fafafa] relative'>  <BiBell />  
-                                {
-                                    notificationnumber!==0?
-                                    <div className='text-sm bg-red-600 w-3 text-white rounded-full absolute top-0 right-0'>{notificationnumber}</div> :''
-                                }
+
+                                <button onClick={() => getnotification(logid)}> <h3 className='text-[#fafafa] relative'>  <BiBell />
+                                    {
+                                        notificationnumber !== 0 ?
+                                            <div className='text-sm bg-red-600 w-3 text-white rounded-full absolute top-0 right-0'>{notificationnumber}</div> : ''
+                                    }
                                 </h3></button>
 
                             </div>
@@ -306,41 +312,41 @@ function Navbar() {
                         {
                             searchdata?.error ?
                                 <div>{searchdata?.error}</div> :
-                                <div>
+                                <div className='scoller-notify-bar'>
                                     {
-                                        notificationdata.length == 0 ?
+                                        notData?.length == 0 ?
                                             <div>
                                                 <div className='mt-4 ml-2 mr-2 text-lg text-[#153f7c]'>No new notifications</div>
 
                                             </div> :
-                                            notificationdata?.map((data) => {
-                                                return (
-                                                    <li>
-                                                        <div className='flex mb-3' >
-                                                            <div className='leftitem'  >
-                                                                <img src={`./images/${data?.actionuser?.profilepicture}`} alt="profilepic" />
-                                                            </div>
-                                                            <div className=''>
-                                                                <div className='flex'>
-                                                                    <div className='mt-4 ml-2 mr-2 text-lg text-[#153f7c]'>{data?.actionuser?.fname}</div>
-                                                                    <div>
+                                            notData?.map((dataa) =>
+                                            (
+                                                <li>
+                                                    <div className='flex mb-3' >
+                                                        <div className='leftitem'  >
+                                                            <img src={`./images/${dataa?.user?.profilepicture}`} alt="profilepic" />
+                                                        </div>
+                                                        <div className=''>
+                                                            <div className='flex'>
+                                                                <div className='mt-4 ml-2 mr-2 text-lg text-[#153f7c]'>{dataa?.user?.fname}</div>
+                                                               <div>
                                                                         {
-                                                                            data.type == '1' ?
+                                                                            dataa?.type === '1' ?
                                                                                 <div className='mt-5 text-[#153f7c]'>Likes Your Post</div> :
-                                                                                data.type == '2' ? <div className='mt-5 text-[#153f7c]'>
+                                                                                dataa?.type == '2' ? <div className='mt-5 text-[#153f7c]'>
                                                                                     Comments Your Post
                                                                                 </div> : ''
                                                                         }
-                                                                    </div>
-                                                                </div>
-                                                                <div className='text-xs ml-2'>{format(data.date)}</div>
+                                                                    </div> 
                                                             </div>
-
+                                                            <div className='text-xs ml-2'>{format(dataa?.time)}</div>
                                                         </div>
-                                                        <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
-                                                    </li>
-                                                )
-                                            })
+
+                                                    </div>
+                                                    <hr className='w-[80%] h-.4 bg-slate-400 ml-6 mt-4' />
+                                                </li>
+                                            )
+                                            )
                                     }
                                 </div>
                         }

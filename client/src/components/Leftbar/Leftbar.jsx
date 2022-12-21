@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './Leftbar.css'
 import { io } from "socket.io-client"
 import axios from 'axios';
+import { socket } from '../../context/socketcontext';
 
 
 function Sidebar() {
@@ -11,7 +12,7 @@ function Sidebar() {
 
   const [onlineUsers, setOnlineUsers] = useState([])
   const [userdata, setuserdata] = useState([])
-  const socket = useRef();
+  // const socket = useRef();
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -35,7 +36,7 @@ function Sidebar() {
 
 
   return (
-    <div className='w-[20%]  bg-white h-96 p-4 m-3 rounded-lg'>
+    <div className='w-[20%]  bg-white h-96 p-4 m-3 rounded-lg hidden md:block'>
       <div>
         <p className='text-[#153f7c] text-xl mb-2'> Online</p>
       </div>

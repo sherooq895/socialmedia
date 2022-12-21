@@ -120,13 +120,14 @@ router.post('/reportpost',veryfyToken,controller.reportpost)
    
 router.post('/reportuser',veryfyToken,controller.reportuser)
 
-router.post('/getcurrentuserdata',controller.getcurrentuserdatax)
+router.post('/getcurrentuserdatax',controller.getcurrentuserdatax)
 
-router.post('/sendnotification',controller.sendnotification)
+router.post('/sendnotification',veryfyToken,controller.sendnotification)   
 
-router.post('/getnotification',controller.getnotification)
+router.post('/getnotification',veryfyToken,controller.getnotification)
 
-router.post('/statusfalse',controller.statusfalse)   
+router.post('/statusfalse',veryfyToken,controller.statusfalse)   
+router.post('/getnotify',controller.getnotify)
 
 
 

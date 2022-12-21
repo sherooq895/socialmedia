@@ -9,7 +9,10 @@ function profile() {
         < >
         <div className='bg-[#ccc]'>
         < Navbar />
+        <div className=''>
+
             < Profile />
+        </div>
             < Posts />
 
         </div>
