@@ -78,6 +78,7 @@ function Adminreport() {
                                                 <tr class="border-b bg-indigo-100 border-indigo-200">
                                                     <td class="text-sm text-gray-900 font-medium px-6 py-4 whitespace-nowrap">
                                                       
+                                                     
                                                     </td>
                                                     <td class="text-sm text-gray-900 font-medium px-6 py-4 whitespace-nowrap">
                                                         {dataa?.userId?._id}

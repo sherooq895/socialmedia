@@ -102,20 +102,21 @@ function Rightbar() {
 
                     userprofile.map((dataa) => {
                         return (
+                            dataa?._id!==logid?
 
                             <div className='flex mb-3'>
-                                <div className='rightbar' onClick={() => getuserprofile(dataa._id)}>
-                                    <img src={`./images/${dataa.profilepicture}`} alt="" />
+                                <div className='rightbar' onClick={() => getuserprofile(dataa?._id)}>
+                                    <img src={`./images/${dataa?.profilepicture}`} alt="" />
                                 </div>
                                 <div>
-                                    <div className='mt-2 ml-2 text-lg text-[#12233d]'>{dataa.fname}</div>
-                                    {userlog?.follower?.includes(dataa._id) && userlog?.following?.includes(dataa._id) ?
-                                        <Link to=''><button onClick={() => unfollowrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>unfollow</button></Link> :
-                                        userlog?.following?.includes(dataa._id) ?
-                                            <Link to=''><button onClick={() => unfollowrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Following</button></Link> :
+                                    <div className='mt-2 ml-2 text-lg text-[#12233d]'>{dataa?.fname}</div>
+                                    {userlog?.follower?.includes(dataa?._id) && userlog?.following?.includes(dataa?._id) ?
+                                        <Link to=''><button onClick={() => unfollowrequest({ userid: userlog?._id, userdataid: dataa?._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>unfollow</button></Link> :
+                                        userlog?.following?.includes(dataa?._id) ?
+                                            <Link to=''><button onClick={() => unfollowrequest({ userid: userlog?._id, userdataid: dataa?._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Following</button></Link> :
                                             userlog?.follower?.includes(dataa._id) ?
-                                                <Link to=''><button onClick={() => followback({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link> :
-                                                <Link to=''><button onClick={() => followrequest({ userid: userlog._id, userdataid: dataa._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
+                                                <Link to=''><button onClick={() => followback({ userid: userlog?._id, userdataid: dataa?._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>followback</button></Link> :
+                                                <Link to=''><button onClick={() => followrequest({ userid: userlog?._id, userdataid: dataa?._id })} className='bg-[#153f7c] hover:bg-[#081f41] text-white font-bold py-1 px-4 rounded'>Follow</button></Link>
 
                                     }
 
@@ -125,7 +126,7 @@ function Rightbar() {
 
                                 </div>
 
-                            </div>
+                            </div>:''
 
                         )
                     })

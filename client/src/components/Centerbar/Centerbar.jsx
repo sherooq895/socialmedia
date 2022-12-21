@@ -144,11 +144,11 @@ function Centerbar() {
                                 < div >
                                     <div className='flex mb-3'>
                                         <div className='proimage'>
-                                            <img src={`/images/${data.userId.profilepicture}`} alt="" />
+                                            <img src={`/images/${data?.userId?.profilepicture}`} alt="" />
                                         </div>
                                         <div>
-                                            <div className='mt-6 ml-2 text-xl text-[#153f7c]'>{data.userId.fname}</div>
-                                            <div className='mt-1 ml-2 text-sm text-[#6e6f72]'>{format(data.date)}</div>
+                                            <div className='mt-6 ml-2 text-xl text-[#153f7c]'>{data?.userId?.fname}</div>
+                                            <div className='mt-1 ml-2 text-sm text-[#6e6f72]'>{format(data?.date)}</div>
 
                                         </div>  
 
@@ -156,7 +156,7 @@ function Centerbar() {
                                     <div className='flex justify-center'>
                                         <div className='w-[80%]  mt-1 h-20 flex mb-1 rounded-xl p-1 pl-3'>
                                             <div className='text-[#0d0d0e] text-xl'>
-                                                {data.description}
+                                                {data?.description}
 
                                             </div>
 
