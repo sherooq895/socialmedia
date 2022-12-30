@@ -22,13 +22,13 @@ function Profile() {
         () => {
             if (Location.state) {
                 const userdata = Location.state?.datas
-                axios.post('http://localhost:4000/app/getuserdataa', { userdata }, {
+                axios.post('https://postx.gq/api/app/getuserdataa', { userdata }, {
                     headers: { token: `Bearer ${token}` },
                 }).then((response) => {
                     setdataa(response.data)
                 })
 
-                axios.post('http://localhost:4000/app/getloguser', { userdataaa }, {
+                axios.post('https://postx.gq/api/app/getloguser', { userdataaa }, {
                     headers: { token: `Bearer ${token}` },
                 }).then((response) => {
                     setlogdata(response.data)
@@ -44,7 +44,7 @@ function Profile() {
 
     const followrequest = (data) => {
 
-        axios.post('http://localhost:4000/app/followrequest', { data }, {
+        axios.post('https://postx.gq/api/app/followrequest', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('followed succesfully')
@@ -53,7 +53,7 @@ function Profile() {
 
     }
     const unfollowrequest = (data) => {
-        axios.post('http://localhost:4000/app/unfollowrequest', { data }, {
+        axios.post('https://postx.gq/api/app/unfollowrequest', { data }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
             console.log('response');
@@ -63,7 +63,7 @@ function Profile() {
     }
 
     const followback = (data) => {
-        axios.post('http://localhost:4000/app/followback', { data }, {
+        axios.post('https://postx.gq/api/app/followback', { data }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
 
@@ -78,7 +78,7 @@ function Profile() {
         console.log('logId');
         console.log(userId);
         console.log('userId');
-        axios.post('http://localhost:4000/conversation', { senderId: logId, recieverId: userId }, {
+        axios.post('https://postx.gq/api/conversation', { senderId: logId, recieverId: userId }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
             Navigate('/userchat')
@@ -86,7 +86,7 @@ function Profile() {
     }
 
     const reportuser = (logId, userId) => {
-        axios.post('http://localhost:4000/app/reportuser', { logid: logId, userid: userId }, {
+        axios.post('https://postx.gq/api/app/reportuser', { logid: logId, userid: userId }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
             console.log(response);

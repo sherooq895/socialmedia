@@ -48,7 +48,7 @@ function Messenger() {
     }, [arrivalMessage, currentChat])
 
     useEffect(() => {
-        axios.post('http://localhost:4000/app/loguser', { logid }, {
+        axios.post('https://postx.gq/api/app/loguser', { logid }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setuser(response.data)
@@ -56,7 +56,7 @@ function Messenger() {
 
         const getConversations = async () => {
             try {
-                const res = await axios.get("http://localhost:4000/conversation/" + user._id)
+                const res = await axios.get("https://postx.gq/api/conversation/" + user._id)
                 setconversations(res.data)
             } catch (err) {
                 console.log(err);
@@ -81,7 +81,7 @@ function Messenger() {
     useEffect(() => {
         const getMessages = async () => {
             try {
-                const res = await axios.get("http://localhost:4000/message/" + currentChat?._id)
+                const res = await axios.get("https://postx.gq/api/message/" + currentChat?._id)
                 setmessages(res.data)
             } catch (err) {
                 console.log(err);
@@ -115,7 +115,7 @@ function Messenger() {
 
         })
         try {
-            const res = await axios.post('http://localhost:4000/message', message);
+            const res = await axios.post('https://postx.gq/api/message', message);
             setmessages([...messages, res.data])
             setnewMessage("")
         } catch (err) {
@@ -132,7 +132,7 @@ function Messenger() {
         console.log(receiverId);
         console.log('receiverIdxxxxx');
 
-        axios.post('http://localhost:4000/app/getcurrentuserdatax', { receiverId }, {
+        axios.post('https://postx.gq/api/app/getcurrentuserdatax', { receiverId }, {
             headers: { token: `Bearer ${token}` },
         }).then(async(response) => {
             console.log(response.data);

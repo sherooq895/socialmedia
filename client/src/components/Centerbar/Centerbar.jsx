@@ -53,7 +53,7 @@ function Centerbar() {
 
     useEffect(
         () => {
-            axios.get('http://localhost:4000/app/getallpost',{
+            axios.get('https://postx.gq/api/app/getallpost',{
                 headers: { token: `Bearer ${token}` },
               }).then((response) => {
                 console.log(response);
@@ -74,7 +74,7 @@ function Centerbar() {
             type:'1'
         }
 
-        axios.post("http://localhost:4000/app/postlike", imageid,{
+        axios.post("https://postx.gq/api/app/postlike", imageid,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
             socket.emit('send-notifications',{
@@ -91,7 +91,7 @@ function Centerbar() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid,{
+        axios.post("https://postx.gq/api/app/postdislike", imageid,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
             setlike(response)
@@ -107,7 +107,7 @@ function Centerbar() {
             type:'2'
         }
 
-        axios.post('http://localhost:4000/app/addcomment', dataa,{
+        axios.post('https://postx.gq/api/app/addcomment', dataa,{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
             socket.emit('send-notifications',{
@@ -122,7 +122,7 @@ function Centerbar() {
 
     const getallcomment = (data) => {
         setcomment({ postId: data, status: !comment.status })
-        axios.post('http://localhost:4000/app/getallcomment', { data },{
+        axios.post('https://postx.gq/api/app/getallcomment', { data },{
             headers: { token: `Bearer ${token}` },
           }).then((response) => {
             setallcomment(response.data.comment.comment)

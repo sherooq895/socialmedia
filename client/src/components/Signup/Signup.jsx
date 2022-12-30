@@ -77,7 +77,7 @@ function Signup() {
         }
 
 
-        axios.post("http://localhost:4000/app/signup", formdata).then((response) => {
+        axios.post("https://postx.gq/api/app/signup", formdata).then((response) => {
 
             if (response.data.user) {
                 console.log(response.data, "nbhbghvbgvb");
@@ -108,7 +108,7 @@ function Signup() {
             id: otp.id
 
         }
-        axios.post('http://localhost:4000/app/verifyotp', { otpp }).then((response) => {
+        axios.post('https://postx.gq/api/app/verifyotp', { otpp }).then((response) => {
 
             setpopup(!popup)
             if (response.data.error) {
@@ -131,7 +131,7 @@ function Signup() {
     const resendotp = (e) => {
         e.preventDefault()
         const responsee = resendres
-        axios.post('http://localhost:4000/app/resendotp', responsee).then((response) => {
+        axios.post('https://postx.gq/api/app/resendotp', responsee).then((response) => {
             alert('resend OTP successfully')
         })
     }

@@ -17,7 +17,7 @@ function Allpost() {
 
   useEffect(() => {
     token &&
-      axios.get('http://localhost:4000/app/getpost', {
+      axios.get('https://postx.gq/api/app/getpost', {
         params: {
           userid
         }

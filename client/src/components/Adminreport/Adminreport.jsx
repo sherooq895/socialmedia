@@ -9,7 +9,7 @@ function Adminreport() {
     useEffect(
 
         () => {
-            axios.get('http://localhost:4000/admin/getallreportpost', {
+            axios.get('https://postx.gq/api/admin/getallreportpost', {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 console.log(response);
@@ -20,7 +20,7 @@ function Adminreport() {
 
     const postblock = (dataa) => {
         const postId = dataa
-        axios.post('http://localhost:4000/admin/postblock', { postId }, {
+        axios.post('https://postx.gq/api/admin/postblock', { postId }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
            
@@ -31,7 +31,7 @@ function Adminreport() {
     }
     const postunblock = (dataa) => {
         const postId = dataa
-        axios.post('http://localhost:4000/admin/postunblock', { postId }, {
+        axios.post('https://postx.gq/api/admin/postunblock', { postId }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
                 alert('post unblocked successfully')

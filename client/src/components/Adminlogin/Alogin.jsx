@@ -33,7 +33,7 @@ function Alogin() {
             password: register.password
         }
         try {
-            axios.post("http://localhost:4000/admin/login", form).then(response => {
+            axios.post("https://postx.gq/api/admin/login", form).then(response => {
             console.log(response);
             console.log('response');
             if(response.data.admin){

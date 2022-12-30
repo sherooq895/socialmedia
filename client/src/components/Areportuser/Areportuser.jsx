@@ -10,7 +10,7 @@ function Areportuser() {
 
     useEffect(
         () => {
-            axios.get('http://localhost:4000/admin/getallreportuser', {
+            axios.get('https://postx.gq/api/admin/getallreportuser', {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 setuser(response.data)
@@ -19,7 +19,7 @@ function Areportuser() {
     )
 
     const blockuser=(data)=>{
-        axios.post('http://localhost:4000/admin/blockuser', {data},{
+        axios.post('https://postx.gq/api/admin/blockuser', {data},{
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('user blocked')
@@ -28,7 +28,7 @@ function Areportuser() {
     }
 
     const unblockuser=(data)=>{
-        axios.post('http://localhost:4000/admin/unblockuser', {data},{
+        axios.post('https://postx.gq/api/admin/unblockuser', {data},{
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('user unblocked')

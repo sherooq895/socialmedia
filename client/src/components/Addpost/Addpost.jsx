@@ -69,7 +69,7 @@ function Addpost() {
             for (let key in register) {
                 formdata.append(key, register[key])
             }
-            axios.post("http://localhost:4000/app/addpost", formdata, {
+            axios.post("https://postx.gq/api/app/addpost", formdata, {
                 params: {
                     useridd,
                     date

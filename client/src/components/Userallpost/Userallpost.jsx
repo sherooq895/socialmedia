@@ -15,7 +15,7 @@ function Userallpost() {
             console.log(id);
             console.log('id');
 
-            axios.post('http://localhost:4000/app/getuserprofileposts',{id}, {
+            axios.post('https://postx.gq/api/app/getuserprofileposts',{id}, {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 console.log(response);

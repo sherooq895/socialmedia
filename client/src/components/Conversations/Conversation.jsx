@@ -13,7 +13,7 @@ useEffect(()=>{
     const getUser=async ()=>{
         try{
 
-           axios.post('http://localhost:4000/conversation/getuser',{friendId}).then((response)=>{
+           axios.post('https://postx.gq/api/conversation/getuser',{friendId}).then((response)=>{
                 setUser(response.data) })
         }catch(err){
             console.log(err);

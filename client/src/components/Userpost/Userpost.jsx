@@ -34,7 +34,7 @@ function Userpost() {
             const imgId = {
                 id: Location.state.postId
             }
-            axios.post('http://localhost:4000/app/getuserpicture', { imgId }, {
+            axios.post('https://postx.gq/api/app/getuserpicture', { imgId }, {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 setpost(response.data)
@@ -50,7 +50,7 @@ function Userpost() {
             postuser:postuserr,
             type:'1'
         }
-        axios.post("http://localhost:4000/app/postlike", imageid, {
+        axios.post("https://postx.gq/api/app/postlike", imageid, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             socket.emit('send-notifications',{
@@ -68,7 +68,7 @@ function Userpost() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid, {
+        axios.post("https://postx.gq/api/app/postdislike", imageid, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setlike(response)
@@ -97,7 +97,7 @@ function Userpost() {
             postuser:postuserr,
             type:'2'
         }
-        axios.post('http://localhost:4000/app/addcomment', dataa, {
+        axios.post('https://postx.gq/api/app/addcomment', dataa, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
 
@@ -117,7 +117,7 @@ function Userpost() {
             postId:dataa,
             userId:userid
         }
-        axios.post('http://localhost:4000/app/reportpost',data, {
+        axios.post('https://postx.gq/api/app/reportpost',data, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             console.log(response);

@@ -43,13 +43,13 @@ function Post() {
             type:'1'
         }
 
-        axios.post("http://localhost:4000/app/postlike", imageid, {
+        axios.post("https://postx.gq/api/app/postlike", imageid, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setlike(response)
         })
 
-        axios.post("http://localhost:4000/app/sendnotification",imageid, {
+        axios.post("https://postx.gq/api/app/sendnotification",imageid, {
             headers: { token: `Bearer ${token}` },
           }).then((response)=>{
             console.log(response);
@@ -62,7 +62,7 @@ function Post() {
             postid: data,
             useridd: userid
         }
-        axios.post("http://localhost:4000/app/postdislike", imageid, {
+        axios.post("https://postx.gq/api/app/postdislike", imageid, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setlike(response)
@@ -107,7 +107,7 @@ function Post() {
         }
         console.log(dataa);
         console.log('aaaaaaaaaaaaaaaaaaa');
-        axios.post('http://localhost:4000/app/addcomment', dataa, {
+        axios.post('https://postx.gq/api/app/addcomment', dataa, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             console.log(response);
@@ -116,7 +116,7 @@ function Post() {
 
         })
 
-        axios.post("http://localhost:4000/app/sendnotification",dataa, {
+        axios.post("https://postx.gq/api/app/sendnotification",dataa, {
             headers: { token: `Bearer ${token}` },
           }).then((response)=>{
             console.log(response);
@@ -132,7 +132,7 @@ function Post() {
                 image: Location?.state?.images
             }
 
-            axios.post('http://localhost:4000/app/singlepost', { image }, {
+            axios.post('https://postx.gq/api/app/singlepost', { image }, {
                 headers: { token: `Bearer ${token}` },
             }
             ).then((response) => {
@@ -155,7 +155,7 @@ function Post() {
 
         console.log(data);
         console.log('dataidddddddd');
-        axios.post('http://localhost:4000/app/geteditpostdata', { data }, {
+        axios.post('https://postx.gq/api/app/geteditpostdata', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
 
@@ -168,7 +168,7 @@ function Post() {
 
     const editsubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:4000/app/editpost', { alldata }, {
+        axios.post('https://postx.gq/api/app/editpost', { alldata }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('edit succesfully')
@@ -178,7 +178,7 @@ function Post() {
     }
 
     const deletedata = (data) => {
-        axios.post('http://localhost:4000/app/deletepost', { data }, {
+        axios.post('https://postx.gq/api/app/deletepost', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             console.log('updatedd');

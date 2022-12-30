@@ -32,7 +32,7 @@ function Editprofile() {
 
     useEffect(
         () => {
-            axios.post('http://localhost:4000/app/userdata', { userid }).then((response) => {
+            axios.post('https://postx.gq/api/app/userdata', { userid }).then((response) => {
                 setregister(response.data.userdata)
             })
         }, [update]
@@ -55,7 +55,7 @@ function Editprofile() {
             formdata.append(key, register[key])
         }
 
-        axios.post('http://localhost:4000/app/editprofile', formdata, {
+        axios.post('https://postx.gq/api/app/editprofile', formdata, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setupdate(response)

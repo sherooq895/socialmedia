@@ -11,7 +11,7 @@ function Message({message,own}) {
     //         console.log(message);
     //         console.log('messageccccccccccccccccccccczzzzzzzzzzzzzzzzzzz');
     //         const id=message.sender
-    //         axios.post('http://localhost:4000/app/senderdata',{id}).then((response)=>{
+    //         axios.post('https://postx.gq/api/app/senderdata',{id}).then((response)=>{
     //             setdata(response.data)
     //         })
     //     },[]

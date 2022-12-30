@@ -26,7 +26,7 @@ function Userprofile() {
 
     useEffect(
         () => {
-            axios.post('http://localhost:4000/app/getuserdata', { data }).then((response) => {
+            axios.post('https://postx.gq/api/app/getuserdata', { data }).then((response) => {
 
                 setdata(response.data)
                 setcommentresp(Math.random())
@@ -42,7 +42,7 @@ function Userprofile() {
         console.log('dataxxxxxxxxxxxxxxxxxxxxx');
         console.log(data);
         console.log('dataxxxxxxxxxxxxxxxxxxxxx');
-        axios.post('http://localhost:4000/app/getfollowers', { data }, {
+        axios.post('https://postx.gq/api/app/getfollowers', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
 
@@ -56,7 +56,7 @@ function Userprofile() {
 
 
     const getfollowing = async (data) => {
-        axios.post('http://localhost:4000/app/getfollowing', { data}, {
+        axios.post('https://postx.gq/api/app/getfollowing', { data}, {
             headers: { token: `Bearer ${token}` },
         } ).then((response) => {
             setfollowing(response.data)

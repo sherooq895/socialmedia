@@ -33,7 +33,7 @@ function Navbar() {
     useEffect(() => {
         try {
             const logId = logid
-            axios.post('http://localhost:4000/app/getnotify', { logId }).then((response) => {
+            axios.post('https://postx.gq/api/app/getnotify', { logId }).then((response) => {
                 // console.log(response.data);
                 setnotData(response.data)
                 count(response.data)
@@ -86,7 +86,7 @@ function Navbar() {
             [name]: value
         })
         const data = searchvalue.search
-        axios.post('http://localhost:4000/app/searchuser', { data }, {
+        axios.post('https://postx.gq/api/app/searchuser', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             setsearchdata(response.data)
@@ -108,7 +108,7 @@ function Navbar() {
     useEffect(
 
         () => {
-            axios.post('http://localhost:4000/app/loguser', { logid }, {
+            axios.post('https://postx.gq/api/app/loguser', { logid }, {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 setdata(response.data)
@@ -117,7 +117,7 @@ function Navbar() {
             })
 
 
-            // axios.post('http://localhost:4000/app/getnotification', { logid }, {
+            // axios.post('https://postx.gq/api/app/getnotification', { logid }, {
             //     headers: { token: `Bearer ${token}` },
             // }).then((response) => {
             //     if (response.data.notget) {
@@ -152,7 +152,7 @@ function Navbar() {
     }
 
     const statusfalse = (logid) => {
-        axios.post('http://localhost:4000/app/statusfalse', { logid }, {
+        axios.post('https://postx.gq/api/app/statusfalse', { logid }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             if(response.data.error){

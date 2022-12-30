@@ -30,7 +30,7 @@ function Login() {
     useEffect(() => {
         console.log('tokenjasi');
 
-        axios.get('http://localhost:4000/app/isauth', {
+        axios.get('https://postx.gq/api/app/isauth', {
 
             headers: {
                 token: `Bearer ${localStorage.getItem('token')}`
@@ -59,7 +59,7 @@ function Login() {
             password: register.password
         }
         try {
-            axios.post("http://localhost:4000/app/login", form).then(response => {
+            axios.post("https://postx.gq/api/app/login", form).then(response => {
             console.log(response);
             console.log('response');
             if (response.data.user) {

@@ -22,14 +22,14 @@ function Rightbar() {
     useEffect(
         () => {
 
-            axios.get('http://localhost:4000/app/getusers', {
+            axios.get('https://postx.gq/api/app/getusers', {
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
 
                 setuserprofile(response.data)
             })
 
-            axios.post('http://localhost:4000/app/loguser', { logid },{
+            axios.post('https://postx.gq/api/app/loguser', { logid },{
                 headers: { token: `Bearer ${token}` },
             }).then((response) => {
                 console.log(response);
@@ -54,7 +54,7 @@ function Rightbar() {
 
     const followrequest = (data) => {
 
-        axios.post('http://localhost:4000/app/followrequest', { data }, {
+        axios.post('https://postx.gq/api/app/followrequest', { data }, {
             headers: { token: `Bearer ${token}` },
         }).then((response) => {
             alert('followed succesfully')
@@ -64,7 +64,7 @@ function Rightbar() {
     }
 
     const unfollowrequest = (data) => {
-        axios.post('http://localhost:4000/app/unfollowrequest', { data }, {
+        axios.post('https://postx.gq/api/app/unfollowrequest', { data }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
             alert('unfollow successfully')
@@ -75,7 +75,7 @@ function Rightbar() {
     }
 
     const followback = (data) => {
-        axios.post('http://localhost:4000/app/followback', { data }, {
+        axios.post('https://postx.gq/api/app/followback', { data }, {
             headers: { token: `Bearer ${token}` }
         }).then((response) => {
 

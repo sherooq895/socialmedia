@@ -25,7 +25,7 @@ function Sidebar() {
   useEffect(() => {
 
     const onlineuser = onlineUsers.filter(person=>person.userId)
-    axios.post('http://localhost:4000/app/getonlineuser', onlineuser, {
+    axios.post('https://postx.gq/api/app/getonlineuser', onlineuser, {
       headers: { token: `Bearer ${token}` },
   } ).then((response) => {
       setuserdata(response.data)
