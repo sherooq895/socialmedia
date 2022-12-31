@@ -15,7 +15,10 @@ function Sidebar() {
   // const socket = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    // socket.current = io("ws://localhost:8900");
+    socket.current = io('https://postx.gq',{path:"/socket/socket.io"});
+     
+
     socket.current?.emit("addUser", userid);
     socket.current.on("getUsers", (users) => {
       setOnlineUsers(users)

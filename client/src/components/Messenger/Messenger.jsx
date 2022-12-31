@@ -26,7 +26,10 @@ function Messenger() {
     const socket = useRef();
 
     useEffect(() => {
-        socket.current = io("ws://localhost:8900");
+        // socket.current = io("ws://localhost:8900");
+        socket.current = io("https://postx.gq",{path:"/socket/socket.io"});
+        // export const socket = io('https://happynest.tk',{path:"/socket/socket.io"})  
+
 
         socket.current.on("getMessage", data => {
             setArrivalMessage({
