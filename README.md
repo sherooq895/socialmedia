@@ -1,4 +1,5 @@
 
+
 ## Social Media Web Application
 
 Social media platform for conversation , connecting friends and building relationships
@@ -22,10 +23,13 @@ Social media platform for conversation , connecting friends and building relatio
 
 ## Screenshots
 
-![App Screenshot](https://drive.google.com/file/d/1cr3eiQY73OAwJxeCxYf9payfB1QiYrfB/view?usp=sharing)
-![App Screenshot](https://drive.google.com/file/d/1n6LhyiQDbqoEKEpkOmORJmb699p52iZG/view?usp=sharing)
-![App Screenshot](https://drive.google.com/file/d/1G_DYcfDcgLS99fjoFVZa9KEp-wYgl-gp/view?usp=sharing)
-![App Screenshot](https://drive.google.com/file/d/1MyU5XyI2HnDB0uA4Ix08Kug8_xubx8at/view?usp=sharing)
+![image](https://user-images.githubusercontent.com/106912826/211145068-bd92121c-888e-42f0-93e9-e5ec63f54980.png)
+![image](https://user-images.githubusercontent.com/106912826/211145096-e1e9f14e-2aef-45ce-a90c-5a8297ee15e1.png)
+![image](https://user-images.githubusercontent.com/106912826/211145139-a5c1177d-f01b-41a6-8456-52c972193ae0.png)
+
+
+
+
 
 
 ## Languages/Frameworks
